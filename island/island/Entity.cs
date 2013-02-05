@@ -27,6 +27,7 @@ namespace island
         {
             // Draw the character
             sBatch.Draw(texture, position, rectangle, Color.White);
+            //base.Draw(gameTime);
         }
     }
 }

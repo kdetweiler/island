@@ -1,3 +1,5 @@
 Content\tempStartArea.xnb
-Content\tempMainChar.xnb
-Content\char.xnb
+Content\walkHorizontal.xnb
+Content\idleHorizontal.xnb
+Content\idle.xnb
+Content\walk.xnb

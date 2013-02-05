@@ -41,7 +41,7 @@ namespace island
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-
+            player = new Player();
             base.Initialize();
         }
 
@@ -56,7 +56,7 @@ namespace island
             Services.AddService(typeof(SpriteBatch), spriteBatch);
 
             officeBackground = Content.Load<Texture2D>("tempStartArea");
-            player = new Player(Content.Load<Texture2D>("tempMainChar"), new Rectangle(0, 0, 21, 37));
+            player.Load(Content);
 
             TitleSafe = GetTitleSafeArea(.8f);
 
@@ -87,12 +87,6 @@ namespace island
             {
                 this.Exit();
             }
-            /*
-            //start if not started yet
-            if (player == null)
-            {
-                Start();
-            }*/
 
             player.Update();
             // TODO: Add your update logic here
@@ -128,7 +122,7 @@ namespace island
              
             // start rendering sprites
             spriteBatch.Begin();
-            player.Draw(spriteBatch);
+            player.Draw(gameTime, spriteBatch);
             //Draw the game components (Sprites included)
             base.Draw(gameTime);
             // end rendering sprites;

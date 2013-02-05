@@ -13,12 +13,17 @@ namespace island
 {
     class Player : Entity
     {
-        protected Rectangle screenBounds;
-        protected Rectangle spriteRectangle;
+        AnimationPlayer animationPlayer;
+        Animation walkAnimation;
+        Animation idleAnimation;
 
-        //Width and Heigh of sprite in texture
-        protected const int CHARWIDTH = 21;
-        protected const int CHARHEIGHT = 37;
+        Vector2 position = new Vector2(50, 475);
+        Vector2 velocity;
+
+        public Player()
+        {
+
+        }
 
         public Player(Texture2D newTexture, Rectangle newRectangle)
         {
@@ -26,8 +31,15 @@ namespace island
             rectangle = newRectangle;
         }
 
+        public void Load(ContentManager Content)
+        {
+            walkAnimation = new Animation(Content.Load<Texture2D>("walkHorizontal"), 23, 0.1f, true);
+            idleAnimation = new Animation(Content.Load<Texture2D>("idleHorizontal"), 23, 0.3f, true);
+        }
+
         public override void Update()
         {
+            position += velocity;
             // TODO: Add your update  
             //GamePad
             GamePadState gamepadstatus = GamePad.GetState(PlayerIndex.One);
@@ -36,22 +48,26 @@ namespace island
 
             //KeyBoard
             KeyboardState keyboard = Keyboard.GetState();
+
             if (keyboard.IsKeyDown(Keys.Up) || (keyboard.IsKeyDown(Keys.W)))
-            {
-                position.Y -= 3;
-            }
-            if (keyboard.IsKeyDown(Keys.Down) || (keyboard.IsKeyDown(Keys.S)))
-            {
-                position.Y += 3;
-            }
+                velocity.Y = -1f;
+            else if (keyboard.IsKeyDown(Keys.Down) || (keyboard.IsKeyDown(Keys.S)))
+                velocity.Y = +1f;
+            else
+                velocity.Y = 0f;
+
             if (keyboard.IsKeyDown(Keys.Left) || (keyboard.IsKeyDown(Keys.A)))
-            {
-                position.X -= 3;
-            }
-            if (keyboard.IsKeyDown(Keys.Right) || (keyboard.IsKeyDown(Keys.D)))
-            {
-                position.X += 3;
-            }
+                velocity.X = -1f;
+            else if (keyboard.IsKeyDown(Keys.Right) || (keyboard.IsKeyDown(Keys.D)))
+                velocity.X = 1f;
+            else
+                velocity.X = 0f;
+
+            if (velocity.X != 0)
+                animationPlayer.PlayAnimation(walkAnimation);
+            else if (velocity.X == 0)
+                animationPlayer.PlayAnimation(idleAnimation);
+
         }
 
         public void PutInStartPosition()
@@ -60,9 +76,16 @@ namespace island
             position.Y = 40;
         }
 
-        public Rectangle GetBounds()
+        public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            return new Rectangle((int)position.X, (int)position.Y, CHARWIDTH, CHARHEIGHT);
+            SpriteEffects flip = SpriteEffects.None;
+
+            if (velocity.X >= 0)
+                flip = SpriteEffects.None;
+            else if (velocity.X < 0)
+                flip = SpriteEffects.FlipHorizontally;
+
+            animationPlayer.Draw(gameTime, spriteBatch, position, flip);
         }
     }
 }
