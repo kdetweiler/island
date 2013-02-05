@@ -56,19 +56,19 @@ namespace island
 
             //KeyBoard
             KeyboardState keyboard = Keyboard.GetState();
-            if (keyboard.IsKeyDown(Keys.Up))
+            if (keyboard.IsKeyDown(Keys.Up) || (keyboard.IsKeyDown(Keys.W)))
             {
                 position.Y -= 3;
             }
-            if (keyboard.IsKeyDown(Keys.Down))
+            if (keyboard.IsKeyDown(Keys.Down) || (keyboard.IsKeyDown(Keys.S)))
             {
                 position.Y += 3;
             }
-            if (keyboard.IsKeyDown(Keys.Left))
+            if (keyboard.IsKeyDown(Keys.Left) || (keyboard.IsKeyDown(Keys.A)))
             {
                 position.X -= 3;
             }
-            if (keyboard.IsKeyDown(Keys.Right))
+            if (keyboard.IsKeyDown(Keys.Right) || (keyboard.IsKeyDown(Keys.D)))
             {
                 position.X += 3;
             }
