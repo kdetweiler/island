@@ -1,24 +1,34 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.GamerServices;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
 
 namespace island
 {
-    public class Player : Character
+    class Player : Entity
     {
+        protected Rectangle screenBounds;
+        protected Rectangle spriteRectangle;
 
-        public Player(Game1 game)
-            : base(Character)
+        //Width and Heigh of sprite in texture
+        protected const int CHARWIDTH = 21;
+        protected const int CHARHEIGHT = 37;
+
+        public Player(Texture2D newTexture, Rectangle newRectangle)
         {
-
+            texture = newTexture;
+            rectangle = newRectangle;
         }
 
-
-        public override void Update(GameTime gameTime)
+        public override void Update()
         {
-            // TODO: Add your update code here
-
+            // TODO: Add your update  
             //GamePad
             GamePadState gamepadstatus = GamePad.GetState(PlayerIndex.One);
             position.Y += (int)((gamepadstatus.ThumbSticks.Left.Y * 3) * -2);
@@ -42,26 +52,6 @@ namespace island
             {
                 position.X += 3;
             }
-
-            //Keep player on screen, boundries
-            if (position.X < screenBounds.Left)
-            {
-                position.X = screenBounds.Left;
-            }
-            if (position.X > screenBounds.Width - charWidth)
-            {
-                position.X = screenBounds.Width - charWidth;
-            }
-            if (position.Y < screenBounds.Top)
-            {
-                position.Y = screenBounds.Top;
-            }
-            if (position.Y > screenBounds.Height - charHeight)
-            {
-                position.Y = screenBounds.Top - charHeight;
-            }
-
-            base.Update(gameTime);
         }
 
         public void PutInStartPosition()
@@ -69,6 +59,10 @@ namespace island
             position.X = 40;
             position.Y = 40;
         }
-       
+
+        public Rectangle GetBounds()
+        {
+            return new Rectangle((int)position.X, (int)position.Y, CHARWIDTH, CHARHEIGHT);
+        }
     }
 }

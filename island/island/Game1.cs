@@ -18,8 +18,8 @@ namespace island
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        private Texture2D officeBackground, mainChar;
-        private Character player;
+        private Texture2D officeBackground;
+        private Player player;
         private GamePadState gamepadstatus;
         private KeyboardState keyboard;
         private Rectangle TitleSafe;
@@ -56,7 +56,7 @@ namespace island
             Services.AddService(typeof(SpriteBatch), spriteBatch);
 
             officeBackground = Content.Load<Texture2D>("tempStartArea");
-            mainChar = Content.Load<Texture2D>("tempMainChar");
+            player = new Player(Content.Load<Texture2D>("tempMainChar"), new Rectangle(0, 0, 21, 37));
 
             TitleSafe = GetTitleSafeArea(.8f);
 
@@ -87,28 +87,29 @@ namespace island
             {
                 this.Exit();
             }
-
+            /*
             //start if not started yet
             if (player == null)
             {
                 Start();
-            }
+            }*/
 
+            player.Update();
             // TODO: Add your update logic here
             base.Update(gameTime);
         }
-
+        /*
         public void Start()
         {
             //create if necessary and put the player in start position
 
             if (player == null)
             {
-                player = new Character(this, ref mainChar);
-                Components.Add(player);
+                player = new Player(this, mainChar);
+                //Components.Add(player);
             }
             player.PutInStartPosition();
-        }
+        }*/
 
         /// <summary>
         /// This is called when the game should draw itself.
@@ -127,6 +128,7 @@ namespace island
              
             // start rendering sprites
             spriteBatch.Begin();
+            player.Draw(spriteBatch);
             //Draw the game components (Sprites included)
             base.Draw(gameTime);
             // end rendering sprites;
