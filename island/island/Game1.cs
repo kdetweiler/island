@@ -18,11 +18,18 @@ namespace island
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        private Texture2D officeBackground, mainChar;
+        private Character player;
+        private GamePadState gamepadstatus;
+        private KeyboardState keyboard;
+        private Rectangle TitleSafe;
+
 
         public Game1()
         {
-            graphics = new GraphicsDeviceManager(this);
+            graphics = new GraphicsDeviceManager(this);            
             Content.RootDirectory = "Content";
+            
         }
 
         /// <summary>
@@ -46,6 +53,12 @@ namespace island
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
+            Services.AddService(typeof(SpriteBatch), spriteBatch);
+
+            officeBackground = Content.Load<Texture2D>("tempStartArea");
+            mainChar = Content.Load<Texture2D>("tempMainChar");
+
+            TitleSafe = GetTitleSafeArea(.8f);
 
             // TODO: use this.Content to load your game content here
         }
@@ -66,13 +79,35 @@ namespace island
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
+            gamepadstatus = GamePad.GetState(PlayerIndex.One);
+            keyboard = Keyboard.GetState();
+
             // Allows the game to exit
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
+            if ((GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed) || (keyboard.IsKeyDown(Keys.Escape)))
+            {
                 this.Exit();
+            }
+
+            //start if not started yet
+            if (player == null)
+            {
+                Start();
+            }
 
             // TODO: Add your update logic here
-
             base.Update(gameTime);
+        }
+
+        public void Start()
+        {
+            //create if necessary and put the player in start position
+
+            if (player == null)
+            {
+                player = new Character(this, ref mainChar);
+                Components.Add(player);
+            }
+            player.PutInStartPosition();
         }
 
         /// <summary>
@@ -81,11 +116,31 @@ namespace island
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.White);
 
+            
             // TODO: Add your drawing code here
-
+            spriteBatch.Begin();
+            spriteBatch.Draw(officeBackground, GraphicsDevice.Viewport.Bounds, Color.White);
+            spriteBatch.End();
+            
+             
+            // start rendering sprites
+            spriteBatch.Begin();
+            //Draw the game components (Sprites included)
             base.Draw(gameTime);
+            // end rendering sprites;
+            spriteBatch.End();
+        }
+
+        protected Rectangle GetTitleSafeArea(float percent)
+        {
+            Rectangle retval = new Rectangle(graphics.GraphicsDevice.Viewport.X,
+                graphics.GraphicsDevice.Viewport.Y,
+                graphics.GraphicsDevice.Viewport.Width,
+                graphics.GraphicsDevice.Viewport.Height);
+          
+            return retval;
         }
     }
 }
