@@ -49,27 +49,53 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="walkHorizontal.png">
-      <Name>walkHorizontal</Name>
+    <Compile Include="walkHorizontalRight.png">
+      <Name>walkHorizontalRight</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="idleHorizontal.png">
-      <Name>idleHorizontal</Name>
+    <Compile Include="walkVerticalDown.png">
+      <Name>walkVerticalDown</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="idle.png">
-      <Name>idle</Name>
+    <Compile Include="idleVerticalDown.png">
+      <Name>idleVerticalDown</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="walk.png">
-      <Name>walk</Name>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="idleVerticalUp.png">
+      <Name>idleVerticalUp</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="walkVerticalUp.png">
+      <Name>walkVerticalUp</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="idleHorizontalLeft.png">
+      <Name>idleHorizontalLeft</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="idleHorizontalRight.png">
+      <Name>idleHorizontalRight</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="walkHorizontalLeft.png">
+      <Name>walkHorizontalLeft</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
