@@ -25,6 +25,7 @@ namespace island
         Animation idleVerticalUpAnimation;
 
         public List<NPC> proxList = new List<NPC>();
+        public float[] wallSensors = new float[3];
 
         public Vector2 velocity;
         public Rectangle rectangle;
@@ -47,7 +48,7 @@ namespace island
             position = newPosition;
             sensor=new Sensor(500,3);
             //rectangle = new Rectangle((int)position.X, (int)position.Y, texture.Width, texture.Height);
-            rectangle = new Rectangle((int)position.X, (int)position.Y, 34, 57);
+            rectangle = new Rectangle((int)position.X, (int)position.Y, 0, 0);
         }
 
         public void Load(ContentManager Content)
