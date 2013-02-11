@@ -13,9 +13,6 @@ namespace island
 {
     class Sensor
     {
-
-
-
         //Wall Sensors
         public static int[] WallScanner;
         public static int length;
