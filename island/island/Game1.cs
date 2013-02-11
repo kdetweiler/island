@@ -25,6 +25,8 @@ namespace island
         private GamePadState gamepadstatus;
         private KeyboardState keyboard;
         private Rectangle TitleSafe;
+        private Npc npc1;
+        private Npc npc2;
 
         SpriteFont font;
 
@@ -46,7 +48,9 @@ namespace island
         {
             // TODO: Add your initialization logic here
             player = new Player(Content.Load<Texture2D>("idleVerticalDown"), new Vector2(400, 300));
-            
+            npc1 = new Npc(Content.Load<Texture2D>("npc1"), new Vector2(600,150));
+            npc2 = new Npc(Content.Load<Texture2D>("npc2"), new Vector2(200, 150));
+                        
             base.Initialize();
         }
 
@@ -63,8 +67,11 @@ namespace island
             font = Content.Load<SpriteFont>("myFont");
             officeBackground = Content.Load<Texture2D>("tempStartArea");
             player.Load(Content);
+            npc1.Load(Content, Content.Load<Texture2D>("npc1"));
+            npc2.Load(Content, Content.Load<Texture2D>("npc2"));
 
             box1 = new Wall(Content.Load<Texture2D>("horizontalBox"), new Vector2(250, 400));
+
 
             TitleSafe = GetTitleSafeArea(.8f);
 
@@ -97,6 +104,7 @@ namespace island
             }
 
             player.Update(gameTime);
+            npc1.Update(gameTime);
 
             
             // TODO: Add your update logic here
@@ -124,6 +132,8 @@ namespace island
             box1.Draw(gameTime, spriteBatch);
             //box2.Draw(gameTime, spriteBatch);
             player.Draw(gameTime, spriteBatch);
+            npc1.Draw(gameTime, spriteBatch);
+            npc2.Draw(gameTime, spriteBatch);
             
             //Draw the game components (Sprites included)
             base.Draw(gameTime);

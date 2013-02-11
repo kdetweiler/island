@@ -14,7 +14,7 @@ namespace island
     class Npc : Entity
     {
         AnimationPlayer animationPlayer;
-        Animation npc1Idle;
+        Animation npcIdle;
 
         public Npc()
         {
@@ -29,11 +29,31 @@ namespace island
             rectangle = new Rectangle((int)position.X, (int)position.Y, texture.Width, texture.Height);
         }
 
-        public void Load(ContentManager Content)
+        public void Load(ContentManager Content, Texture2D newTexture)
         {
-            npc1Idle = new Animation(Content.Load<Texture2D>("npc1Idle"), 32, 0.1f, true);
+            npcIdle = new Animation(newTexture, 32, 0.1f, true);
 
-            //animationPlayer.PlayAnimation(idleVerticalDownAnimation);
+            animationPlayer.PlayAnimation(npcIdle);
+        }
+
+        public override void Update(GameTime gameTime)
+        {
+  
+
+        }
+
+        public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
+        {
+            SpriteEffects flip = SpriteEffects.None;
+
+            /*
+            if (velocity.X >= 0)
+                flip = SpriteEffects.None;
+            else if (velocity.X < 0)
+                flip = SpriteEffects.FlipHorizontally;
+            */
+
+            animationPlayer.Draw(gameTime, spriteBatch, position, flip);
         }
     }
 }
