@@ -38,12 +38,14 @@ namespace island
 
         }
 
-        public Player(Texture2D newTexture, Vector2 newPosition)
+        
+        public Player(Vector2 newPosition)
         {
-            texture = newTexture;
+            //texture = newTexture;
             position = newPosition;
             sensor=new Sensor(500,3);
-            rectangle = new Rectangle((int)position.X, (int)position.Y, texture.Width, texture.Height);
+            //rectangle = new Rectangle((int)position.X, (int)position.Y, texture.Width, texture.Height);
+            rectangle = new Rectangle((int)position.X, (int)position.Y, 34, 57);
         }
 
         public void Load(ContentManager Content)
@@ -57,12 +59,15 @@ namespace island
             idleHorizontalLeftAnimation = new Animation(Content.Load<Texture2D>("idleHorizontalLeft"), 31, 0.3f, true);
             idleVerticalDownAnimation = new Animation(Content.Load<Texture2D>("idleVerticalDown"), 34, .3f, true);
             idleVerticalUpAnimation = new Animation(Content.Load<Texture2D>("idleVerticalUp"), 34, .3f, true);
-            animationPlayer.PlayAnimation(idleVerticalDownAnimation);
+
+           // animationPlayer.PlayAnimation(idleVerticalDownAnimation);
         }
 
         public override void Update(GameTime gameTime)
         {
             position += velocity;
+            this.rectangle.X = (int)this.position.X;
+            this.rectangle.Y = (int)this.position.Y;
             // TODO: Add your update  
             //GamePad
             GamePadState gamepadstatus = GamePad.GetState(PlayerIndex.One);
@@ -201,6 +206,11 @@ namespace island
             }
         }
 
+        public void Draw(SpriteBatch spriteBatch)
+        {
+            spriteBatch.Draw(texture, rectangle, Color.White);
+        }
+
         public void DrawAnimation(GameTime gameTime, SpriteBatch spriteBatch)
         {
             SpriteEffects flip = SpriteEffects.None;
@@ -216,7 +226,11 @@ namespace island
 
         public String toString()
         {
-            return "Bottom: " + this.rectangle.Bottom + "\nRight: " + this.rectangle.Right;
+            return "Player Center: " + this.rectangle.Center
+                + "\nLeft: " + this.rectangle.Left
+                + "\nRight: " + this.rectangle.Right
+                + "\nTop: " + this.rectangle.Top
+                + "\nBottom: " + this.rectangle.Bottom;
         }
     }
 }

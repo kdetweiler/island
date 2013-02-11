@@ -44,8 +44,7 @@ namespace island
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-            player = new Player(Content.Load<Texture2D>("idleVerticalDown"), new Vector2(400, 300));
-            
+            player = new Player(new Vector2(400, 300));
             base.Initialize();
         }
 
@@ -62,6 +61,7 @@ namespace island
             font = Content.Load<SpriteFont>("myFont");
             officeBackground = Content.Load<Texture2D>("tempStartArea");
             player.Load(Content);
+            //player = new Player(Content.Load<Texture2D>("idleVerticalDown"), new Vector2(400, 300));
 
             npcs.Add(new Npc(Content.Load<Texture2D>("npc1"), new Vector2(600, 150)));
             npcs.Add(new Npc(Content.Load<Texture2D>("npc2"), new Vector2(200, 150)));
@@ -121,6 +121,7 @@ namespace island
             
             //draw players
             player.DrawAnimation(gameTime, spriteBatch);
+            //player.Draw(spriteBatch);
 
             //draw all npc's on screen
             foreach (Npc npc in npcs)
