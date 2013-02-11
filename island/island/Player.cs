@@ -229,11 +229,11 @@ namespace island
         public String toString()
         {
             String togo = "Player Center: " + this.rectangle.Center
-                + "\nLeft: " + this.rectangle.Left
-                + "\nRight: " + this.rectangle.Right
+                + "\nX: " + this.rectangle.X
+                + "\nY: " + this.rectangle.Y
                 + "\nTop: " + this.rectangle.Top
                 + "\nBottom: " + this.rectangle.Bottom
-                + "\nPlayer: " + this.sensor.distance
+                + "\nDistance: " + this.sensor.distance
                 + "\nProx List: ";
             foreach (NPC npc in proxList) {
                 togo += "(" + npc.rectangle.Center.X + ", " + npc.rectangle.Center.Y+") ";

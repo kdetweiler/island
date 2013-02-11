@@ -39,7 +39,7 @@ namespace island
 
             foreach (NPC npc in npcs) 
             {
-                Vector2 V2 = new Vector2(npc.rectangle.X, npc.rectangle.Y);
+                Vector2 V2 = new Vector2(npc.rectangle.Center.X, npc.rectangle.Center.Y);
                 Vector2 Distance = main - V2;
                 
                 distance = Vector2.Distance(main, V2);
