@@ -46,13 +46,6 @@ namespace island
         {
             SpriteEffects flip = SpriteEffects.None;
 
-            /*
-            if (velocity.X >= 0)
-                flip = SpriteEffects.None;
-            else if (velocity.X < 0)
-                flip = SpriteEffects.FlipHorizontally;
-            */
-
             animationPlayer.Draw(gameTime, spriteBatch, position, flip);
         }
 

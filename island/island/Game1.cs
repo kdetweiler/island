@@ -120,7 +120,7 @@ namespace island
             box1.Draw(gameTime, spriteBatch);
             
             //draw players
-            player.Draw(gameTime, spriteBatch);
+            player.DrawAnimation(gameTime, spriteBatch);
 
             //draw all npc's on screen
             foreach (Npc npc in npcs)

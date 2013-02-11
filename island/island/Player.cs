@@ -119,19 +119,11 @@ namespace island
             {
                 animationPlayer.PlayAnimation(walkHorizontalLeftAnimation);
                 faceDirection = 270;
-                //directionLeft = true;
-                //directionRight = false;
-                //directionDown = false;
-                //directionUp = false;
             }
             else if (velocity.X > 0 && velocity.Y == 0)//walk right
             {
                 animationPlayer.PlayAnimation(walkHorizontalRightAnimation);
                 faceDirection = 90;
-                //directionRight = true;
-                //directionLeft = false;
-                //directionDown = false;
-                //directionUp = false;
             }
             else if (velocity.X == 0 && faceDirection==270)//stand still facing left
                 animationPlayer.PlayAnimation(idleHorizontalLeftAnimation);
@@ -144,19 +136,11 @@ namespace island
             {
                 animationPlayer.PlayAnimation(walkVerticalDownAnimation);
                 faceDirection = 180;
-                //directionDown = true;
-                //directionLeft = false;
-                //directionRight = false;
-                //directionUp = false;
             }
             else if (velocity.Y < 0 && velocity.X == 0)//walk up
             {
                 animationPlayer.PlayAnimation(walkVerticalUpAnimation);
                 faceDirection = 0;
-                //directionUp = true;
-                //directionLeft = false;
-                //directionRight = false;
-                //directionDown = false;
             }
             else if (velocity.Y == 0 && velocity.X == 0 && faceDirection==180)//stand still facing down
             {
@@ -217,17 +201,10 @@ namespace island
             }
         }
 
-        public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
+        public void DrawAnimation(GameTime gameTime, SpriteBatch spriteBatch)
         {
             SpriteEffects flip = SpriteEffects.None;
-
-            /*
-            if (velocity.X >= 0)
-                flip = SpriteEffects.None;
-            else if (velocity.X < 0)
-                flip = SpriteEffects.FlipHorizontally;
-            */
-
+            
             animationPlayer.Draw(gameTime, spriteBatch, position, flip);
         }
 
