@@ -1,14 +1,14 @@
 Content\tempStartArea.xnb
+Content\walkHorizontalRight.xnb
 Content\walkVerticalDown.xnb
 Content\idleVerticalDown.xnb
 Content\idleVerticalUp.xnb
 Content\walkVerticalUp.xnb
 Content\idleHorizontalLeft.xnb
 Content\idleHorizontalRight.xnb
-Content\walkHorizontalRight.xnb
 Content\walkHorizontalLeft.xnb
 Content\horizontalBox.xnb
 Content\verticalBox.xnb
-Content\myFont.xnb
 Content\npc1.xnb
 Content\npc2.xnb
+Content\myFont.xnb
