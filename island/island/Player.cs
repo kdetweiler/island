@@ -27,10 +27,7 @@ namespace island
         public Vector2 velocity;
         public Rectangle rectangle;
 
-        Boolean directionUp = false;
-        Boolean directionDown = false;
-        Boolean directionLeft = false;
-        Boolean directionRight = false;
+        int faceDirection;
 
         Sensor sensor;
 
@@ -121,22 +118,24 @@ namespace island
             if (velocity.X < 0 && velocity.Y == 0)//walk left
             {
                 animationPlayer.PlayAnimation(walkHorizontalLeftAnimation);
-                directionLeft = true;
-                directionRight = false;
-                directionDown = false;
-                directionUp = false;
+                faceDirection = 270;
+                //directionLeft = true;
+                //directionRight = false;
+                //directionDown = false;
+                //directionUp = false;
             }
             else if (velocity.X > 0 && velocity.Y == 0)//walk right
             {
                 animationPlayer.PlayAnimation(walkHorizontalRightAnimation);
-                directionRight = true;
-                directionLeft = false;
-                directionDown = false;
-                directionUp = false;
+                faceDirection = 90;
+                //directionRight = true;
+                //directionLeft = false;
+                //directionDown = false;
+                //directionUp = false;
             }
-            else if (velocity.X == 0 && directionLeft == true)//stand still facing left
+            else if (velocity.X == 0 && faceDirection==270)//stand still facing left
                 animationPlayer.PlayAnimation(idleHorizontalLeftAnimation);
-            else if (velocity.X == 0 && directionRight == true)//stand still facing right
+            else if (velocity.X == 0 && faceDirection==90)//stand still facing right
                 animationPlayer.PlayAnimation(idleHorizontalRightAnimation);
 
             //check sprite velocity and run vertical walk animations
@@ -144,24 +143,26 @@ namespace island
             if (velocity.Y > 0 && velocity.X == 0)//walk down
             {
                 animationPlayer.PlayAnimation(walkVerticalDownAnimation);
-                directionDown = true;
-                directionLeft = false;
-                directionRight = false;
-                directionUp = false;
+                faceDirection = 180;
+                //directionDown = true;
+                //directionLeft = false;
+                //directionRight = false;
+                //directionUp = false;
             }
             else if (velocity.Y < 0 && velocity.X == 0)//walk up
             {
                 animationPlayer.PlayAnimation(walkVerticalUpAnimation);
-                directionUp = true;
-                directionLeft = false;
-                directionRight = false;
-                directionDown = false;
+                faceDirection = 0;
+                //directionUp = true;
+                //directionLeft = false;
+                //directionRight = false;
+                //directionDown = false;
             }
-            else if (velocity.Y == 0 && velocity.X == 0 && directionDown == true)//stand still facing down
+            else if (velocity.Y == 0 && velocity.X == 0 && faceDirection==180)//stand still facing down
             {
                 animationPlayer.PlayAnimation(idleVerticalDownAnimation);
             }
-            else if (velocity.Y == 0 && velocity.X == 0 && directionUp == true)//stand still facing up
+            else if (velocity.Y == 0 && velocity.X == 0 && faceDirection==0)//stand still facing up
             {
                 animationPlayer.PlayAnimation(idleVerticalUpAnimation);
             }
@@ -170,57 +171,49 @@ namespace island
 
         public void rotateCounterClockWise()
         {
-            if (directionUp == true)
+            if (faceDirection==0)
             {
                 animationPlayer.PlayAnimation(idleHorizontalLeftAnimation);
-                directionUp = false;
-                directionLeft = true;
+                faceDirection = 270;
             }
-            else if (directionLeft == true)
+            else if (faceDirection==270)
             {
                 animationPlayer.PlayAnimation(idleVerticalDownAnimation);
-                directionLeft = false;
-                directionDown = true;
+                faceDirection = 180;
             }
-            else if (directionDown == true)
+            else if (faceDirection==180)
             {
                 animationPlayer.PlayAnimation(idleHorizontalRightAnimation);
-                directionDown = false;
-                directionRight = true;
+                faceDirection = 90;
             }
-            else if (directionRight == true)
+            else if (faceDirection==90)
             {
                 animationPlayer.PlayAnimation(idleVerticalUpAnimation);
-                directionRight = false;
-                directionUp = true;
+                faceDirection = 0;
             }
         }
 
         public void rotateClockWise()
         {
-            if (directionUp == true)
+            if (faceDirection==0)
             {
                 animationPlayer.PlayAnimation(idleHorizontalRightAnimation);
-                directionUp = false;
-                directionRight = true;
+                faceDirection = 90;
             }
-            else if (directionLeft == true)
+            else if (faceDirection==270)
             {
                 animationPlayer.PlayAnimation(idleVerticalUpAnimation);
-                directionLeft = false;
-                directionUp = true;
+                faceDirection = 0;
             }
-            else if (directionDown == true)
+            else if (faceDirection==180)
             {
                 animationPlayer.PlayAnimation(idleHorizontalLeftAnimation);
-                directionDown = false;
-                directionLeft = true;
+                faceDirection = 270;
             }
-            else if (directionRight == true)
+            else if (faceDirection==90)
             {
                 animationPlayer.PlayAnimation(idleVerticalDownAnimation);
-                directionRight = false;
-                directionDown = true;
+                faceDirection = 180;
             }
         }
 
