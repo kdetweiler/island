@@ -18,6 +18,7 @@ namespace island
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        SpriteFont font;
         private Texture2D officeBackground;
         private Player player;
         private Wall box1;
@@ -25,11 +26,7 @@ namespace island
         private GamePadState gamepadstatus;
         private KeyboardState keyboard;
         private Rectangle TitleSafe;
-        private Npc npc1;
-        private Npc npc2;
-
-        SpriteFont font;
-
+        private List<Npc> npcs = new List<Npc>();
 
         public Game1()
         {
@@ -48,9 +45,7 @@ namespace island
         {
             // TODO: Add your initialization logic here
             player = new Player(Content.Load<Texture2D>("idleVerticalDown"), new Vector2(400, 300));
-            npc1 = new Npc(Content.Load<Texture2D>("npc1"), new Vector2(600,150));
-            npc2 = new Npc(Content.Load<Texture2D>("npc2"), new Vector2(200, 150));
-                        
+            
             base.Initialize();
         }
 
@@ -67,21 +62,15 @@ namespace island
             font = Content.Load<SpriteFont>("myFont");
             officeBackground = Content.Load<Texture2D>("tempStartArea");
             player.Load(Content);
-            npc1.Load(Content, Content.Load<Texture2D>("npc1"));
-            npc2.Load(Content, Content.Load<Texture2D>("npc2"));
+
+            npcs.Add(new Npc(Content.Load<Texture2D>("npc1"), new Vector2(600, 150)));
+            npcs.Add(new Npc(Content.Load<Texture2D>("npc2"), new Vector2(200, 150)));
 
             box1 = new Wall(Content.Load<Texture2D>("horizontalBox"), new Vector2(250, 400));
 
-
             TitleSafe = GetTitleSafeArea(.8f);
-
-            // TODO: use this.Content to load your game content here
         }
 
-        /// <summary>
-        /// UnloadContent will be called once per game and is the place to unload
-        /// all content.
-        /// </summary>
         protected override void UnloadContent()
         {
             // TODO: Unload any non ContentManager content here
@@ -103,9 +92,8 @@ namespace island
                 this.Exit();
             }
 
-            player.Update(gameTime);
-            npc1.Update(gameTime);
-
+            //run player update
+            player.Update(gameTime);            
             
             // TODO: Add your update logic here
             base.Update(gameTime);
@@ -119,22 +107,25 @@ namespace island
         {
             GraphicsDevice.Clear(Color.White);
 
-            
-            // TODO: Add your drawing code here
+            //Draw background
             spriteBatch.Begin();
-            spriteBatch.Draw(officeBackground, GraphicsDevice.Viewport.Bounds, Color.White);
-            
+            spriteBatch.Draw(officeBackground, GraphicsDevice.Viewport.Bounds, Color.White);            
             spriteBatch.End();
              
             // start rendering sprites
             spriteBatch.Begin();
             spriteBatch.DrawString(font, player.toString(), new Vector2(50, 45), Color.Black);
+
+            //draw walls
             box1.Draw(gameTime, spriteBatch);
-            //box2.Draw(gameTime, spriteBatch);
-            player.Draw(gameTime, spriteBatch);
-            npc1.Draw(gameTime, spriteBatch);
-            npc2.Draw(gameTime, spriteBatch);
             
+            //draw players
+            player.Draw(gameTime, spriteBatch);
+
+            //draw all npc's on screen
+            foreach (Npc npc in npcs)
+                npc.Draw(spriteBatch);
+                        
             //Draw the game components (Sprites included)
             base.Draw(gameTime);
             // end rendering sprites;

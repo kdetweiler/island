@@ -42,7 +42,7 @@ namespace island
 
         }
 
-        public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
+        public void DrawAnimation(GameTime gameTime, SpriteBatch spriteBatch)
         {
             SpriteEffects flip = SpriteEffects.None;
 
@@ -54,6 +54,11 @@ namespace island
             */
 
             animationPlayer.Draw(gameTime, spriteBatch, position, flip);
+        }
+
+        public void Draw(SpriteBatch spriteBatch)
+        {
+            spriteBatch.Draw(texture, rectangle, Color.White);
         }
     }
 }
