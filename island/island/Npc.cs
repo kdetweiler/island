@@ -11,7 +11,7 @@ using Microsoft.Xna.Framework.Media;
 
 namespace island
 {
-    class Npc : Entity
+    class Npc : Character
     {
         AnimationPlayer animationPlayer;
         Animation npcIdle;

@@ -11,7 +11,7 @@ using Microsoft.Xna.Framework.Media;
 
 namespace island
 {
-    class Player : Entity
+    class Player : Character
     {
         AnimationPlayer animationPlayer;
         Animation walkHorizontalRightAnimation;
