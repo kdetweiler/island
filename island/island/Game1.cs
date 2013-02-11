@@ -26,7 +26,8 @@ namespace island
         private GamePadState gamepadstatus;
         private KeyboardState keyboard;
         private Rectangle TitleSafe;
-        private List<Npc> npcs = new List<Npc>();
+        private List<NPC> npcs = new List<NPC>();
+        private List<GameObject> gameObjects = new List<GameObject>();
 
         public Game1()
         {
@@ -63,8 +64,8 @@ namespace island
             player.Load(Content);
             //player = new Player(Content.Load<Texture2D>("idleVerticalDown"), new Vector2(400, 300));
 
-            npcs.Add(new Npc(Content.Load<Texture2D>("npc1"), new Vector2(600, 150)));
-            npcs.Add(new Npc(Content.Load<Texture2D>("npc2"), new Vector2(200, 150)));
+            npcs.Add(new NPC(Content.Load<Texture2D>("npc1"), new Vector2(600, 150)));
+            npcs.Add(new NPC(Content.Load<Texture2D>("npc2"), new Vector2(200, 150)));
 
             box1 = new Wall(Content.Load<Texture2D>("horizontalBox"), new Vector2(250, 400));
 
@@ -92,8 +93,10 @@ namespace island
                 this.Exit();
             }
 
+            //player.sensor.proximitySensor(player.rectangle, 100, npcs);
             //run player update
-            player.Update(gameTime);            
+            player.Update(gameTime);
+            player.sensor.Proximity(player, 100, npcs);
             
             // TODO: Add your update logic here
             base.Update(gameTime);
@@ -124,7 +127,7 @@ namespace island
             //player.Draw(spriteBatch);
 
             //draw all npc's on screen
-            foreach (Npc npc in npcs)
+            foreach (NPC npc in npcs)
                 npc.Draw(spriteBatch);
                         
             //Draw the game components (Sprites included)

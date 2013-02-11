@@ -24,12 +24,14 @@ namespace island
         Animation idleVerticalDownAnimation;
         Animation idleVerticalUpAnimation;
 
+        public List<NPC> proxList = new List<NPC>();
+
         public Vector2 velocity;
         public Rectangle rectangle;
+        
+        public int faceDirection;
 
-        int faceDirection;
-
-        Sensor sensor;
+        public Sensor sensor;
 
         float lastTime = 0.0f;
                 
@@ -226,11 +228,17 @@ namespace island
 
         public String toString()
         {
-            return "Player Center: " + this.rectangle.Center
+            String togo = "Player Center: " + this.rectangle.Center
                 + "\nLeft: " + this.rectangle.Left
                 + "\nRight: " + this.rectangle.Right
                 + "\nTop: " + this.rectangle.Top
-                + "\nBottom: " + this.rectangle.Bottom;
+                + "\nBottom: " + this.rectangle.Bottom
+                + "\nPlayer: " + this.sensor.distance
+                + "\nProx List: ";
+            foreach (NPC npc in proxList) {
+                togo += "(" + npc.rectangle.Center.X + ", " + npc.rectangle.Center.Y+") ";
+            }
+            return togo;
         }
     }
 }

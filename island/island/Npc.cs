@@ -11,17 +11,17 @@ using Microsoft.Xna.Framework.Media;
 
 namespace island
 {
-    class Npc : Character
+    class NPC : Character
     {
         AnimationPlayer animationPlayer;
         Animation npcIdle;
 
-        public Npc()
+        public NPC()
         {
 
         }
 
-        public Npc(Texture2D newTexture, Vector2 newPosition)
+        public NPC(Texture2D newTexture, Vector2 newPosition)
         {
             texture = newTexture;
             position = newPosition;
