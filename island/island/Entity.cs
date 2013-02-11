@@ -18,7 +18,7 @@ namespace island
 
         protected Vector2 position;
 
-        public virtual void Update()
+        public virtual void Update(GameTime gameTime)
         {
 
         }

@@ -24,14 +24,16 @@ namespace island
         Animation idleVerticalDownAnimation;
         Animation idleVerticalUpAnimation;
 
-        Vector2 position = new Vector2(50, 475);
+        Vector2 position = new Vector2(400, 300);
         Vector2 velocity;
 
-        Boolean lastDirectionUp = false;
-        Boolean lastDirectionDown = false;
-        Boolean lastDirectionHorizontalLeft = false;
-        Boolean lastDirectionHorizontalRight = false;
+        Boolean directionUp = false;
+        Boolean directionDown = false;
+        Boolean directionLeft = false;
+        Boolean directionRight = false;
 
+        float lastTime = 0.0f;
+                
         public Player()
         {
 
@@ -54,9 +56,10 @@ namespace island
             idleHorizontalLeftAnimation = new Animation(Content.Load<Texture2D>("idleHorizontalLeft"), 31, 0.3f, true);
             idleVerticalDownAnimation = new Animation(Content.Load<Texture2D>("idleVerticalDown"), 34, .3f, true);
             idleVerticalUpAnimation = new Animation(Content.Load<Texture2D>("idleVerticalUp"), 34, .3f, true);
+            animationPlayer.PlayAnimation(idleVerticalDownAnimation);
         }
 
-        public override void Update()
+        public override void Update(GameTime gameTime)
         {
             position += velocity;
             // TODO: Add your update  
@@ -68,68 +71,152 @@ namespace island
             //KeyBoard
             KeyboardState keyboard = Keyboard.GetState();
 
-            if (keyboard.IsKeyDown(Keys.Up) || (keyboard.IsKeyDown(Keys.W)))
+            //change the vertical velocity of the player by pressing keys W or S, or Up or Down
+            if ((keyboard.IsKeyDown(Keys.Up) || keyboard.IsKeyDown(Keys.W)) && keyboard.IsKeyUp(Keys.LeftShift))
                 velocity.Y = -1f;
             else if (keyboard.IsKeyDown(Keys.Down) || (keyboard.IsKeyDown(Keys.S)))
                 velocity.Y = +1f;
             else
                 velocity.Y = 0f;
 
+
+            //change the horizontal velocity of the player by pressing A or D, or left or right
             if (keyboard.IsKeyDown(Keys.Left) || (keyboard.IsKeyDown(Keys.A)))
                 velocity.X = -1f;
             else if (keyboard.IsKeyDown(Keys.Right) || (keyboard.IsKeyDown(Keys.D)))
                 velocity.X = 1f;
             else
                 velocity.X = 0f;
-            if (lastDirectionDown == false && lastDirectionUp == false && lastDirectionHorizontalLeft == false && lastDirectionHorizontalRight == false)
+
+
+            //rotate the sprite counter clockwise using the Q button
+            if (keyboard.IsKeyDown(Keys.Q))
             {
-                animationPlayer.PlayAnimation(idleVerticalDownAnimation);
+                //GameTime gameTime = new GameTime();
+                lastTime += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+                if (lastTime > 125.0f)
+                {
+                    rotateCounterClockWise();
+                    lastTime = 0;
+                }
             }
 
-            if (velocity.X < 0 && velocity.Y == 0)
+            //rotate the sprite clockwise by pressing E
+            if (keyboard.IsKeyDown(Keys.E))
+            {
+                lastTime += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+                if (lastTime > 125.0f)
+                {
+                    rotateClockWise();
+                    lastTime = 0;
+                }
+            }
+
+            //check sprite velocity and run horizontal walk animations
+            //direction flags are tripped to remember which way sprite is facing
+            if (velocity.X < 0 && velocity.Y == 0)//walk left
             {
                 animationPlayer.PlayAnimation(walkHorizontalLeftAnimation);
-                lastDirectionHorizontalLeft = true;
-                lastDirectionHorizontalRight = false;
-                lastDirectionDown = false;
-                lastDirectionUp = false;
+                directionLeft = true;
+                directionRight = false;
+                directionDown = false;
+                directionUp = false;
             }
-            else if (velocity.X > 0 && velocity.Y == 0)
+            else if (velocity.X > 0 && velocity.Y == 0)//walk right
             {
                 animationPlayer.PlayAnimation(walkHorizontalRightAnimation);
-                lastDirectionHorizontalRight = true;
-                lastDirectionHorizontalLeft = false;
-                lastDirectionDown = false;
-                lastDirectionUp = false;
+                directionRight = true;
+                directionLeft = false;
+                directionDown = false;
+                directionUp = false;
             }
-            else if (velocity.X == 0 && lastDirectionHorizontalLeft == true)
+            else if (velocity.X == 0 && directionLeft == true)//stand still facing left
                 animationPlayer.PlayAnimation(idleHorizontalLeftAnimation);
-            else if (velocity.X == 0 && lastDirectionHorizontalRight == true)
+            else if (velocity.X == 0 && directionRight == true)//stand still facing right
                 animationPlayer.PlayAnimation(idleHorizontalRightAnimation);
 
-            if (velocity.Y > 0 && velocity.X == 0)
+            //check sprite velocity and run vertical walk animations
+            //direction flags are tripped to remember which way sprite is facing
+            if (velocity.Y > 0 && velocity.X == 0)//walk down
             {
                 animationPlayer.PlayAnimation(walkVerticalDownAnimation);
-                lastDirectionDown = true;
-                lastDirectionHorizontalLeft = false;
-                lastDirectionHorizontalRight = false;
-                lastDirectionUp = false;
+                directionDown = true;
+                directionLeft = false;
+                directionRight = false;
+                directionUp = false;
             }
-            else if (velocity.Y < 0 && velocity.X == 0)
+            else if (velocity.Y < 0 && velocity.X == 0)//walk up
             {
                 animationPlayer.PlayAnimation(walkVerticalUpAnimation);
-                lastDirectionUp = true;
-                lastDirectionHorizontalLeft = false;
-                lastDirectionHorizontalRight = false;
-                lastDirectionDown = false;
+                directionUp = true;
+                directionLeft = false;
+                directionRight = false;
+                directionDown = false;
             }
-            else if (velocity.Y == 0 && velocity.X == 0 && lastDirectionDown == true)
+            else if (velocity.Y == 0 && velocity.X == 0 && directionDown == true)//stand still facing down
             {
                 animationPlayer.PlayAnimation(idleVerticalDownAnimation);
             }
-            else if (velocity.Y == 0 && velocity.X == 0 && lastDirectionUp == true)
+            else if (velocity.Y == 0 && velocity.X == 0 && directionUp == true)//stand still facing up
             {
                 animationPlayer.PlayAnimation(idleVerticalUpAnimation);
+            }
+            
+        }
+
+        public void rotateCounterClockWise()
+        {
+            if (directionUp == true)
+            {
+                animationPlayer.PlayAnimation(idleHorizontalLeftAnimation);
+                directionUp = false;
+                directionLeft = true;
+            }
+            else if (directionLeft == true)
+            {
+                animationPlayer.PlayAnimation(idleVerticalDownAnimation);
+                directionLeft = false;
+                directionDown = true;
+            }
+            else if (directionDown == true)
+            {
+                animationPlayer.PlayAnimation(idleHorizontalRightAnimation);
+                directionDown = false;
+                directionRight = true;
+            }
+            else if (directionRight == true)
+            {
+                animationPlayer.PlayAnimation(idleVerticalUpAnimation);
+                directionRight = false;
+                directionUp = true;
+            }
+        }
+
+        public void rotateClockWise()
+        {
+            if (directionUp == true)
+            {
+                animationPlayer.PlayAnimation(idleHorizontalRightAnimation);
+                directionUp = false;
+                directionRight = true;
+            }
+            else if (directionLeft == true)
+            {
+                animationPlayer.PlayAnimation(idleVerticalUpAnimation);
+                directionLeft = false;
+                directionUp = true;
+            }
+            else if (directionDown == true)
+            {
+                animationPlayer.PlayAnimation(idleHorizontalLeftAnimation);
+                directionDown = false;
+                directionLeft = true;
+            }
+            else if (directionRight == true)
+            {
+                animationPlayer.PlayAnimation(idleVerticalDownAnimation);
+                directionRight = false;
+                directionDown = true;
             }
         }
 
