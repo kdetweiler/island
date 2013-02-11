@@ -50,6 +50,16 @@ namespace island
             owner.proxList = prox;
         }
 
-        
+        //Wall Sensors
+        public void WallsScan(Player owner, List<Wall> wallList) 
+        {
+            int ray = owner.faceDirection;
+            //use all 3 here
+        }
+
+        public float detectWalls() {
+
+            return -1;
+        }
     }
 }
