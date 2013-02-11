@@ -37,7 +37,7 @@ namespace island
             }
         }
 
-        public static int WallsDetect(Rectangle owner, Vector2 direction)
+        public static int WallsDetect(Rectangle owner, Vector2 direction, List<Character> charlist, List<GameObject> objectList)
         {
             //look in direction for sightRange, if a wall detected, return how far away it is
             //else return -1, indicating that no wall is in that direction
