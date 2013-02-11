@@ -20,9 +20,13 @@ namespace island
         SpriteBatch spriteBatch;
         private Texture2D officeBackground;
         private Player player;
+        private Wall box1;
+        private GameObject box2;
         private GamePadState gamepadstatus;
         private KeyboardState keyboard;
         private Rectangle TitleSafe;
+
+        SpriteFont font;
 
 
         public Game1()
@@ -41,7 +45,8 @@ namespace island
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-            player = new Player();
+            player = new Player(Content.Load<Texture2D>("idleVerticalDown"), new Vector2(400, 300));
+            
             base.Initialize();
         }
 
@@ -55,8 +60,11 @@ namespace island
             spriteBatch = new SpriteBatch(GraphicsDevice);
             Services.AddService(typeof(SpriteBatch), spriteBatch);
 
+            font = Content.Load<SpriteFont>("myFont");
             officeBackground = Content.Load<Texture2D>("tempStartArea");
             player.Load(Content);
+
+            box1 = new Wall(Content.Load<Texture2D>("horizontalBox"), new Vector2(250, 400));
 
             TitleSafe = GetTitleSafeArea(.8f);
 
@@ -81,7 +89,7 @@ namespace island
         {
             gamepadstatus = GamePad.GetState(PlayerIndex.One);
             keyboard = Keyboard.GetState();
-
+            
             // Allows the game to exit
             if ((GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed) || (keyboard.IsKeyDown(Keys.Escape)))
             {
@@ -89,21 +97,11 @@ namespace island
             }
 
             player.Update(gameTime);
+
+            
             // TODO: Add your update logic here
             base.Update(gameTime);
         }
-        /*
-        public void Start()
-        {
-            //create if necessary and put the player in start position
-
-            if (player == null)
-            {
-                player = new Player(this, mainChar);
-                //Components.Add(player);
-            }
-            player.PutInStartPosition();
-        }*/
 
         /// <summary>
         /// This is called when the game should draw itself.
@@ -117,12 +115,16 @@ namespace island
             // TODO: Add your drawing code here
             spriteBatch.Begin();
             spriteBatch.Draw(officeBackground, GraphicsDevice.Viewport.Bounds, Color.White);
-            spriteBatch.End();
             
+            spriteBatch.End();
              
             // start rendering sprites
             spriteBatch.Begin();
+            spriteBatch.DrawString(font, player.toString(), new Vector2(50, 45), Color.Black);
+            box1.Draw(gameTime, spriteBatch);
+            //box2.Draw(gameTime, spriteBatch);
             player.Draw(gameTime, spriteBatch);
+            
             //Draw the game components (Sprites included)
             base.Draw(gameTime);
             // end rendering sprites;

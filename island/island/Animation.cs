@@ -13,8 +13,8 @@ namespace island
 {
     class Animation
     {
-        public int FrameWidth;
-        public int FrameCount;
+        public int frameWidth;
+        public int frameCount;
 
         Texture2D texture;
 
@@ -22,13 +22,19 @@ namespace island
 
         float frameTime;
 
+        public Animation(Texture2D newTexture, int newFrameWidth)
+        {
+            texture = newTexture;
+            frameWidth = newFrameWidth;
+        }
+
         public Animation(Texture2D newTexture, int newFrameWidth, float newFrameTime, bool newIsLooping)
         {
             texture = newTexture;
-            FrameWidth = newFrameWidth;
+            frameWidth = newFrameWidth;
             frameTime = newFrameTime;
             isLooping = newIsLooping;
-            FrameCount = texture.Width / FrameWidth;
+            frameCount = texture.Width / frameWidth;
         }
 
         public Texture2D Texture

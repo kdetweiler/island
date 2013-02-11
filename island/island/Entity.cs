@@ -15,8 +15,10 @@ namespace island
     {
         public Texture2D texture;
         public Rectangle rectangle;
+        public Vector2 position;
 
-        protected Vector2 position;
+        public Boolean exists;
+        public Boolean isPassable;
 
         public virtual void Update(GameTime gameTime)
         {

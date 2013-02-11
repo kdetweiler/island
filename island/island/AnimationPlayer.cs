@@ -32,7 +32,7 @@ namespace island
 
         public Vector2 Origin
         {
-            get { return new Vector2(animation.FrameWidth / 2, animation.FrameHeight); } 
+            get { return new Vector2(animation.frameWidth / 2, animation.FrameHeight); } 
         }
 
         public void PlayAnimation(Animation newAnimation)
@@ -56,12 +56,12 @@ namespace island
                 timer -= animation.FrameTime;
 
                 if (animation.IsLooping)
-                    frameIndex = (frameIndex + 1) % animation.FrameCount;
+                    frameIndex = (frameIndex + 1) % animation.frameCount;
                 else
-                    frameIndex = Math.Min(frameIndex + 1, animation.FrameCount - 1);
+                    frameIndex = Math.Min(frameIndex + 1, animation.frameCount - 1);
             }
 
-            Rectangle rectangle = new Rectangle(frameIndex * Animation.FrameWidth, 0, Animation.FrameWidth, Animation.FrameHeight);
+            Rectangle rectangle = new Rectangle(frameIndex * Animation.frameWidth, 0, Animation.frameWidth, Animation.FrameHeight);
 
             spriteBatch.Draw(Animation.Texture, position, rectangle, Color.White, 0f, Origin, 1f, spriteEffects, 0f);
         }

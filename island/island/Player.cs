@@ -24,13 +24,15 @@ namespace island
         Animation idleVerticalDownAnimation;
         Animation idleVerticalUpAnimation;
 
-        Vector2 position = new Vector2(400, 300);
-        Vector2 velocity;
+        public Vector2 velocity;
+        public Rectangle rectangle;
 
         Boolean directionUp = false;
         Boolean directionDown = false;
         Boolean directionLeft = false;
         Boolean directionRight = false;
+
+        Sensor sensor;
 
         float lastTime = 0.0f;
                 
@@ -39,10 +41,12 @@ namespace island
 
         }
 
-        public Player(Texture2D newTexture, Rectangle newRectangle)
+        public Player(Texture2D newTexture, Vector2 newPosition)
         {
             texture = newTexture;
-            rectangle = newRectangle;
+            position = newPosition;
+            sensor=new Sensor(500,3);
+            rectangle = new Rectangle((int)position.X, (int)position.Y, texture.Width, texture.Height);
         }
 
         public void Load(ContentManager Content)
@@ -220,12 +224,6 @@ namespace island
             }
         }
 
-        public void PutInStartPosition()
-        {
-            position.X = 40;
-            position.Y = 40;
-        }
-
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             SpriteEffects flip = SpriteEffects.None;
@@ -238,6 +236,17 @@ namespace island
             */
 
             animationPlayer.Draw(gameTime, spriteBatch, position, flip);
+        }
+
+
+        public Rectangle GetBounds()
+        {
+            return new Rectangle((int)position.X, (int)position.Y, rectangle.Height, rectangle.Width);
+        }
+
+        public String toString()
+        {
+            return "Bottom: " + this.rectangle.Bottom + "\nRight: " + this.rectangle.Right;
         }
     }
 }
