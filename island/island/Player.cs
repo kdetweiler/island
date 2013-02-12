@@ -25,6 +25,7 @@ namespace island
         Animation idleVerticalUpAnimation;
 
         public List<NPC> proxList = new List<NPC>();
+        public int[] quadrants = new int[4];
         public float[] wallSensors = new float[3];
 
         public Vector2 velocity;
@@ -233,8 +234,14 @@ namespace island
             String togo = "Player Center: " + this.rectangle.Center
                 + "\nProx List: ";
             foreach (NPC npc in proxList) {
-                togo += "(" + npc.name + ": "+ npc.rectangle.Center.X + ", " + npc.rectangle.Center.Y+")";
+                togo += "(" + npc.name + ": "+ npc.rectangle.Center.X + ", " + npc.rectangle.Center.Y+") Angle: " + this.sensor.angle;
             }
+            for (int i = 0; i < 4; i++)
+            {
+                togo += "\nQuadrant " + (i + 1) + ": " + this.quadrants[i];
+            }
+            togo += "\nMy Direction: " + this.faceDirection + "\nADD: " + ((this.faceDirection + this.sensor.angle)%360) + "\nSub: " + ((this.faceDirection - this.sensor.angle)%360);
+            //togo += "\nX: " + this. 
             return togo;
         }
     }

@@ -17,6 +17,8 @@ namespace island
         //Wall Sensors to save
         public static float[] WallScanner;
         public static int length;
+        public float angle;
+        public float angle2;
 
         //Collision Sensors
         const int proximityMargin = 5;
@@ -42,15 +44,39 @@ namespace island
         public void Proximity(Player owner, int radius, List<NPC> npcs)
         {
             List<NPC> prox = new List<NPC>();
+            int[] quadrant = new int[4];
             Vector2 main = new Vector2(owner.rectangle.Center.X, owner.rectangle.Center.Y); // reference point 1
 
             foreach (NPC npc in npcs) 
             {
                 Vector2 V2 = new Vector2(npc.rectangle.Center.X, npc.rectangle.Center.Y);
                 Vector2 Distance = main - V2;
-                
+
                 if (Vector2.Distance(main, V2) < radius)
+                {
                     prox.Add(npc);
+                    float radians = (float)Math.Atan2(V2.Y - main.Y, V2.X - main.X);
+                    //radians = (float)Math.PI - radians;
+                    /*
+                    if (radians < 0)
+                        radians = (float)(2 * Math.PI) - radians;
+                    */
+                    angle = MathHelper.ToDegrees(radians);
+
+                    /*
+                    if(angle < 0)
+                        angle = 360 - angle;*/
+
+                    angle2 = angle;
+                    if (owner.rectangle.Center.Y > V2.Y)
+                        angle = (owner.faceDirection - angle) % 360;
+                    //else
+                        //angle = (owner.faceDirection + angle);
+                        
+                    //"\nADD: " + (this.faceDirection + this.sensor.angle)%360 + "\nSub: " + (this.faceDirection - this.sensor.angle)%360
+                   // double degrees = radians* 180 / Math.PI;
+
+                }
             }
             owner.proxList = prox;
         }
