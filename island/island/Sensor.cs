@@ -14,7 +14,7 @@ namespace island
 {
     class Sensor
     {
-        //Wall Sensors
+        //Wall Sensors to save
         public static float?[] WallScanner;
         public static int length;
 
