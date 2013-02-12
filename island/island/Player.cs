@@ -234,11 +234,15 @@ namespace island
             String togo = "Player Center: " + this.rectangle.Center
                 + "\nProx List: ";
             foreach (NPC npc in proxList) {
-                togo += "(" + npc.name + ": " + npc.rectangle.Center.X + ", " + npc.rectangle.Center.Y + ")";
+                togo += "(" + npc.name + ": " + npc.rectangle.Center.X + ", " + npc.rectangle.Center.Y + ") " + this.sensor.angle;
             }
             for (int i = 0; i < 4; i++)
             {
                 togo += "\nQuadrant " + (i + 1) + ": " + this.quadrants[i];
+            }
+            for (int i = 0; i < 3; i++)
+            {
+                togo += "\nWall " + (i + 1) + ": " + this.wallSensors[i];
             }
             
             return togo;

@@ -108,6 +108,7 @@ namespace island
             player.Update(gameTime);
             
             player.sensor.Proximity(player, 100, npcs);
+            player.sensor.WallScan(player, walls);
             
             // TODO: Add your update logic here
             base.Update(gameTime);

@@ -40,6 +40,46 @@ namespace island
             return sightRange;
         }
 
+        //wall sensor
+        public void WallScan(Player owner, List<Wall> walls)
+        {
+            List<Wall> wallsInFront = new List<Wall>();
+            float[] wallSense = new float[3];
+            Vector2 main = new Vector2(owner.rectangle.Center.X, owner.rectangle.Center.Y); // reference point 1
+
+            foreach (Wall wall in walls)
+            {
+                Vector2 V2 = new Vector2(wall.rectangle.Center.X, wall.rectangle.Center.Y);
+                //Vector2 Distance = main - V2;
+
+                if (Vector2.Distance(main, V2) < sightRange)
+                {
+                    wallsInFront.Add(wall);
+                    float radians = (float)Math.Atan2(V2.Y - main.Y, V2.X - main.X);
+
+                    angle = MathHelper.ToDegrees(radians);
+
+                    if (owner.rectangle.Center.Y > V2.Y)
+                        angle = (owner.faceDirection - angle) % 360;
+                    else
+                        angle = (360 - angle + owner.faceDirection) % 360;
+
+                    if (angle >= 45 && angle < 67.5)
+                    {
+                        wallSense[0] = Vector2.Distance(main, V2);
+                    }
+                    else if (angle >= 67.5 && angle <= 115.5)
+                    {
+                        wallSense[1] = Vector2.Distance(main, V2);
+                    }
+                    else if (angle > 115.5 && angle < 135)
+                        wallSense[2] = Vector2.Distance(main, V2);
+
+                }
+                owner.wallSensors = wallSense;
+            }
+        }
+
         //Proximity Sensor
         public void Proximity(Player owner, int radius, List<NPC> npcs)
         {
