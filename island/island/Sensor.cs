@@ -56,29 +56,26 @@ namespace island
                 {
                     prox.Add(npc);
                     float radians = (float)Math.Atan2(V2.Y - main.Y, V2.X - main.X);
-                    //radians = (float)Math.PI - radians;
-                    /*
-                    if (radians < 0)
-                        radians = (float)(2 * Math.PI) - radians;
-                    */
+
                     angle = MathHelper.ToDegrees(radians);
 
-                    /*
-                    if(angle < 0)
-                        angle = 360 - angle;*/
-
-                    angle2 = angle;
                     if (owner.rectangle.Center.Y > V2.Y)
                         angle = (owner.faceDirection - angle) % 360;
-                    //else
-                        //angle = (owner.faceDirection + angle);
-                        
-                    //"\nADD: " + (this.faceDirection + this.sensor.angle)%360 + "\nSub: " + (this.faceDirection - this.sensor.angle)%360
-                   // double degrees = radians* 180 / Math.PI;
+                    else
+                        angle = (360- angle + owner.faceDirection)%360;
 
+                    if (angle >= 0 && angle < 90)
+                        quadrant[0]++;
+                    else if (angle >= 90 && angle < 180)
+                        quadrant[1]++;
+                    else if (angle >= 180 && angle < 270)
+                        quadrant[2]++;
+                    else
+                        quadrant[3]++;
                 }
             }
             owner.proxList = prox;
+            owner.quadrants = quadrant;
         }
 
         //Wall Sensors
