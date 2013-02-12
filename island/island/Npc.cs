@@ -16,15 +16,17 @@ namespace island
         AnimationPlayer animationPlayer;
         Animation npcIdle;
 
+        
         public NPC()
         {
 
         }
 
-        public NPC(Texture2D newTexture, Vector2 newPosition)
+        public NPC(Texture2D newTexture, Vector2 newPosition, String newName)
         {
             texture = newTexture;
             position = newPosition;
+            name = newName;
 
             rectangle = new Rectangle((int)position.X, (int)position.Y, texture.Width, texture.Height);
         }

@@ -7,7 +7,6 @@ namespace island
 {
     class Character : Entity
     {
-
         public Character()
         {
 

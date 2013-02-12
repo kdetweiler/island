@@ -16,6 +16,7 @@ namespace island
         public Texture2D texture;
         public Rectangle rectangle;
         public Vector2 position;
+        public String name;
 
         public Boolean exists;
         public Boolean isPassable;

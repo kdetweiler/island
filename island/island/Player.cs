@@ -42,13 +42,14 @@ namespace island
         }
 
         
-        public Player(Vector2 newPosition)
+        public Player(Vector2 newPosition, String newName)
         {
             //texture = newTexture;
             position = newPosition;
             sensor=new Sensor(500,3);
             //rectangle = new Rectangle((int)position.X, (int)position.Y, texture.Width, texture.Height);
-            rectangle = new Rectangle((int)position.X, (int)position.Y, 0, 0);
+            rectangle = new Rectangle((int)position.X, (int)position.Y, 34, 57);
+            name = newName;
         }
 
         public void Load(ContentManager Content)
@@ -58,10 +59,10 @@ namespace island
             walkVerticalDownAnimation = new Animation(Content.Load<Texture2D>("walkVerticalDown"), 34, 0.1f, true);
             walkVerticalUpAnimation = new Animation(Content.Load<Texture2D>("walkVerticalUp"), 34, 0.1f, true);
 
-            idleHorizontalRightAnimation = new Animation(Content.Load<Texture2D>("idleHorizontalRight"), 31, 0.3f, true);
-            idleHorizontalLeftAnimation = new Animation(Content.Load<Texture2D>("idleHorizontalLeft"), 31, 0.3f, true);
-            idleVerticalDownAnimation = new Animation(Content.Load<Texture2D>("idleVerticalDown"), 34, .3f, true);
-            idleVerticalUpAnimation = new Animation(Content.Load<Texture2D>("idleVerticalUp"), 34, .3f, true);
+            idleHorizontalRightAnimation = new Animation(Content.Load<Texture2D>("idleHorizontalRight"), 31, 0.3f, false);
+            idleHorizontalLeftAnimation = new Animation(Content.Load<Texture2D>("idleHorizontalLeft"), 31, 0.3f, false);
+            idleVerticalDownAnimation = new Animation(Content.Load<Texture2D>("idleVerticalDown"), 34, .3f, false);
+            idleVerticalUpAnimation = new Animation(Content.Load<Texture2D>("idleVerticalUp"), 34, .3f, false);
 
            // animationPlayer.PlayAnimation(idleVerticalDownAnimation);
         }
@@ -217,7 +218,7 @@ namespace island
         public void DrawAnimation(GameTime gameTime, SpriteBatch spriteBatch)
         {
             SpriteEffects flip = SpriteEffects.None;
-            
+                      
             animationPlayer.Draw(gameTime, spriteBatch, position, flip);
         }
 
@@ -230,14 +231,9 @@ namespace island
         public String toString()
         {
             String togo = "Player Center: " + this.rectangle.Center
-                + "\nX: " + this.rectangle.X
-                + "\nY: " + this.rectangle.Y
-                + "\nTop: " + this.rectangle.Top
-                + "\nBottom: " + this.rectangle.Bottom
-                + "\nDistance: " + this.sensor.distance
                 + "\nProx List: ";
             foreach (NPC npc in proxList) {
-                togo += "(" + npc.rectangle.Center.X + ", " + npc.rectangle.Center.Y+") ";
+                togo += "(" + npc.name + ": "+ npc.rectangle.Center.X + ", " + npc.rectangle.Center.Y+") Distance: " + this.sensor.distance;
             }
             return togo;
         }

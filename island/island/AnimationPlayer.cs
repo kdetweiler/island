@@ -32,7 +32,7 @@ namespace island
 
         public Vector2 Origin
         {
-            get { return new Vector2(animation.frameWidth / 2, animation.FrameHeight); } 
+            get { return new Vector2(0, 0); } 
         }
 
         public void PlayAnimation(Animation newAnimation)
