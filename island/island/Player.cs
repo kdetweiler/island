@@ -24,7 +24,7 @@ namespace island
         Animation idleVerticalDownAnimation;
         Animation idleVerticalUpAnimation;
 
-        public List<NPC> proxList = new List<NPC>();
+        public List<Entity> proxList = new List<Entity>();
         public float[] wallSensors = new float[3];
 
         public Vector2 velocity;

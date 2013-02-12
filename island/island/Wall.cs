@@ -18,6 +18,7 @@ namespace island
         {
             texture = newTexture;
             position = newPosition;
+            name = "Wall";
 
             rectangle = new Rectangle((int)position.X, (int)position.Y, texture.Width, texture.Height);
 

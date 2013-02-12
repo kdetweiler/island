@@ -17,6 +17,7 @@ namespace island
         public Rectangle rectangle;
         public Vector2 position;
         public String name;
+        public int distance;
 
         public Boolean exists;
         public Boolean isPassable;

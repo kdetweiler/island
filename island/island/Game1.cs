@@ -9,6 +9,13 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 
+/* NOTES
+ * entitys = npcs.Cast<Entity>().Concat(walls.Cast<Entity>()).ToList(); // how to concat two children lists into one parent list
+ * 
+ * 
+ * 
+ * 
+ * */
 namespace island
 {
     /// <summary>
@@ -21,17 +28,20 @@ namespace island
         SpriteFont font;
         private Texture2D officeBackground;
         private Player player;
-        private Wall box1;
-        private GameObject box2;
         private GamePadState gamepadstatus;
         private KeyboardState keyboard;
         private Rectangle TitleSafe;
         private List<NPC> npcs = new List<NPC>();
         private List<GameObject> gameObjects = new List<GameObject>();
+        private List<Character> characters = new List<Character>();
+        private List<Wall> walls = new List<Wall>();
+        private List<Entity> entitys = new List<Entity>();
 
         public Game1()
         {
-            graphics = new GraphicsDeviceManager(this);            
+            graphics = new GraphicsDeviceManager(this);
+            graphics.PreferredBackBufferHeight = 600;
+            graphics.PreferredBackBufferWidth = 800;
             Content.RootDirectory = "Content";
             
         }
@@ -66,8 +76,8 @@ namespace island
 
             npcs.Add(new NPC(Content.Load<Texture2D>("npc1"), new Vector2(600, 150), "NPC1"));
             npcs.Add(new NPC(Content.Load<Texture2D>("npc2"), new Vector2(200, 150), "NPC2"));
-            
-            box1 = new Wall(Content.Load<Texture2D>("horizontalBox"), new Vector2(250, 400));
+
+            walls.Add(new Wall(Content.Load<Texture2D>("horizontalBox"), new Vector2(250, 400)));
 
             TitleSafe = GetTitleSafeArea(.8f);
         }
@@ -96,7 +106,8 @@ namespace island
             //player.sensor.proximitySensor(player.rectangle, 100, npcs);
             //run player update
             player.Update(gameTime);
-            player.sensor.Proximity(player, 100, npcs);
+            
+            player.sensor.Proximity(player, 100, entitys);
             
             // TODO: Add your update logic here
             base.Update(gameTime);
@@ -120,7 +131,8 @@ namespace island
             spriteBatch.DrawString(font, player.toString(), new Vector2(50, 45), Color.Black);
 
             //draw walls
-            box1.Draw(gameTime, spriteBatch);
+            foreach (Wall wall in walls)
+                wall.Draw(gameTime, spriteBatch);
             
             //draw players
             player.DrawAnimation(gameTime, spriteBatch);
