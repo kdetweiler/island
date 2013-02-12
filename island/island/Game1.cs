@@ -107,7 +107,7 @@ namespace island
             //run player update
             player.Update(gameTime);
             
-            player.sensor.Proximity(player, 100, entitys);
+            player.sensor.Proximity(player, 100, npcs);
             
             // TODO: Add your update logic here
             base.Update(gameTime);

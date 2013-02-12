@@ -17,7 +17,7 @@ namespace island
         //Wall Sensors
         public static float?[] WallScanner;
         public static int length;
-        
+
         //Collision Sensors
         const int proximityMargin = 5;
 
@@ -33,22 +33,18 @@ namespace island
         }
 
         //Proximity Sensor
-        public void Proximity(Player owner, int radius, List<Entity> entitys)
+        public void Proximity(Player owner, int radius, List<NPC> npcs)
         {
-            List<Entity> prox = new List<Entity>();
+            List<NPC> prox = new List<NPC>();
             Vector2 main = new Vector2(owner.rectangle.Center.X, owner.rectangle.Center.Y); // reference point 1
 
-            foreach (Entity entity in entitys) 
+            foreach (NPC npc in npcs) 
             {
-                Vector2 V2 = new Vector2(entity.rectangle.Center.X, entity.rectangle.Center.Y);
+                Vector2 V2 = new Vector2(npc.rectangle.Center.X, npc.rectangle.Center.Y);
                 Vector2 Distance = main - V2;
                 
-                //V2.distance = Vector2.Distance(main, V2);
                 if (Vector2.Distance(main, V2) < radius)
-                {
-                    prox.Add(entity);
-                    entity.distance = (int)Vector2.Distance(main, V2);
-                }
+                    prox.Add(npc);
             }
             owner.proxList = prox;
         }
