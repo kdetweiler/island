@@ -15,7 +15,7 @@ namespace island
     class Sensor
     {
         //Wall Sensors to save
-        public static float?[] WallScanner;
+        public static float[] WallScanner;
         public static int length;
 
         //Collision Sensors
@@ -26,10 +26,16 @@ namespace island
         //The owner of this WallSensor
         public static int sightRange; //how far this particular owner can see
 
-        public Sensor(int range, int pi_division) {
+        public Sensor(int range, int pi_division) 
+        {
             sightRange = range;
-            WallScanner = new float?[pi_division];
+            WallScanner = new float[pi_division];
             length = pi_division;
+        }
+
+        public int getSightRange() 
+        {
+            return sightRange;
         }
 
         //Proximity Sensor
@@ -53,7 +59,14 @@ namespace island
         public void WallsScan(Player owner, List<Wall> wallList) 
         {
             int ray = owner.faceDirection;
-            //use all 3 here
+            
+            //if player is facing up
+            if (ray == 0) {
+                for (int k = 0; k < owner.sensor.getSightRange(); k++) { 
+                    
+                }
+            }
+            
         }
 
         public float detectWalls() {
