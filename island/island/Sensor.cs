@@ -17,8 +17,9 @@ namespace island
         //Wall Sensors to save
         public static float[] WallScanner;
         public static int length;
-        public float angle;
-        public float angle2;
+        public float npcAngle;
+        public float wallAngle;
+        public bool wallFound = false;
 
         //Collision Sensors
         const int proximityMargin = 5;
@@ -41,6 +42,69 @@ namespace island
         }
 
         //wall sensor
+        /*
+        public void WallScan(Player owner, List<Wall> walls)
+        {
+            List<Wall> wallsInFront = new List<Wall>();
+            float[] wallSense = new float[3];
+            Vector2 main = new Vector2(owner.rectangle.Center.X, owner.rectangle.Center.Y); // reference point 1
+
+            if (owner.faceDirection >= 235 && owner.faceDirection <= 315)
+            {
+                for (int currSensorRange = owner.rectangle.Center.Y; (currSensorRange < (currSensorRange + sightRange)) && !wallFound; currSensorRange++)
+                {
+                    foreach (Wall wall in walls)
+                    {
+                        if ((owner.rectangle.Center.X >= wall.rectangle.Left && owner.rectangle.Center.Y <= wall.rectangle.Right) && currSensorRange == wall.rectangle.Y)
+                        {
+                            Vector2 V2 = new Vector2(owner.rectangle.Center.X, currSensorRange);
+                            wallSense[1] = Vector2.Distance(main, V2);
+                            wallFound = true;
+                            break;
+                        }
+                    }
+                }
+            }
+            owner.wallSensors = wallSense;
+            owner.wallList = wallsInFront;
+            
+            /*
+            foreach (Wall wall in walls)
+            {
+                Vector2 V2 = new Vector2(wall.rectangle.Center.X, wall.rectangle.Center.Y);
+                //Vector2 Distance = main - V2;
+
+                if (Vector2.Distance(main, V2) < sightRange)
+                {
+                    wallsInFront.Add(wall);
+                    float radians = (float)Math.Atan2(V2.Y - main.Y, V2.X - main.X);
+
+                    wallAngle = MathHelper.ToDegrees(radians);
+
+                    if (owner.rectangle.Center.Y > V2.Y)
+                        wallAngle = (owner.faceDirection - wallAngle) % 360;
+                    else
+                        wallAngle = (360 - wallAngle + owner.faceDirection) % 360;
+
+                    if (wallAngle >= 45 && wallAngle < 67.5)
+                    {
+                        wallSense[0] = Vector2.Distance(main, V2);
+                    }
+                    else if (wallAngle >= 67.5 && wallAngle <= 115.5)
+                    {
+                        wallSense[1] = Vector2.Distance(main, V2);
+                    }
+                    else if (wallAngle > 115.5 && wallAngle < 135)
+                        wallSense[2] = Vector2.Distance(main, V2);
+
+                }
+                owner.wallSensors = wallSense;
+                owner.wallList = wallsInFront;
+            }
+        }*/
+    
+
+        
         public void WallScan(Player owner, List<Wall> walls)
         {
             List<Wall> wallsInFront = new List<Wall>();
@@ -57,25 +121,26 @@ namespace island
                     wallsInFront.Add(wall);
                     float radians = (float)Math.Atan2(V2.Y - main.Y, V2.X - main.X);
 
-                    angle = MathHelper.ToDegrees(radians);
+                    wallAngle = MathHelper.ToDegrees(radians);
 
                     if (owner.rectangle.Center.Y > V2.Y)
-                        angle = (owner.faceDirection - angle) % 360;
+                        wallAngle = (owner.faceDirection - wallAngle) % 360;
                     else
-                        angle = (360 - angle + owner.faceDirection) % 360;
+                        wallAngle = (360 - wallAngle + owner.faceDirection) % 360;
 
-                    if (angle >= 45 && angle < 67.5)
+                    if (wallAngle >= 45 && wallAngle < 67.5)
                     {
                         wallSense[0] = Vector2.Distance(main, V2);
                     }
-                    else if (angle >= 67.5 && angle <= 115.5)
+                    else if (wallAngle >= 67.5 && wallAngle <= 115.5)
                     {
                         wallSense[1] = Vector2.Distance(main, V2);
                     }
-                    else if (angle > 115.5 && angle < 135)
+                    else if (wallAngle > 115.5 && wallAngle < 135)
                         wallSense[2] = Vector2.Distance(main, V2);
 
                 }
+                owner.wallList = wallsInFront;
                 owner.wallSensors = wallSense;
             }
         }
@@ -97,18 +162,18 @@ namespace island
                     prox.Add(npc);
                     float radians = (float)Math.Atan2(V2.Y - main.Y, V2.X - main.X);
 
-                    angle = MathHelper.ToDegrees(radians);
+                    npcAngle = MathHelper.ToDegrees(radians);
 
                     if (owner.rectangle.Center.Y > V2.Y)
-                        angle = (owner.faceDirection - angle) % 360;
+                        npcAngle = (owner.faceDirection - npcAngle) % 360;
                     else
-                        angle = (360- angle + owner.faceDirection)%360;
+                        npcAngle = (360- npcAngle + owner.faceDirection)%360;
 
-                    if (angle >= 0 && angle < 90)
+                    if (npcAngle >= 0 && npcAngle < 90)
                         quadrant[0]++;
-                    else if (angle >= 90 && angle < 180)
+                    else if (npcAngle >= 90 && npcAngle < 180)
                         quadrant[1]++;
-                    else if (angle >= 180 && angle < 270)
+                    else if (npcAngle >= 180 && npcAngle < 270)
                         quadrant[2]++;
                     else
                         quadrant[3]++;

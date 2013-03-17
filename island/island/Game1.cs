@@ -74,7 +74,7 @@ namespace island
 
             player.Load(Content);
 
-            npcs.Add(new NPC(Content.Load<Texture2D>("npc1"), new Vector2(600, 150), "NPC1"));
+            npcs.Add(new NPC(Content.Load<Texture2D>("npc1"), new Vector2(250, 150), "NPC1"));
             npcs.Add(new NPC(Content.Load<Texture2D>("npc2"), new Vector2(200, 150), "NPC2"));
 
             walls.Add(new Wall(Content.Load<Texture2D>("horizontalBox"), new Vector2(250, 400)));

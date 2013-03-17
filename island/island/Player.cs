@@ -25,6 +25,7 @@ namespace island
         Animation idleVerticalUpAnimation;
 
         public List<NPC> proxList = new List<NPC>();
+        public List<Wall> wallList = new List<Wall>();
         public int[] quadrants = new int[4];
         public float[] wallSensors = new float[3];
 
@@ -47,7 +48,7 @@ namespace island
         {
             //texture = newTexture;
             position = newPosition;
-            sensor=new Sensor(500,3);
+            sensor=new Sensor(100,3);
             //rectangle = new Rectangle((int)position.X, (int)position.Y, texture.Width, texture.Height);
             rectangle = new Rectangle((int)position.X, (int)position.Y, 34, 57);
             name = newName;
@@ -233,16 +234,24 @@ namespace island
         {
             String togo = "Player Center: " + this.rectangle.Center
                 + "\nProx List: ";
-            foreach (NPC npc in proxList) {
-                togo += "(" + npc.name + ": " + npc.rectangle.Center.X + ", " + npc.rectangle.Center.Y + ") " + this.sensor.angle;
+            foreach (NPC npc in proxList)
+            {
+                togo += "(" + npc.name + ": " + npc.rectangle.Center.X + ", " + npc.rectangle.Center.Y + ") " + this.sensor.npcAngle;
             }
+
             for (int i = 0; i < 4; i++)
             {
                 togo += "\nQuadrant " + (i + 1) + ": " + this.quadrants[i];
             }
+
+            foreach (Wall wall in wallList)
+            {
+                togo += "\n" + wall.name + ": " + this.sensor.wallAngle;
+            }
+
             for (int i = 0; i < 3; i++)
             {
-                togo += "\nWall " + (i + 1) + ": " + this.wallSensors[i];
+                togo += "\nWall " + (i + 1) + ": (" + this.wallSensors[i] + ") " + this.sensor.wallAngle;
             }
             
             return togo;
