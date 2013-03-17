@@ -15,7 +15,29 @@ namespace island
     {
         AnimationPlayer animationPlayer;
         Animation npcIdle;
+        Animation walkHorizontalRightAnimation;
+        Animation walkHorizontalLeftAnimation;
+        Animation walkVerticalDownAnimation;
+        Animation walkVerticalUpAnimation;
 
+        Animation idleHorizontalRightAnimation;
+        Animation idleHorizontalLeftAnimation;
+        Animation idleVerticalDownAnimation;
+        Animation idleVerticalUpAnimation;
+
+        public List<Character> proxList = new List<Character>();
+        public List<Wall> wallList = new List<Wall>();
+        public int[] quadrants = new int[4];
+        public float[] wallSensors = new float[3];
+
+        public Vector2 velocity;
+        public Rectangle rectangle;
+
+        public int faceDirection;
+
+        public Sensor sensor;
+
+        float lastTime = 0.0f;
         
         public NPC()
         {
@@ -27,7 +49,7 @@ namespace island
             texture = newTexture;
             position = newPosition;
             name = newName;
-
+            sensor = new Sensor(100, 3);
             rectangle = new Rectangle((int)position.X, (int)position.Y, texture.Width, texture.Height);
         }
 
@@ -40,7 +62,9 @@ namespace island
 
         public override void Update(GameTime gameTime)
         {
-  
+            position += velocity;
+            this.rectangle.X = (int)this.position.X;
+            this.rectangle.Y = (int)this.position.Y;
 
         }
 
