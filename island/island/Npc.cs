@@ -32,6 +32,9 @@ namespace island
 
         public Vector2 velocity;
         public Rectangle rectangle;
+        public Node location;
+        public Node shortDest;
+        public Node finalDest;
 
         public int faceDirection;
 
@@ -44,13 +47,14 @@ namespace island
 
         }
 
-        public NPC(Texture2D newTexture, Vector2 newPosition, String newName)
+        public NPC(Texture2D newTexture, Vector2 newPosition, String newName, Node spawnNode)
         {
             texture = newTexture;
             position = newPosition;
             name = newName;
             sensor = new Sensor(100, 3);
             rectangle = new Rectangle((int)position.X, (int)position.Y, texture.Width, texture.Height);
+            location = spawnNode;
         }
 
         public void Load(ContentManager Content, Texture2D newTexture)
@@ -65,6 +69,12 @@ namespace island
             position += velocity;
             this.rectangle.X = (int)this.position.X;
             this.rectangle.Y = (int)this.position.Y;
+            if (shortDest.point.X == this.rectangle.X && shortDest.point.Y == this.rectangle.Y) {
+                //A* shit goes here
+                location = shortDest;
+                //calculate using finalDest and the new location A* path
+                
+            }
 
         }
 

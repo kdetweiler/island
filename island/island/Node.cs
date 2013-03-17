@@ -12,11 +12,13 @@ using Microsoft.Xna.Framework.Media;
 
 namespace island
 {
-    class Node
+    public class Node
     {
         public Vector2 point;
         public Node[] neighbors;
         public double[] distanceTo;
+
+        public Node() { }
 
         public Node(int xPos, int yPos, Node[] listNeighbors, double[] listDistance) {
             point=new Vector2(xPos,yPos);

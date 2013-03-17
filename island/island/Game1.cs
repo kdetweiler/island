@@ -37,6 +37,8 @@ namespace island
         private List<Wall> walls = new List<Wall>();
         private List<Entity> entitys = new List<Entity>();
 
+        public NodeGraph map;
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -74,8 +76,8 @@ namespace island
 
             player.Load(Content);
 
-            npcs.Add(new NPC(Content.Load<Texture2D>("npc1"), new Vector2(250, 150), "NPC1"));
-            npcs.Add(new NPC(Content.Load<Texture2D>("npc2"), new Vector2(200, 150), "NPC2"));
+            npcs.Add(new NPC(Content.Load<Texture2D>("npc1"), new Vector2(250, 150), "NPC1", new Node()));
+            npcs.Add(new NPC(Content.Load<Texture2D>("npc2"), new Vector2(200, 150), "NPC2",new Node()));
 
             walls.Add(new Wall(Content.Load<Texture2D>("horizontalBox"), new Vector2(250, 400)));
 
