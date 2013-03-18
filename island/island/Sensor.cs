@@ -26,13 +26,14 @@ namespace island
         public Vector2 wallCenter = new Vector2();
         public Vector2 wallLeft = new Vector2();
         public Vector2 wallRight = new Vector2();
-        public Vector2 sightRange2 = new Vector2();
         public Vector2 sightRangeCenter = new Vector2();
         public Vector2 sightRangeLeft = new Vector2();
         public Vector2 sightRangeRight = new Vector2();
         public Vector2 wallLeft45 = new Vector2();
         public Vector2 wallRight45 = new Vector2();
-        
+        public Vector2 distanceLeft = new Vector2();
+        public Vector2 distanceRight = new Vector2();
+
 
         //Collision Sensors
         const int proximityMargin = 5;
@@ -60,42 +61,15 @@ namespace island
         {
             List<Wall> wallsInFront = new List<Wall>();
             float[] wallSense = new float[3];
-            float distanceTmp = 0;
-            int offset = 1;
 
             //If face down
             foreach (Wall wall in walls)
             {
-                if (owner.faceDirection <= 235 && owner.faceDirection >= 135)
-                {
-                    main = new Vector2(owner.rectangle.Center.X, owner.rectangle.Bottom); // reference point 1
-                    wallLeft = new Vector2(wall.rectangle.Left, wall.rectangle.Top);
-                    wallRight = new Vector2(wall.rectangle.Right, wall.rectangle.Top);
-                    wallCenter = new Vector2(main.X, wall.rectangle.Top);
-                    dTmp = Vector2.Distance(main, wallCenter);
-                    wallLeft45 = new Vector2((float)(main.X - dTmp * Math.Tan(45)), main.Y);
-                    wallRight45 = new Vector2((float)(main.X + dTmp * Math.Tan(45)), main.Y);
-                    sightRange2 = new Vector2(main.X, (main.Y + sightRange));
-                    sightRangeLeft = new Vector2(wallLeft45.X, sightRange2.Y);
-                    sightRangeRight = new Vector2(wallRight45.X, sightRange2.Y);
-
-                    //test
-                }else if(owner.faceDirection <= 315 && owner.faceDirection >= 225)
-                {
-                    main = new Vector2(owner.rectangle.Left, owner.rectangle.Center.Y); // reference point 1
-                    wallLeft = new Vector2(wall.rectangle.Right, wall.rectangle.Top);
-                    wallRight = new Vector2(wall.rectangle.Right, wall.rectangle.Bottom);
-                    sightRange2 = new Vector2(main.X - sightRange, main.Y);
-                    wallCenter = new Vector2(wall.rectangle.Right, main.Y);
-                    dTmp = Vector2.Distance(main, wallCenter);
-                    wallLeft45 = new Vector2(main.X, (float)(main.Y - dTmp * Math.Tan(45)));
-                    wallRight45 = new Vector2(main.X, (float)(main.Y + dTmp * Math.Tan(45)));
-                }
-                
+                setWallDefaults(owner, wall);
                 Vector2 distance = new Vector2();
 
                 //straight down
-                if (Intersects(main, sightRange2, wallLeft, wallRight, out distance))
+                if (Intersects(main, sightRangeCenter, wallLeft, wallRight, out distance))
                 {
                     owner.wallSensors[1] = Vector2.Distance(main, distance);
                 }
@@ -105,10 +79,9 @@ namespace island
                 }
 
                 //left 45 degrees
-                sightRange2.X = wallLeft45.X;
-                if (Intersects(wallLeft45, sightRange2, wallLeft, wallRight, out distance))
+                if (Intersects(wallLeft45, sightRangeLeft, wallLeft, wallRight, out distance))
                 {
-                    owner.wallSensors[0] = Vector2.Distance(main, new Vector2(wallLeft45.X, wall.rectangle.Top));
+                    owner.wallSensors[0] = Vector2.Distance(main, distanceLeft);
                 }
                 else
                 {
@@ -117,10 +90,9 @@ namespace island
 
 
                 //right 45 degrees
-                sightRange2.X = wallRight45.X;
-                if (Intersects(wallRight45, sightRange2, wallLeft, wallRight, out distance))
+                if (Intersects(wallRight45, sightRangeRight, wallLeft, wallRight, out distance))
                 {
-                    owner.wallSensors[2] = Vector2.Distance(main, new Vector2(wallRight45.X, wall.rectangle.Top));
+                    owner.wallSensors[2] = Vector2.Distance(main, distanceRight);
                 }
                 else
                 {
@@ -217,6 +189,73 @@ namespace island
         {
 
             return -1;
+        }
+
+        public void setWallDefaults(Player owner, Wall wall)
+        {
+            if (owner.faceDirection <= 235 && owner.faceDirection >= 135)
+            {
+                main = new Vector2(owner.rectangle.Center.X, owner.rectangle.Bottom); // reference point 1
+                wallLeft = new Vector2(wall.rectangle.Left, wall.rectangle.Top);
+                wallRight = new Vector2(wall.rectangle.Right, wall.rectangle.Top);
+                wallCenter = new Vector2(main.X, wall.rectangle.Top);
+                dTmp = Vector2.Distance(main, wallCenter);
+                wallLeft45 = new Vector2((float)(main.X - dTmp * Math.Tan(45)), main.Y);
+                wallRight45 = new Vector2((float)(main.X + dTmp * Math.Tan(45)), main.Y);
+                sightRangeCenter = new Vector2(main.X, (main.Y + sightRange));
+                sightRangeLeft = new Vector2(wallLeft45.X, sightRangeCenter.Y);
+                sightRangeRight = new Vector2(wallRight45.X, sightRangeCenter.Y);
+                distanceLeft = new Vector2(wallLeft45.X, wall.rectangle.Top);
+                distanceRight = new Vector2(wallRight45.X, wall.rectangle.Top);
+            }
+            else if (owner.faceDirection <= 270 && owner.faceDirection <= 45)
+            {
+                main = new Vector2(owner.rectangle.Center.X, owner.rectangle.Top); // reference point 1
+                wallLeft = new Vector2(wall.rectangle.Left, wall.rectangle.Bottom);
+                wallRight = new Vector2(wall.rectangle.Right, wall.rectangle.Bottom);
+                wallCenter = new Vector2(main.X, wall.rectangle.Bottom);
+                dTmp = Vector2.Distance(main, wallCenter);
+                wallLeft45 = new Vector2((float)(main.X - dTmp * Math.Tan(45)), main.Y);
+                wallRight45 = new Vector2((float)(main.X + dTmp * Math.Tan(45)), main.Y);
+                sightRangeCenter = new Vector2(main.X, (main.Y - sightRange));
+                sightRangeLeft = new Vector2(wallLeft45.X, sightRangeCenter.Y);
+                sightRangeRight = new Vector2(wallRight45.X, sightRangeCenter.Y);
+                distanceLeft = new Vector2(wallLeft45.X, wall.rectangle.Bottom);
+                distanceRight = new Vector2(wallRight45.X, wall.rectangle.Bottom);
+            }
+            else if (owner.faceDirection <= 315 && owner.faceDirection >= 225)
+            {
+                main = new Vector2(owner.rectangle.Left, owner.rectangle.Center.Y); // reference point 1
+                wallLeft = new Vector2(wall.rectangle.Right, wall.rectangle.Top);
+                wallRight = new Vector2(wall.rectangle.Right, wall.rectangle.Bottom);
+                sightRangeCenter = new Vector2(main.X - sightRange, main.Y);
+                wallCenter = new Vector2(wall.rectangle.Right, main.Y);
+                dTmp = Vector2.Distance(main, wallCenter);
+                wallLeft45 = new Vector2(main.X, (float)(main.Y - dTmp * Math.Tan(45)));
+                wallRight45 = new Vector2(main.X, (float)(main.Y + dTmp * Math.Tan(45)));
+                sightRangeCenter = new Vector2(main.X - sightRange, main.Y);
+                sightRangeLeft = new Vector2(sightRangeCenter.X, wallLeft45.Y);
+                sightRangeRight = new Vector2(sightRangeCenter.X, wallRight45.Y);
+                distanceLeft = new Vector2(wall.rectangle.Right, wallLeft45.Y);
+                distanceRight = new Vector2(wall.rectangle.Right, wallRight45.Y);
+            }
+            else if (owner.faceDirection >= 45 && owner.faceDirection <= 135)
+            {
+                main = new Vector2(owner.rectangle.Right, owner.rectangle.Center.Y); // reference point 1
+                wallLeft = new Vector2(wall.rectangle.Left, wall.rectangle.Top);
+                wallRight = new Vector2(wall.rectangle.Left, wall.rectangle.Bottom);
+                sightRangeCenter = new Vector2(main.X + sightRange, main.Y);
+                wallCenter = new Vector2(wall.rectangle.Left, main.Y);
+                dTmp = Vector2.Distance(main, wallCenter);
+                wallLeft45 = new Vector2(main.X, (float)(main.Y - dTmp * Math.Tan(45)));
+                wallRight45 = new Vector2(main.X, (float)(main.Y + dTmp * Math.Tan(45)));
+                sightRangeCenter = new Vector2(main.X + sightRange, main.Y);
+                sightRangeLeft = new Vector2(sightRangeCenter.X, wallLeft45.Y);
+                sightRangeRight = new Vector2(sightRangeCenter.X, wallRight45.Y);
+                distanceLeft = new Vector2(wall.rectangle.Left, wallLeft45.Y);
+                distanceRight = new Vector2(wall.rectangle.Left, wallRight45.Y);
+
+            }
         }
     }
 }

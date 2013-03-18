@@ -32,7 +32,7 @@ namespace island
         public Vector2 velocity;
         public Rectangle rectangle;
         
-        public int faceDirection;
+        public int faceDirection = 180;
 
         public Sensor sensor;
 
