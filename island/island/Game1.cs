@@ -67,7 +67,7 @@ namespace island
         {
             // TODO: Add your initialization logic here
             pathfinding = new Pathfinding(myMap);
-            path = pathfinding.FindPath(new Point(0, 0), new Point(9, 9));
+            path = pathfinding.FindPath(new Point(0, 0), new Point(1,5));
 
 
 
@@ -96,7 +96,7 @@ namespace island
 
             player.Load(Content);
 
-            npcs.Add(new NPC(Content.Load<Texture2D>("npc1"), new Vector2(250, 150), "NPC1", new Node()));
+            npcs.Add(new NPC(Content.Load<Texture2D>("npc1"), new Vector2(0, 0), "NPC1", new Node()));
             npcs.Add(new NPC(Content.Load<Texture2D>("npc2"), new Vector2(200, 150), "NPC2",new Node()));
 
             //walls.Add(new Wall(Content.Load<Texture2D>("horizontalBox"), new Vector2(250, 400)));
