@@ -113,7 +113,6 @@
     <Compile Include="Entity.cs" />
     <Compile Include="GameObject.cs" />
     <Compile Include="Node.cs" />
-    <Compile Include="NodeGraph.cs" />
     <Compile Include="NPC.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

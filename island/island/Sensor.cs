@@ -76,8 +76,8 @@ namespace island
                     wallLeft45 = new Vector2((float)(main.X - dTmp * Math.Tan(45)), main.Y);
                     wallRight45 = new Vector2((float)(main.X + dTmp * Math.Tan(45)), main.Y);
                     sightRange2 = new Vector2(main.X, (main.Y + sightRange));
-                    sightRangeLeft = new Vector2(main.X, (wallLeft45.X));
-                    sightRangeRight = new Vector2(main.X, (wallRight45.X));
+                    sightRangeLeft = new Vector2(wallLeft45.X, sightRange2.Y);
+                    sightRangeRight = new Vector2(wallRight45.X, sightRange2.Y);
 
                     //test
                 }else if(owner.faceDirection <= 315 && owner.faceDirection >= 225)
