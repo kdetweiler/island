@@ -15,14 +15,15 @@ namespace island
     public class Node
     {
         public Vector2 point;
-        public Node[] neighbors;
-        public double[] distanceTo;
+        public List<Node> neighbors;
+        public List<double> distanceTo;
         public double g;
         public double f;
 
         public Node() { }
 
-        public Node(int xPos, int yPos, Node[] listNeighbors, double[] listDistance) {
+        public Node(int xPos, int yPos, List<Node> listNeighbors, List<double> listDistance)
+        {
             point=new Vector2(xPos,yPos);
             neighbors = listNeighbors;
             distanceTo = listDistance;
@@ -30,7 +31,15 @@ namespace island
             f = 0;
         }
 
-        public Node(Vector2 pointPos, Node[] listNeighbors, double[] listDistance) {
+        public Node(Vector2 pointPos) 
+        {
+            point = pointPos;
+            neighbors = new List<Node>();
+            distanceTo = new List<double>();
+        }
+
+        public Node(Vector2 pointPos, List<Node> listNeighbors, List<double> listDistance)
+        {
             point=pointPos;
             neighbors=listNeighbors;
             distanceTo=listDistance;
@@ -50,6 +59,18 @@ namespace island
         public double G(Node dest) 
         {
             return 0;
+        }
+
+        public void addNeighbor(Node node, double dist) 
+        {
+            neighbors.Add(node);
+            distanceTo.Add(dist);
+        }
+
+        public void testAdd(Node node) 
+        {
+            neighbors.Add(node);
+            distanceTo.Add(50);
         }
 
     }

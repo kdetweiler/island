@@ -63,7 +63,7 @@ namespace island
                     return path;
                 }
                 Closed[closed_counter++] = current;
-                for (int k = 0; k < current.neighbors.Length; k++) {
+                for (int k = 0; k < current.neighbors.Count; k++) {
                     tempg = current.g + current.getTo(k);
                     if (isIn(Closed, current.neighbors[k]))
                     {

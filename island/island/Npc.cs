@@ -36,6 +36,7 @@ namespace island
         public Node location;
         public Node shortDest;
         public Node finalDest;
+        public static List<Node> nodepath;
 
         public int faceDirection;
 
@@ -68,6 +69,16 @@ namespace island
             name = newName;
             sensor = new Sensor(100, 3);
             rectangle = new Rectangle((int)position.X, (int)position.Y, texture.Width, texture.Height);
+        }
+
+        public NPC(Vector2 newPosition, String newName, Node spawnNode) 
+        {
+            position = newPosition;
+            name = newName;
+            sensor = new Sensor(100, 3);
+            //rectangle = new Rectangle((int)position.X, (int)position.Y, texture.Width, texture.Height);
+            rectangle = new Rectangle((int)position.X, (int)position.Y, 34, 57);
+            location = spawnNode;
         }
 
         public NPC(Texture2D newTexture, Vector2 newPosition, String newName, Node spawnNode)
@@ -115,6 +126,13 @@ namespace island
                 
             }
 
+        }
+
+        public List<Node> nodeMove(NodeGraph nodegraph, Node desiredEnd) 
+        {
+            List<Node> answer=nodegraph.AStar(location, desiredEnd);
+            shortDest = answer[1];
+            return answer;
         }
 
         public void Update(GameTime gameTime, List<Vector2> path)
