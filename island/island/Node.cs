@@ -45,5 +45,15 @@ namespace island
             return getTo(thatPoint);
         }
 
+        public double H(Node dest) 
+        {
+            return Math.Sqrt(Math.Pow((point.X - dest.point.X),2) - Math.Pow((point.Y - dest.point.Y),2));
+        }
+
+        public double G(Node dest) 
+        {
+            return 0;
+        }
+
     }
 }
