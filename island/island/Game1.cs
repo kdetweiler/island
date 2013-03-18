@@ -37,6 +37,8 @@ namespace island
         private List<Wall> walls = new List<Wall>();
         private List<Entity> entitys = new List<Entity>();
 
+
+        //comment above NodeGraph
         public NodeGraph map;
 
         public Game1()
