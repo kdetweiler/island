@@ -39,7 +39,7 @@ namespace island
 
 
         //comment above NodeGraph
-        public NodeGraph map;
+        private NodeGraph map;
 
         public Game1()
         {
