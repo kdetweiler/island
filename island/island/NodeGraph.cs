@@ -65,28 +65,63 @@ namespace island
                 Closed[closed_counter++] = current;
                 for (int k = 0; k < current.neighbors.Length; k++) {
                     tempg = current.g + current.getTo(k);
+                    if (isIn(Closed, current.neighbors[k]))
+                    {
+                        if (tempg >= current.neighbors[k].g)
+                        {
+
+                        }
+                        else 
+                        { 
+                            //put camefrom to neighbor somehow. this following line is my attempt
+                            path.Add(current.neighbors[k]);
+                            current.neighbors[k].g = tempg;
+                            current.neighbors[k].f = tempg + current.neighbors[k].H(dest);
+                            if (!isIn(Open, current.neighbors[k])) 
+                            {
+                                Open.add(current.neighbors[k]);
+                            }
+                        }
+                    }
+                    else 
+                    {
+                        //put camefrom to neighbor somehow. this following line is my attempt
+                        path.Add(current.neighbors[k]);
+                        current.neighbors[k].g = tempg;
+                        current.neighbors[k].f = tempg + current.neighbors[k].H(dest);
+                        if (!isIn(Open, current.neighbors[k]))
+                        {
+                            Open.add(current.neighbors[k]);
+                        }
+                    }
                 }
             }
 
             return path;
         }
+
+        public bool isIn(JasonQ o, Node node) 
+        {
+            for (int k = 0; k < o.Size(); k++) 
+            {
+                if (o.get(k) == node) return true;
+            }
+            return false;
+        }
+
+        public bool isIn(Node[] c, Node node) 
+        {
+            for (int k = 0; k < c.Length; k++) 
+            {
+                if (c[k] == node) return true;
+            }
+            return false;
+        }
     }
 
     /*
      *  function A*(start,goal)
-     closedset := the empty set    // The set of nodes already evaluated.
-     openset := {start}    // The set of tentative nodes to be evaluated, initially containing the start node
-     came_from := the empty map    // The map of navigated nodes.
- 
-     g_score[start] := 0    // Cost from start along best known path.
-     // Estimated total cost from start to goal through y.
-     f_score[start] := g_score[start] + heuristic_cost_estimate(start, goal)
- 
-     while openset is not empty
-         current := the node in openset having the lowest f_score[] value
-         if current = goal
-             return reconstruct_path(came_from, goal)
- 
+
          remove current from openset
          add current to closedset
          for each neighbor in neighbor_nodes(current)
