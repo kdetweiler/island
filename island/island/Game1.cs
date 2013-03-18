@@ -38,6 +38,11 @@ namespace island
         private List<Entity> entitys = new List<Entity>();
         public List<Vector2> path = new List<Vector2>();
         NPC npcMover = new NPC();
+
+        Point startPoint = new Point(0,0);
+        Point endPoint = new Point(6, 7);
+
+        GameObject pathEndPoint;
         
 
         public Vector2 textBox = new Vector2(600, 0);
@@ -69,10 +74,16 @@ namespace island
         {
             // TODO: Add your initialization logic here
             pathfinding = new Pathfinding(myMap);
-            path = pathfinding.FindPath(new Point(2, 0), new Point(1,5));
+            path = pathfinding.FindPath(startPoint, endPoint);
 
             player = new Player(new Vector2(400, 300), "Player1");
-            npcMover = new NPC(new Vector2(100, 0), "NPC");
+            Vector2 start = new Vector2(startPoint.X*50, startPoint.Y*50);
+            npcMover = new NPC(start, "NPC");
+
+            Vector2 end = new Vector2(endPoint.X * 50, endPoint.Y * 50);
+
+            pathEndPoint = new GameObject(Content.Load<Texture2D>("endPoint"),end);
+
             base.Initialize();
         }
 
@@ -168,6 +179,7 @@ namespace island
 
             spriteBatch.DrawString(font, player.toString(), new Vector2(50, 0), Color.Black);
 
+            pathEndPoint.Draw(gameTime, spriteBatch);
             //draw walls
             foreach (Wall wall in walls)
                 wall.Draw(gameTime, spriteBatch);
