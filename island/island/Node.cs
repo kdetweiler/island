@@ -35,7 +35,7 @@ namespace island
         public double getTo(Vector2 dest)
         {
             for(int k=0;k<neighbors.Length;k++) {
-                if(neighbors[k].point==dest) return double[k];
+                if (neighbors[k].point == dest) return distanceTo[k];
             }
             return -1;
         }
