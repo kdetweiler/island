@@ -28,29 +28,44 @@ namespace island
 
             for (int k = 0; k < graph.Length; k++) {
                 graph[k].g = 0;
-                graph[k].h = 0;
+                graph[k].f = 0;
             }
             List <Node> path= new List<Node>();
             Node[] Closed = new Node[graph.Length];
             int closed_counter = 0;
-            List<Node> Open = new List<Node>();
-            Open.Add(start);
+            JasonQ Open = new JasonQ();
+            JasonQ neighborSet;
+            Open.add(start);
             for (int k = 0; k < graph.Length; k++) {
                 if (graph[k] != start) {
-                    Open.Add(graph[k]);
+                    Open.add(graph[k]);
+                    graph[k].g = 0;
+                    graph[k].f = 0;
                 }
             }
 
-            Node current = start;
+            Node current;
             
             double g_score = 0;
             double f_score = g_score + start.H(dest);
 
+            start.g = g_score;
+            start.f = f_score;
+
             double tempg = 0;
 
-            while (Open.Count > 0) 
+            while (Open.Size() > 0) 
             {
-                
+                current = Open.dequeue();
+                if (current == dest) 
+                {
+                    path.Add(current);
+                    return path;
+                }
+                Closed[closed_counter++] = current;
+                for (int k = 0; k < current.neighbors.Length; k++) {
+                    tempg = current.g + current.getTo(k);
+                }
             }
 
             return path;

@@ -18,7 +18,7 @@ namespace island
         public Node[] neighbors;
         public double[] distanceTo;
         public double g;
-        public double h;
+        public double f;
 
         public Node() { }
 
@@ -27,7 +27,7 @@ namespace island
             neighbors = listNeighbors;
             distanceTo = listDistance;
             g = 0;
-            h = 0;
+            f = 0;
         }
 
         public Node(Vector2 pointPos, Node[] listNeighbors, double[] listDistance) {
@@ -35,20 +35,11 @@ namespace island
             neighbors=listNeighbors;
             distanceTo=listDistance;
             g = 0;
-            h = 0;
+            f = 0;
         }
 
-        public double getTo(Vector2 dest)
-        {
-            for(int k=0;k<neighbors.Length;k++) {
-                if (neighbors[k].point == dest) return distanceTo[k];
-            }
-            return -1;
-        }
-
-        public double getTo(int x, int y) {
-            Vector2 thatPoint = new Vector2(x, y);
-            return getTo(thatPoint);
+        public double getTo(int k) {
+            return distanceTo[k];
         }
 
         public double H(Node dest) 
