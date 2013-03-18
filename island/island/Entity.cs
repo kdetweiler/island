@@ -20,7 +20,7 @@ namespace island
 
         public Boolean exists;
         public Boolean isPassable;
-
+        
         public virtual void Update(GameTime gameTime)
         {
 

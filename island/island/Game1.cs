@@ -37,6 +37,8 @@ namespace island
         private List<Wall> walls = new List<Wall>();
         private List<Entity> entitys = new List<Entity>();
         public List<Vector2> path = new List<Vector2>();
+        NPC npcMover = new NPC();
+        
 
         public Vector2 textBox = new Vector2(600, 0);
 
@@ -67,11 +69,10 @@ namespace island
         {
             // TODO: Add your initialization logic here
             pathfinding = new Pathfinding(myMap);
-            path = pathfinding.FindPath(new Point(0, 0), new Point(1,5));
-
-
+            path = pathfinding.FindPath(new Point(2, 0), new Point(1,5));
 
             player = new Player(new Vector2(400, 300), "Player1");
+            npcMover = new NPC(new Vector2(100, 0), "NPC");
             base.Initialize();
         }
 
@@ -96,8 +97,10 @@ namespace island
 
             player.Load(Content);
 
-            npcs.Add(new NPC(Content.Load<Texture2D>("npc1"), new Vector2(0, 0), "NPC1", new Node()));
+            npcs.Add(new NPC(Content.Load<Texture2D>("npc1"), new Vector2(100, 150), "NPC1", new Node()));
             npcs.Add(new NPC(Content.Load<Texture2D>("npc2"), new Vector2(200, 150), "NPC2",new Node()));
+
+            npcMover.Load(Content);
 
             //walls.Add(new Wall(Content.Load<Texture2D>("horizontalBox"), new Vector2(250, 400)));
 
@@ -128,7 +131,9 @@ namespace island
             //player.sensor.proximitySensor(player.rectangle, 100, npcs);
             //run player update
             player.Update(gameTime);
+
             
+            npcMover.Update(gameTime, path);           
             player.sensor.Proximity(player, 100, npcs);
             player.sensor.WallScan(player, walls);
             
@@ -169,6 +174,7 @@ namespace island
             
             //draw players
             player.DrawAnimation(gameTime, spriteBatch);
+            npcMover.DrawAnimation(gameTime, spriteBatch);
 
             //draw all npc's on screen
             foreach (NPC npc in npcs)

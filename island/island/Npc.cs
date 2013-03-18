@@ -27,6 +27,7 @@ namespace island
 
         public List<Character> proxList = new List<Character>();
         public List<Wall> wallList = new List<Wall>();
+        public List<Vector2> path;
         public int[] quadrants = new int[4];
         public float[] wallSensors = new float[3];
 
@@ -41,10 +42,32 @@ namespace island
         public Sensor sensor;
 
         float lastTime = 0.0f;
+        float speed;
+
+        //void Update(float elapsed);
         
         public NPC()
         {
 
+        }
+
+        public NPC(Vector2 newPosition, String newName)
+        {
+            //texture = newTexture;
+            position = newPosition;
+            sensor=new Sensor(100,3);
+            //rectangle = new Rectangle((int)position.X, (int)position.Y, texture.Width, texture.Height);
+            rectangle = new Rectangle((int)position.X, (int)position.Y, 34, 57);
+            name = newName;
+        }
+
+        public NPC(Texture2D newTexture, Vector2 newPosition, String newName)
+        {
+            texture = newTexture;
+            position = newPosition;
+            name = newName;
+            sensor = new Sensor(100, 3);
+            rectangle = new Rectangle((int)position.X, (int)position.Y, texture.Width, texture.Height);
         }
 
         public NPC(Texture2D newTexture, Vector2 newPosition, String newName, Node spawnNode)
@@ -57,13 +80,29 @@ namespace island
             location = spawnNode;
         }
 
+        public void Load(ContentManager Content)
+        {
+            walkHorizontalRightAnimation = new Animation(Content.Load<Texture2D>("walkHorizontalRight"), 32, 0.1f, true);
+            walkHorizontalLeftAnimation = new Animation(Content.Load<Texture2D>("walkHorizontalLeft"), 32, 0.1f, true);
+            walkVerticalDownAnimation = new Animation(Content.Load<Texture2D>("walkVerticalDown"), 34, 0.1f, true);
+            walkVerticalUpAnimation = new Animation(Content.Load<Texture2D>("walkVerticalUp"), 34, 0.1f, true);
+
+            idleHorizontalRightAnimation = new Animation(Content.Load<Texture2D>("idleHorizontalRight"), 31, 0.3f, false);
+            idleHorizontalLeftAnimation = new Animation(Content.Load<Texture2D>("idleHorizontalLeft"), 31, 0.3f, false);
+            idleVerticalDownAnimation = new Animation(Content.Load<Texture2D>("idleVerticalDown"), 34, .3f, false);
+            idleVerticalUpAnimation = new Animation(Content.Load<Texture2D>("idleVerticalUp"), 34, .3f, false);
+
+            animationPlayer.PlayAnimation(idleVerticalDownAnimation);
+        }
+
+        /*
         public void Load(ContentManager Content, Texture2D newTexture)
         {
             npcIdle = new Animation(newTexture, 32, 0.1f, true);
 
             animationPlayer.PlayAnimation(npcIdle);
-        }
-
+        }*/
+        
         public override void Update(GameTime gameTime)
         {
             position += velocity;
@@ -78,6 +117,22 @@ namespace island
 
         }
 
+        public void Update(GameTime gameTime, List<Vector2> path)
+        {
+            lastTime += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+            if (path.Count > 0)
+            {
+                if (lastTime > 500)
+                {
+                    if (path.Count > 0 && MoveTowardsPoint(path[0], lastTime))
+                        path.RemoveAt(0);
+
+                    lastTime = 0;
+                }
+
+            }
+        }
+
         public void DrawAnimation(GameTime gameTime, SpriteBatch spriteBatch)
         {
             SpriteEffects flip = SpriteEffects.None;
@@ -88,6 +143,27 @@ namespace island
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(texture, rectangle, Color.White);
+        }
+
+        private bool MoveTowardsPoint(Vector2 goal, float elapsed)
+        {
+            // If we're already at the goal return immediatly
+            if (position == goal) return true;
+
+            // Find direction from current position to goal
+            Vector2 direction = Vector2.Normalize(goal - position);
+
+            // Move in that direction
+            position += direction * speed * elapsed;
+
+            // If we moved PAST the goal, move it back to the goal
+            if (Math.Abs(Vector2.Dot(direction, Vector2.Normalize(goal - position)) + 1) < 0.1f)
+                this.position = goal;
+
+            // Return whether we've reached the goal or not
+            //this.position = goal;
+            this.position = goal;
+            return position == goal;
         }
     }
 }
