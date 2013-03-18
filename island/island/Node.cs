@@ -17,6 +17,8 @@ namespace island
         public Vector2 point;
         public Node[] neighbors;
         public double[] distanceTo;
+        public double g;
+        public double h;
 
         public Node() { }
 
@@ -24,12 +26,16 @@ namespace island
             point=new Vector2(xPos,yPos);
             neighbors = listNeighbors;
             distanceTo = listDistance;
+            g = 0;
+            h = 0;
         }
 
         public Node(Vector2 pointPos, Node[] listNeighbors, double[] listDistance) {
             point=pointPos;
             neighbors=listNeighbors;
             distanceTo=listDistance;
+            g = 0;
+            h = 0;
         }
 
         public double getTo(Vector2 dest)

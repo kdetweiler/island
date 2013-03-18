@@ -25,9 +25,33 @@ namespace island
 
         public List<Node> AStar(Node start, Node dest) 
         {
-            List <Node> path= new List<Node>();
 
-            PriorityQueue queue = new PriorityQueue();
+            for (int k = 0; k < graph.Length; k++) {
+                graph[k].g = 0;
+                graph[k].h = 0;
+            }
+            List <Node> path= new List<Node>();
+            Node[] Closed = new Node[graph.Length];
+            int closed_counter = 0;
+            List<Node> Open = new List<Node>();
+            Open.Add(start);
+            for (int k = 0; k < graph.Length; k++) {
+                if (graph[k] != start) {
+                    Open.Add(graph[k]);
+                }
+            }
+
+            Node current = start;
+            
+            double g_score = 0;
+            double f_score = g_score + start.H(dest);
+
+            double tempg = 0;
+
+            while (Open.Count > 0) 
+            {
+                
+            }
 
             return path;
         }
