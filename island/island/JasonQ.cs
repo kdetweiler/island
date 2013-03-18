@@ -45,6 +45,11 @@ namespace island
 
         public int Size() { return size; }
 
+        public Node get(int k) 
+        {
+            return list[k];
+        }
+
         public Node peek() 
         {
             if (size == 0)
