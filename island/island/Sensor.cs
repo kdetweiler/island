@@ -78,6 +78,8 @@ namespace island
                     sightRange2 = new Vector2(main.X, (main.Y + sightRange));
                     sightRangeLeft = new Vector2(main.X, (wallLeft45.X));
                     sightRangeRight = new Vector2(main.X, (wallRight45.X));
+
+                    //test
                 }else if(owner.faceDirection <= 315 && owner.faceDirection >= 225)
                 {
                     main = new Vector2(owner.rectangle.Left, owner.rectangle.Center.Y); // reference point 1
