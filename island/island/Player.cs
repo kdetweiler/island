@@ -232,7 +232,7 @@ namespace island
 
         public String toString()
         {
-            String togo = "Player Center: " + this.rectangle.Center
+            String togo = "Player Center: " + this.rectangle.Center + " Direction: " + this.faceDirection
                 + "\nProx List: ";
             foreach (NPC npc in proxList)
             {

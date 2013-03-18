@@ -19,7 +19,20 @@ namespace island
         public static int length;
         public float npcAngle;
         public float wallAngle;
+        public float dTmp;
         public bool wallFound = false;
+
+        public Vector2 main = new Vector2();
+        public Vector2 wallCenter = new Vector2();
+        public Vector2 wallLeft = new Vector2();
+        public Vector2 wallRight = new Vector2();
+        public Vector2 sightRange2 = new Vector2();
+        public Vector2 sightRangeCenter = new Vector2();
+        public Vector2 sightRangeLeft = new Vector2();
+        public Vector2 sightRangeRight = new Vector2();
+        public Vector2 wallLeft45 = new Vector2();
+        public Vector2 wallRight45 = new Vector2();
+        
 
         //Collision Sensors
         const int proximityMargin = 5;
@@ -29,120 +42,119 @@ namespace island
         //The owner of this WallSensor
         public static int sightRange; //how far this particular owner can see
 
-        public Sensor(int range, int pi_division) 
+        public Sensor(int range, int pi_division)
         {
             sightRange = range;
             WallScanner = new float[pi_division];
             length = pi_division;
         }
 
-        public int getSightRange() 
+        public int getSightRange()
         {
             return sightRange;
         }
 
         //wall sensor
-        /*
+
         public void WallScan(Player owner, List<Wall> walls)
         {
             List<Wall> wallsInFront = new List<Wall>();
             float[] wallSense = new float[3];
-            Vector2 main = new Vector2(owner.rectangle.Center.X, owner.rectangle.Center.Y); // reference point 1
+            float distanceTmp = 0;
+            int offset = 1;
 
-            if (owner.faceDirection >= 235 && owner.faceDirection <= 315)
-            {
-                for (int currSensorRange = owner.rectangle.Center.Y; (currSensorRange < (currSensorRange + sightRange)) && !wallFound; currSensorRange++)
-                {
-                    foreach (Wall wall in walls)
-                    {
-                        if ((owner.rectangle.Center.X >= wall.rectangle.Left && owner.rectangle.Center.Y <= wall.rectangle.Right) && currSensorRange == wall.rectangle.Y)
-                        {
-                            Vector2 V2 = new Vector2(owner.rectangle.Center.X, currSensorRange);
-                            wallSense[1] = Vector2.Distance(main, V2);
-                            wallFound = true;
-                            break;
-                        }
-                    }
-                }
-            }
-            owner.wallSensors = wallSense;
-            owner.wallList = wallsInFront;
-            
-            /*
+            //If face down
             foreach (Wall wall in walls)
             {
-                Vector2 V2 = new Vector2(wall.rectangle.Center.X, wall.rectangle.Center.Y);
-                //Vector2 Distance = main - V2;
-
-                if (Vector2.Distance(main, V2) < sightRange)
+                if (owner.faceDirection <= 235 && owner.faceDirection >= 135)
                 {
-                    wallsInFront.Add(wall);
-                    float radians = (float)Math.Atan2(V2.Y - main.Y, V2.X - main.X);
-
-                    wallAngle = MathHelper.ToDegrees(radians);
-
-                    if (owner.rectangle.Center.Y > V2.Y)
-                        wallAngle = (owner.faceDirection - wallAngle) % 360;
-                    else
-                        wallAngle = (360 - wallAngle + owner.faceDirection) % 360;
-
-                    if (wallAngle >= 45 && wallAngle < 67.5)
-                    {
-                        wallSense[0] = Vector2.Distance(main, V2);
-                    }
-                    else if (wallAngle >= 67.5 && wallAngle <= 115.5)
-                    {
-                        wallSense[1] = Vector2.Distance(main, V2);
-                    }
-                    else if (wallAngle > 115.5 && wallAngle < 135)
-                        wallSense[2] = Vector2.Distance(main, V2);
-
+                    main = new Vector2(owner.rectangle.Center.X, owner.rectangle.Bottom); // reference point 1
+                    wallLeft = new Vector2(wall.rectangle.Left, wall.rectangle.Top);
+                    wallRight = new Vector2(wall.rectangle.Right, wall.rectangle.Top);
+                    wallCenter = new Vector2(main.X, wall.rectangle.Top);
+                    dTmp = Vector2.Distance(main, wallCenter);
+                    wallLeft45 = new Vector2((float)(main.X - dTmp * Math.Tan(45)), main.Y);
+                    wallRight45 = new Vector2((float)(main.X + dTmp * Math.Tan(45)), main.Y);
+                    sightRange2 = new Vector2(main.X, (main.Y + sightRange));
+                    sightRangeLeft = new Vector2(main.X, (wallLeft45.X));
+                    sightRangeRight = new Vector2(main.X, (wallRight45.X));
+                }else if(owner.faceDirection <= 315 && owner.faceDirection >= 225)
+                {
+                    main = new Vector2(owner.rectangle.Left, owner.rectangle.Center.Y); // reference point 1
+                    wallLeft = new Vector2(wall.rectangle.Right, wall.rectangle.Top);
+                    wallRight = new Vector2(wall.rectangle.Right, wall.rectangle.Bottom);
+                    sightRange2 = new Vector2(main.X - sightRange, main.Y);
+                    wallCenter = new Vector2(wall.rectangle.Right, main.Y);
+                    dTmp = Vector2.Distance(main, wallCenter);
+                    wallLeft45 = new Vector2(main.X, (float)(main.Y - dTmp * Math.Tan(45)));
+                    wallRight45 = new Vector2(main.X, (float)(main.Y + dTmp * Math.Tan(45)));
                 }
-                owner.wallSensors = wallSense;
-                owner.wallList = wallsInFront;
-            }
-        }*/
-    
+                
+                Vector2 distance = new Vector2();
 
-        
-        public void WallScan(Player owner, List<Wall> walls)
+                //straight down
+                if (Intersects(main, sightRange2, wallLeft, wallRight, out distance))
+                {
+                    owner.wallSensors[1] = Vector2.Distance(main, distance);
+                }
+                else
+                {
+                    owner.wallSensors[0] = 0;
+                }
+
+                //left 45 degrees
+                sightRange2.X = wallLeft45.X;
+                if (Intersects(wallLeft45, sightRange2, wallLeft, wallRight, out distance))
+                {
+                    owner.wallSensors[0] = Vector2.Distance(main, new Vector2(wallLeft45.X, wall.rectangle.Top));
+                }
+                else
+                {
+                    owner.wallSensors[0] = 0;
+                }
+
+
+                //right 45 degrees
+                sightRange2.X = wallRight45.X;
+                if (Intersects(wallRight45, sightRange2, wallLeft, wallRight, out distance))
+                {
+                    owner.wallSensors[2] = Vector2.Distance(main, new Vector2(wallRight45.X, wall.rectangle.Top));
+                }
+                else
+                {
+                    owner.wallSensors[2] = 0;
+                }
+
+                owner.wallList = wallsInFront;
+
+            }
+        }
+
+        // a1 is line1 start, a2 is line1 end, b1 is line2 start, b2 is line2 end
+        static bool Intersects(Vector2 a1, Vector2 a2, Vector2 b1, Vector2 b2, out Vector2 intersection)
         {
-            List<Wall> wallsInFront = new List<Wall>();
-            float[] wallSense = new float[3];
-            Vector2 main = new Vector2(owner.rectangle.Center.X, owner.rectangle.Center.Y); // reference point 1
+            intersection = Vector2.Zero;
 
-            foreach (Wall wall in walls)
-            {
-                Vector2 V2 = new Vector2(wall.rectangle.Center.X, wall.rectangle.Center.Y);
-                //Vector2 Distance = main - V2;
+            Vector2 b = a2 - a1;
+            Vector2 d = b2 - b1;
+            float bDotDPerp = b.X * d.Y - b.Y * d.X;
 
-                if (Vector2.Distance(main, V2) < sightRange)
-                {
-                    wallsInFront.Add(wall);
-                    float radians = (float)Math.Atan2(V2.Y - main.Y, V2.X - main.X);
+            // if b dot d == 0, it means the lines are parallel so have infinite intersection points
+            if (bDotDPerp == 0)
+                return false;
 
-                    wallAngle = MathHelper.ToDegrees(radians);
+            Vector2 c = b1 - a1;
+            float t = (c.X * d.Y - c.Y * d.X) / bDotDPerp;
+            if (t < 0 || t > 1)
+                return false;
 
-                    if (owner.rectangle.Center.Y > V2.Y)
-                        wallAngle = (owner.faceDirection - wallAngle) % 360;
-                    else
-                        wallAngle = (360 - wallAngle + owner.faceDirection) % 360;
+            float u = (c.X * b.Y - c.Y * b.X) / bDotDPerp;
+            if (u < 0 || u > 1)
+                return false;
 
-                    if (wallAngle >= 45 && wallAngle < 67.5)
-                    {
-                        wallSense[0] = Vector2.Distance(main, V2);
-                    }
-                    else if (wallAngle >= 67.5 && wallAngle <= 115.5)
-                    {
-                        wallSense[1] = Vector2.Distance(main, V2);
-                    }
-                    else if (wallAngle > 115.5 && wallAngle < 135)
-                        wallSense[2] = Vector2.Distance(main, V2);
+            intersection = a1 + t * b;
 
-                }
-                owner.wallList = wallsInFront;
-                owner.wallSensors = wallSense;
-            }
+            return true;
         }
 
         //Proximity Sensor
@@ -152,7 +164,7 @@ namespace island
             int[] quadrant = new int[4];
             Vector2 main = new Vector2(owner.rectangle.Center.X, owner.rectangle.Center.Y); // reference point 1
 
-            foreach (NPC npc in npcs) 
+            foreach (NPC npc in npcs)
             {
                 Vector2 V2 = new Vector2(npc.rectangle.Center.X, npc.rectangle.Center.Y);
                 Vector2 Distance = main - V2;
@@ -167,7 +179,7 @@ namespace island
                     if (owner.rectangle.Center.Y > V2.Y)
                         npcAngle = (owner.faceDirection - npcAngle) % 360;
                     else
-                        npcAngle = (360- npcAngle + owner.faceDirection)%360;
+                        npcAngle = (360 - npcAngle + owner.faceDirection) % 360;
 
                     if (npcAngle >= 0 && npcAngle < 90)
                         quadrant[0]++;
@@ -184,20 +196,23 @@ namespace island
         }
 
         //Wall Sensors
-        public void WallsScan(Player owner, List<Wall> wallList) 
+        public void WallsScan(Player owner, List<Wall> wallList)
         {
             int ray = owner.faceDirection;
-            
+
             //if player is facing up
-            if (ray == 0) {
-                for (int k = 0; k < owner.sensor.getSightRange(); k++) { 
-                    
+            if (ray == 0)
+            {
+                for (int k = 0; k < owner.sensor.getSightRange(); k++)
+                {
+
                 }
             }
-            
+
         }
 
-        public float detectWalls() {
+        public float detectWalls()
+        {
 
             return -1;
         }
