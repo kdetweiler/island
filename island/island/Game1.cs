@@ -36,6 +36,14 @@ namespace island
         private List<Character> characters = new List<Character>();
         private List<Wall> walls = new List<Wall>();
         private List<Entity> entitys = new List<Entity>();
+        public List<Vector2> path = new List<Vector2>();
+
+        public Vector2 textBox = new Vector2(600, 0);
+
+        public string test;
+        Map myMap = new Map();
+
+        Pathfinding pathfinding;
 
 
         //comment above NodeGraph
@@ -46,8 +54,7 @@ namespace island
             graphics = new GraphicsDeviceManager(this);
             graphics.PreferredBackBufferHeight = 600;
             graphics.PreferredBackBufferWidth = 800;
-            Content.RootDirectory = "Content";
-            
+            Content.RootDirectory = "Content";            
         }
 
         /// <summary>
@@ -59,6 +66,11 @@ namespace island
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
+            pathfinding = new Pathfinding(myMap);
+            path = pathfinding.FindPath(new Point(0, 0), new Point(9, 9));
+
+
+
             player = new Player(new Vector2(400, 300), "Player1");
             base.Initialize();
         }
@@ -74,14 +86,20 @@ namespace island
             Services.AddService(typeof(SpriteBatch), spriteBatch);
 
             font = Content.Load<SpriteFont>("myFont");
-            officeBackground = Content.Load<Texture2D>("tempStartArea");
+            //officeBackground = Content.Load<Texture2D>("tempStartArea");
+            List<Texture2D> textures = new List<Texture2D>()
+            {
+                Content.Load<Texture2D>("grass"),
+                Content.Load<Texture2D>("tree"),
+            };
+            myMap.SetTextures(textures);
 
             player.Load(Content);
 
             npcs.Add(new NPC(Content.Load<Texture2D>("npc1"), new Vector2(250, 150), "NPC1", new Node()));
             npcs.Add(new NPC(Content.Load<Texture2D>("npc2"), new Vector2(200, 150), "NPC2",new Node()));
 
-            walls.Add(new Wall(Content.Load<Texture2D>("horizontalBox"), new Vector2(250, 400)));
+            //walls.Add(new Wall(Content.Load<Texture2D>("horizontalBox"), new Vector2(250, 400)));
 
             TitleSafe = GetTitleSafeArea(.8f);
         }
@@ -128,12 +146,22 @@ namespace island
 
             //Draw background
             spriteBatch.Begin();
-            spriteBatch.Draw(officeBackground, GraphicsDevice.Viewport.Bounds, Color.White);            
+            //spriteBatch.Draw(officeBackground, GraphicsDevice.Viewport.Bounds, Color.White);            
+            myMap.Draw(spriteBatch);
             spriteBatch.End();
              
             // start rendering sprites
             spriteBatch.Begin();
-            spriteBatch.DrawString(font, player.toString(), new Vector2(50, 45), Color.Black);
+            foreach (Vector2 point in path)
+            {
+                //System.Diagnostics.Debug.WriteLine(point);
+                test = "Path: (" + point.X + ", " + point.Y + ")";
+                spriteBatch.DrawString(font, test, textBox, Color.Black);
+                textBox.Y += 20;
+            }
+            textBox.Y = 0;
+
+            spriteBatch.DrawString(font, player.toString(), new Vector2(50, 0), Color.Black);
 
             //draw walls
             foreach (Wall wall in walls)

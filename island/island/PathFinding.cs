@@ -11,16 +11,18 @@ namespace island
     {
         private int[,] layout = new int[,]
         {
-            { 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, }, 
-            { 0, 1, 0, 1, 1, 1, 0, 0, 0, 0, },
-            { 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, }, 
-            { 0, 1, 0, 1, 1, 1, 1, 0, 1, 0, }, 
-            { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, },
-            { 1, 0, 1, 0, 0, 1, 1, 1, 0, 0, }, 
-            { 1, 0, 1, 0, 1, 1, 0, 1, 0, 0, }, 
-            { 1, 0, 1, 0, 0, 1, 0, 1, 0, 0, }, 
-            { 1, 1, 1, 1, 0, 1, 0, 1, 0, 0, }, 
-            { 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, }, 
+            { 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0}, 
+            { 0, 1, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+            { 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0}, 
+            { 0, 1, 0, 1, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0}, 
+            { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+            { 1, 0, 1, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0}, 
+            { 1, 0, 1, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0}, 
+            { 1, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0}, 
+            { 1, 1, 1, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0}, 
+            { 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, 
+            { 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, 
+            { 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, 
         };
 
         private List<Texture2D> textures;
@@ -139,7 +141,7 @@ namespace island
         /// <summary>
         /// A constant that defines how big one tile is.
         /// </summary>
-        public const int TileSize = 32;
+        public const int TileSize = 50;
     }
 
     public class Pathfinding
@@ -311,8 +313,8 @@ namespace island
             // Reverse the path and transform into world space.
             for (int i = closedList.Count - 1; i >= 0; i--)
             {
-                finalPath.Add(new Vector2(closedList[i].Position.X * 32,
-                                          closedList[i].Position.Y * 32));
+                finalPath.Add(new Vector2(closedList[i].Position.X * 50,
+                                          closedList[i].Position.Y * 50));
             }
 
             return finalPath;
