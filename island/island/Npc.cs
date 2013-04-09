@@ -45,6 +45,8 @@ namespace island
         float lastTime = 0.0f;
         float speed;
 
+        
+
         //void Update(float elapsed);
         
         public NPC()
@@ -60,6 +62,11 @@ namespace island
             //rectangle = new Rectangle((int)position.X, (int)position.Y, texture.Width, texture.Height);
             rectangle = new Rectangle((int)position.X, (int)position.Y, 34, 57);
             name = newName;
+            health = 100;
+            maxHealth = 100;
+            strength = 10;
+            defense = 5;
+            isAlive = true;
         }
 
         public NPC(Texture2D newTexture, Vector2 newPosition, String newName)
@@ -69,6 +76,11 @@ namespace island
             name = newName;
             sensor = new Sensor(100, 3);
             rectangle = new Rectangle((int)position.X, (int)position.Y, texture.Width, texture.Height);
+            health = 100;
+            maxHealth = 100;
+            strength = 10;
+            defense = 5;
+            isAlive = true;
         }
 
         public NPC(Vector2 newPosition, String newName, Node spawnNode) 
@@ -79,6 +91,11 @@ namespace island
             //rectangle = new Rectangle((int)position.X, (int)position.Y, texture.Width, texture.Height);
             rectangle = new Rectangle((int)position.X, (int)position.Y, 34, 57);
             location = spawnNode;
+            health = 100;
+            maxHealth = 100;
+            strength = 10;
+            defense = 5;
+            isAlive = true;
         }
 
         public NPC(Texture2D newTexture, Vector2 newPosition, String newName, Node spawnNode)
@@ -89,6 +106,11 @@ namespace island
             sensor = new Sensor(100, 3);
             rectangle = new Rectangle((int)position.X, (int)position.Y, texture.Width, texture.Height);
             location = spawnNode;
+            health = 100;
+            maxHealth = 100;
+            strength = 10;
+            defense = 5;
+            isAlive = true;
         }
 
         public void Load(ContentManager Content)
@@ -183,5 +205,9 @@ namespace island
             this.position = goal;
             return position == goal;
         }
+
+        
+
+
     }
 }

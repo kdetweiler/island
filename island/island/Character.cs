@@ -13,9 +13,39 @@ namespace island
 {
     class Character : Entity
     {
+
+        public int health;
+        public int maxHealth;
+
+        public int strength;
+        public int defense;
+
+        public Boolean isAlive;
+
+        public Boolean isHostile;
+
         public Character()
         {
 
         }
+
+        public void takeDamage(int damage)
+        {
+            health -= damage;
+            if (isHostile == false) isHostile = true;
+            if (health < 1) isAlive = false;
+        }
+
+        public void healDamage(int healing)
+        {
+            health += healing;
+            if (health > maxHealth) health = maxHealth;
+        }
+
+        public void attack() { }
+
+        public Boolean lives() { return isAlive; }
+
+        public Boolean hostile() { return isHostile; }
     }
 }
