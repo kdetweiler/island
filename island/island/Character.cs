@@ -20,8 +20,12 @@ namespace island
         public int strength;
         public int defense;
 
+        public List<Skill> SkillList=new List<Skill>();
+
         public Boolean isAlive;
         public Boolean isHostile;
+
+
 
         public Character()
         {
@@ -46,5 +50,12 @@ namespace island
         public Boolean lives() { return isAlive; }
 
         public Boolean hostile() { return isHostile; }
+
+        public virtual int deduceAttackPower() { return strength; }
+
+        public void addSkill(Skill e) 
+        {
+            SkillList.Add(e);
+        }
     }
 }

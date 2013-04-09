@@ -256,5 +256,10 @@ namespace island
             
             return togo;
         }
+
+        public virtual int deduceAttackPower() 
+        {
+            return strength + 2;
+        }
     }
 }

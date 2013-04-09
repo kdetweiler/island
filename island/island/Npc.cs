@@ -45,7 +45,7 @@ namespace island
         float lastTime = 0.0f;
         float speed;
 
-        public Skill[] NPCSkills=new Skill[0];
+        
 
         
 
