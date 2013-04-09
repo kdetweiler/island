@@ -21,7 +21,6 @@ namespace island
         public int defense;
 
         public Boolean isAlive;
-
         public Boolean isHostile;
 
         public Character()
