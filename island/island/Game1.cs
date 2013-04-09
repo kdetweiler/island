@@ -44,6 +44,7 @@ namespace island
         Point endPoint = new Point(6, 7);
 
         GameObject pathEndPoint;
+        public CombatController combat;
         
 
         public Vector2 textBox = new Vector2(600, 0);
@@ -92,6 +93,8 @@ namespace island
             pathfinding = new Pathfinding(myMap);
             path = pathfinding.FindPath(startPoint, endPoint);
 
+            
+
             setFunNodes();
             map = new NodeGraph(funNodes);
 
@@ -102,7 +105,7 @@ namespace island
             map = new NodeGraph(funNodes);
             npcMover = new NPC(start, "NPC");
             JasonMover = new NPC(start, "NPC", map.graph[0]);
-
+            combat = new CombatController(player);
 
             List<Node> tempNodeList = JasonMover.nodeMove(map, funNodes[22]);
 
