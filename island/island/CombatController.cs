@@ -28,7 +28,7 @@ namespace island
         }
 
         //this method will not look like this at all. just an idea infrastructure
-        public void attack(Character[] entities, Character checker) 
+        public void attack(List<Character> entities, Character checker) 
         { 
             int index=-1;
             //have Character have a method that checks if it attacked anything and return an index indicating which entity. -1 if it misses
