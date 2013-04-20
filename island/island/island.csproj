@@ -130,6 +130,7 @@
     <Compile Include="Sensor.cs" />
     <Compile Include="Skill.cs" />
     <Compile Include="Wall.cs" />
+    <Compile Include="Weapon.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />
