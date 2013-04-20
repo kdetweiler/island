@@ -56,6 +56,7 @@ namespace island
 
         public Boolean doesHit(Character target) 
         {
+            
             //check target's distance, check your attack range. see if intersects; if so return true
             return false;
         }
