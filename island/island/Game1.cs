@@ -158,10 +158,9 @@ namespace island
             }
             
             npcMover.Update(gameTime, path);
-            player.sensor.Proximity(player, 100, npcs);
-            player.sensor.WallScan(player, walls);
-            //player.sensor.WeaponSensor(player, npcs, 20);
-            player.sensor.WeaponSensor(player, npcs);
+            //player.sensor.Proximity(player, 100, npcs);
+            //player.sensor.WallScan(player, walls);
+            player.rightHand.range.WeaponSensor(player, npcs);
             
             // TODO: Add your update logic here
             base.Update(gameTime);
