@@ -12,22 +12,20 @@ using Microsoft.Xna.Framework.Media;
 
 namespace island
 {
-    class Wall : Obj
+    class Wall : GameObject
     {
-        public Wall(Vector2 newPosition)
-            : base(newPosition)
+        public Wall(Vector2 newPosition, Texture2D newTexture)
         {
-            //texture = newTexture;
-            //position = newPosition;
-            //name = "Wall";
+            texture = newTexture;
+            position = newPosition;
+            name = "Wall";
 
-            //rectangle = new Rectangle((int)position.X, (int)position.Y, texture.Width, texture.Height);
+            rectangle = new Rectangle((int)position.X, (int)position.Y, texture.Width, texture.Height);
 
-            //exists = true;
-            //isPassable = false;
+            exists = true;
+            isPassable = false;
 
             position = newPosition;
-            spriteName = "tree";
         }
     }
 }
