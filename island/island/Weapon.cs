@@ -15,12 +15,12 @@ namespace island
     class Weapon
     {
         public String name;
-        public Sensor range;
+        public int range;
 
         public int[] sweetSpots;
         
 
-        public Weapon(String n, Sensor r, int[] sweet) 
+        public Weapon(String n, int r, int[] sweet) 
         {
             name = n;
             range = r;

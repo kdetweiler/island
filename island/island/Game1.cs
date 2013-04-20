@@ -38,6 +38,7 @@ namespace island
         private List<Entity> entitys = new List<Entity>();
         public List<Vector2> path = new List<Vector2>();
         NPC npcMover = new NPC();
+        private bool hit = false;
 
         Point startPoint = new Point(0,0);
         Point endPoint = new Point(6, 7);
@@ -160,7 +161,8 @@ namespace island
             npcMover.Update(gameTime, path);
             //player.sensor.Proximity(player, 100, npcs);
             //player.sensor.WallScan(player, walls);
-            player.rightHand.range.WeaponSensor(player, npcs);
+            hit = player.sensor.WeaponSensor(player, npcs[1], player.rightHand.range);
+            //hit = false;
             
             // TODO: Add your update logic here
             base.Update(gameTime);
@@ -196,6 +198,8 @@ namespace island
                 if (c.withinRange == true)
                     spriteBatch.DrawString(font, "Within Range!", new Vector2(550, 0), Color.Black);
             }
+            if (hit)
+                spriteBatch.DrawString(font, "HIT!", new Vector2(600, 100), Color.Black);
 
             spriteBatch.DrawString(font, player.toString(), new Vector2(50, 0), Color.Black);
 

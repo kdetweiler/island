@@ -54,7 +54,7 @@ namespace island
         //The owner of this WallSensor
         public static int sightRange; //how far this particular owner can see
 
-        public Sensor() 
+        public Sensor()
         {
         }
 
@@ -72,52 +72,53 @@ namespace island
         }
 
         //wall sensor
-        public void WeaponSensor(Player owner, List<NPC> npcs)
+        public bool WeaponSensor(Player owner, NPC npc, int weaponRange)
         {
             List<NPC> npcInFront = new List<NPC>();
             float[] npcSense = new float[3];
 
             //If face down
-            foreach (NPC npc in npcs)
+
+            setNPCDefaults(owner, npc, weaponRange);
+            Vector2 distance = new Vector2();
+
+            //straight down
+            if (Intersects(main, sightRangeCenter, npcLeft, npcRight, out distance))
             {
-                setNPCDefaults(owner, npc);
-                Vector2 distance = new Vector2();
-
-                //straight down
-                if (Intersects(main, sightRangeCenter, npcLeft, npcRight, out distance))
-                {
-                    owner.npcSensors[1] = Vector2.Distance(main, distance);
-                }
-                else
-                {
-                    owner.npcSensors[0] = 0;
-                }
-
-                //left 45 degrees
-                if (Intersects(npcLeft45, sightRangeLeft, npcLeft, npcRight, out distance))
-                {
-                    owner.npcSensors[0] = Vector2.Distance(main, distanceLeft);
-                }
-                else
-                {
-                    owner.npcSensors[0] = 0;
-                }
-
-
-                //right 45 degrees
-                if (Intersects(npcRight45, sightRangeRight, npcLeft, npcRight, out distance))
-                {
-                    owner.npcSensors[2] = Vector2.Distance(main, distanceRight);
-                }
-                else
-                {
-                    owner.npcSensors[2] = 0;
-                }
-
-
-                owner.npcList = npcInFront;
-
+                owner.npcSensors[1] = Vector2.Distance(main, distance);
+                return true;
             }
+            else
+            {
+                owner.npcSensors[0] = 0;
+            }
+
+            //left 45 degrees
+            if (Intersects(npcLeft45, sightRangeLeft, npcLeft, npcRight, out distance))
+            {
+                owner.npcSensors[0] = Vector2.Distance(main, distanceLeft);
+                return true;
+            }
+            else
+            {
+                owner.npcSensors[0] = 0;
+            }
+
+
+            //right 45 degrees
+            if (Intersects(npcRight45, sightRangeRight, npcLeft, npcRight, out distance))
+            {
+                owner.npcSensors[2] = Vector2.Distance(main, distanceRight);
+                return true;
+            }
+            else
+            {
+                owner.npcSensors[2] = 0;
+            }
+            owner.npcList = npcInFront;
+
+
+            return false;
         }
 
         public void WallScan(Player owner, List<Wall> walls)
@@ -134,6 +135,7 @@ namespace island
                 //straight down
                 if (Intersects(main, sightRangeCenter, wallLeft, wallRight, out distance))
                 {
+
                     owner.wallSensors[1] = Vector2.Distance(main, distance);
                 }
                 else
@@ -238,7 +240,7 @@ namespace island
 
             return -1;
         }
-        public void setNPCDefaults(Player owner, NPC npc)
+        public void setNPCDefaults(Player owner, NPC npc, int weaponRange)
         {
             if (owner.faceDirection <= 235 && owner.faceDirection >= 135)
             {
@@ -249,7 +251,7 @@ namespace island
                 dTmp = Vector2.Distance(main, npcCenter);
                 npcLeft45 = new Vector2((float)(main.X - dTmp * Math.Tan(45)), main.Y);
                 npcRight45 = new Vector2((float)(main.X + dTmp * Math.Tan(45)), main.Y);
-                sightRangeCenter = new Vector2(main.X, (main.Y + sightRange));
+                sightRangeCenter = new Vector2(main.X, (main.Y + weaponRange));
                 sightRangeLeft = new Vector2(npcLeft45.X, sightRangeCenter.Y);
                 sightRangeRight = new Vector2(npcRight45.X, sightRangeCenter.Y);
                 distanceLeft = new Vector2(npcLeft45.X, npc.rectangle.Top);
@@ -264,7 +266,7 @@ namespace island
                 dTmp = Vector2.Distance(main, npcCenter);
                 npcLeft45 = new Vector2((float)(main.X - dTmp * Math.Tan(45)), main.Y);
                 npcRight45 = new Vector2((float)(main.X + dTmp * Math.Tan(45)), main.Y);
-                sightRangeCenter = new Vector2(main.X, (main.Y - sightRange));
+                sightRangeCenter = new Vector2(main.X, (main.Y - weaponRange));
                 sightRangeLeft = new Vector2(npcLeft45.X, sightRangeCenter.Y);
                 sightRangeRight = new Vector2(npcRight45.X, sightRangeCenter.Y);
                 distanceLeft = new Vector2(npcLeft45.X, npc.rectangle.Bottom);
@@ -275,12 +277,12 @@ namespace island
                 main = new Vector2(owner.rectangle.Left, owner.rectangle.Center.Y); // reference point 1
                 npcLeft = new Vector2(npc.rectangle.Right, npc.rectangle.Top);
                 npcRight = new Vector2(npc.rectangle.Right, npc.rectangle.Bottom);
-                sightRangeCenter = new Vector2(main.X - sightRange, main.Y);
+                sightRangeCenter = new Vector2(main.X - weaponRange, main.Y);
                 npcCenter = new Vector2(npc.rectangle.Right, main.Y);
                 dTmp = Vector2.Distance(main, npcCenter);
                 npcLeft45 = new Vector2(main.X, (float)(main.Y - dTmp * Math.Tan(45)));
                 npcRight45 = new Vector2(main.X, (float)(main.Y + dTmp * Math.Tan(45)));
-                sightRangeCenter = new Vector2(main.X - sightRange, main.Y);
+                sightRangeCenter = new Vector2(main.X - weaponRange, main.Y);
                 sightRangeLeft = new Vector2(sightRangeCenter.X, npcLeft45.Y);
                 sightRangeRight = new Vector2(sightRangeCenter.X, npcRight45.Y);
                 distanceLeft = new Vector2(npc.rectangle.Right, npcLeft45.Y);
@@ -291,12 +293,12 @@ namespace island
                 main = new Vector2(owner.rectangle.Right, owner.rectangle.Center.Y); // reference point 1
                 npcLeft = new Vector2(npc.rectangle.Left, npc.rectangle.Top);
                 npcRight = new Vector2(npc.rectangle.Left, npc.rectangle.Bottom);
-                sightRangeCenter = new Vector2(main.X + sightRange, main.Y);
+                sightRangeCenter = new Vector2(main.X + weaponRange, main.Y);
                 npcCenter = new Vector2(npc.rectangle.Left, main.Y);
                 dTmp = Vector2.Distance(main, npcCenter);
                 npcLeft45 = new Vector2(main.X, (float)(main.Y - dTmp * Math.Tan(45)));
                 npcRight45 = new Vector2(main.X, (float)(main.Y + dTmp * Math.Tan(45)));
-                sightRangeCenter = new Vector2(main.X + sightRange, main.Y);
+                sightRangeCenter = new Vector2(main.X + weaponRange, main.Y);
                 sightRangeLeft = new Vector2(sightRangeCenter.X, npcLeft45.Y);
                 sightRangeRight = new Vector2(sightRangeCenter.X, npcRight45.Y);
                 distanceLeft = new Vector2(npc.rectangle.Left, npcLeft45.Y);
