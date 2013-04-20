@@ -36,6 +36,9 @@ namespace island
 
         public Sensor sensor;
 
+        public Weapon rightHand;
+        public Weapon leftHand;
+
         float lastTime = 0.0f;
                 
         public Player()
@@ -52,6 +55,8 @@ namespace island
             //rectangle = new Rectangle((int)position.X, (int)position.Y, texture.Width, texture.Height);
             rectangle = new Rectangle((int)position.X, (int)position.Y, 34, 57);
             name = newName;
+            rightHand = new Weapon("Sword", new Sensor(20,5), new int[3] {2,3,4});
+            leftHand = new Weapon("Shield", new Sensor(0,3), new int[0] {});
         }
 
         public void Load(ContentManager Content)
@@ -260,6 +265,17 @@ namespace island
         public virtual int deduceAttackPower() 
         {
             return strength + 2;
+        }
+
+        public int attack(List<NPC> entities)
+        {
+            Rectangle enemyPosition;
+            for (int k = 0; k < entities.Count; k++)
+            {
+                //check to see if entities[k] is hittable; if so return it
+                enemyPosition = entities[k].rectangle;
+            }
+            return -1;
         }
     }
 }
