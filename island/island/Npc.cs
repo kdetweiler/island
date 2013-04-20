@@ -45,9 +45,8 @@ namespace island
         float lastTime = 0.0f;
         float speed;
 
-        
-
-        
+        public Boolean withinRange;
+        Vector2 attackRange;
 
         //void Update(float elapsed);
         
@@ -100,7 +99,8 @@ namespace island
             isAlive = true;
         }
 
-        public NPC(Texture2D newTexture, Vector2 newPosition, String newName, Node spawnNode)
+
+        public NPC(Texture2D newTexture, Vector2 newPosition, String newName, Node spawnNode, Vector2 newAttackRange)
         {
             texture = newTexture;
             position = newPosition;
@@ -113,6 +113,9 @@ namespace island
             strength = 10;
             defense = 5;
             isAlive = true;
+
+            attackRange = newAttackRange;
+            withinRange = false;
         }
 
         public void Load(ContentManager Content)
@@ -246,6 +249,13 @@ namespace island
             
         }
 
-
+        public void WithinRange(Vector2 PlayerPosition)
+        {
+            if (Math.Abs(this.position.X - PlayerPosition.X) <= this.attackRange.X && Math.Abs(this.position.Y - PlayerPosition.Y) <= (this.attackRange.Y))
+            {
+                this.withinRange = true;
+            }
+            else this.withinRange = false;
+        }
     }
 }

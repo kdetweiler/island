@@ -117,8 +117,8 @@ namespace island
 
             player.Load(Content);
 
-            npcs.Add(new NPC(Content.Load<Texture2D>("npc1"), new Vector2(100, 150), "NPC1", new Node()));
-            npcs.Add(new NPC(Content.Load<Texture2D>("npc2"), new Vector2(200, 150), "NPC2",new Node()));
+            npcs.Add(new NPC(Content.Load<Texture2D>("npc1"), new Vector2(100, 150), "NPC1", new Node(), new Vector2(50, 50)));
+            npcs.Add(new NPC(Content.Load<Texture2D>("npc2"), new Vector2(200, 150), "NPC2", new Node(), new Vector2(50, 50)));
 
             npcMover.Load(Content);
 
@@ -152,6 +152,10 @@ namespace island
             //run player update
             player.Update(gameTime);
 
+            foreach (NPC c in npcs)
+            {
+                c.WithinRange(player.position);
+            }
             
             npcMover.Update(gameTime, path);
             player.sensor.Proximity(player, 100, npcs);
@@ -185,6 +189,12 @@ namespace island
             //    textBox.Y += 20;
             //}
             textBox.Y = 0;
+
+            foreach (NPC c in npcs)
+            {
+                if (c.withinRange == true)
+                    spriteBatch.DrawString(font, "Within Range!", new Vector2(550, 0), Color.Black);
+            }
 
             //spriteBatch.DrawString(font, player.toString(), new Vector2(50, 0), Color.Black);
 
