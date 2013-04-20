@@ -8,32 +8,33 @@ namespace island
     class CombatController
     {
 
-        Player user;
+        public Player user;
 
         public CombatController(Player mainCharacter) 
         {
             user = mainCharacter;
         }
     
-        public void confirmHit(Character attacker, Character defender) 
+        public void confirmedHit(Character attacker, Character defender) 
         {
             int dealt = attacker.strength - defender.strength;
             if (dealt < 1) dealt = 1;
             defender.takeDamage(dealt);
         }
 
+        public static void hit(Character attacker, Character defender) 
+        { 
+
+        }
+
         //this method will not look like this at all. just an idea infrastructure
-        public void NPCAction(NPC actor) 
-        {
-            if (actor.hostile())
+        public void attack(Character[] entities, Character checker) 
+        { 
+            int index=-1;
+            //have Character have a method that checks if it attacked anything and return an index indicating which entity. -1 if it misses
+            if (index != -1) 
             {
-                //put seek player here
-                //if player is in range, attack
-                confirmHit(actor, user);
-            }
-            else 
-            { 
-                //continue whatever it was doing
+                entities[index].takeDamage(checker.strength-entities[index].strength);
             }
         }
     }
