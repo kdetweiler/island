@@ -262,7 +262,7 @@ namespace island
             return togo;
         }
 
-        public virtual int deduceAttackPower() 
+        public virtual override int deduceAttackPower() 
         {
             return strength + 2;
         }
