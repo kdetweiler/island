@@ -14,26 +14,20 @@ namespace island
 {
     class Wall : Obj
     {
-        public Wall(Texture2D newTexture, Vector2 newPosition)
+        public Wall(Vector2 newPosition)
+            : base(newPosition)
         {
-            texture = newTexture;
+            //texture = newTexture;
+            //position = newPosition;
+            //name = "Wall";
+
+            //rectangle = new Rectangle((int)position.X, (int)position.Y, texture.Width, texture.Height);
+
+            //exists = true;
+            //isPassable = false;
+
             position = newPosition;
-            name = "Wall";
-
-            rectangle = new Rectangle((int)position.X, (int)position.Y, texture.Width, texture.Height);
-
-            exists = true;
-            isPassable = false;
-        }
-
-        public bool collision(Vector2 pos, Obj obj)
-        {
-            foreach (GameObject o in Wall)
-            {
-                if(o.GetType() == obj.GetType())
-                    if(o.area.Intersects(this.area))
-                        return true;
-            }
+            spriteName = "tree";
         }
     }
 }

@@ -23,7 +23,9 @@ namespace island
                 objList.Add(o);
             }
 
-            objList.Add(new Player(new Vector2(50, 50), "Player1"));
+            objList.Add(new Wall(new Vector2(500, 400)));
+            objList.Add(new Wall(new Vector2(500, 300)));
+            objList.Add(new Wall(new Vector2(500, 200)));
         }
 
         public static void Reset()
