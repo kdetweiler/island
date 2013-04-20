@@ -45,15 +45,6 @@ namespace island
             if (health > maxHealth) health = maxHealth;
         }
 
-        public int attack(List<Character> entities) 
-        {
-            for (int k = 0; k < entities.Count; k++) 
-            { 
-                //check to see if entities[k] is hittable; if so return it
-            }
-            return -1;
-        }
-
         public Boolean doesHit(Character target) 
         {
             
