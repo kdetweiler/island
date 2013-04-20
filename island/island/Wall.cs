@@ -12,7 +12,7 @@ using Microsoft.Xna.Framework.Media;
 
 namespace island
 {
-    class Wall : GameObject
+    class Wall : Obj
     {
         public Wall(Texture2D newTexture, Vector2 newPosition)
         {
@@ -26,6 +26,14 @@ namespace island
             isPassable = false;
         }
 
-
+        public bool collision(Vector2 pos, Obj obj)
+        {
+            foreach (GameObject o in Wall)
+            {
+                if(o.GetType() == obj.GetType())
+                    if(o.area.Intersects(this.area))
+                        return true;
+            }
+        }
     }
 }
