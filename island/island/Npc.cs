@@ -165,7 +165,7 @@ namespace island
             lastTime += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
             if (path.Count > 0)
             {
-                if (lastTime > 500)
+                if (lastTime > 1)
                 {
                     if (path.Count > 0 && MoveTowardsPoint(path[0], lastTime))
                         path.RemoveAt(0);
@@ -215,7 +215,7 @@ namespace island
             }
 
             // Move in that direction
-            position += direction * speed * elapsed;
+            //position += direction * speed * elapsed;
 
             // If we moved PAST the goal, move it back to the goal
             if (Math.Abs(Vector2.Dot(direction, Vector2.Normalize(goal - position)) + 1) < 0.1f)
@@ -225,12 +225,26 @@ namespace island
 
             // Return whether we've reached the goal or not
             //this.position = goal;
-            this.position = goal;
+            
+            if (this.position.X != goal.X)
+            {
+                if (this.position.X < goal.X)
+                    this.position.X += 1;
+                else
+                    this.position.X -= 1;
+            }
+
+            if (this.position.Y != goal.Y)
+            {
+                if (this.position.Y < goal.Y)
+                    this.position.Y += 1;
+                else
+                    this.position.Y -= 1;
+            }
+            
             return position == goal;
             
         }
-
-        
 
 
     }
