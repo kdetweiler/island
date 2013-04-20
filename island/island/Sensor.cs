@@ -34,6 +34,17 @@ namespace island
         public Vector2 distanceLeft = new Vector2();
         public Vector2 distanceRight = new Vector2();
 
+        public Vector2 npcCenter = new Vector2();
+        public Vector2 npcLeft = new Vector2();
+        public Vector2 npcRight = new Vector2();
+       // public Vector2 sightRangeCenter = new Vector2();
+        //public Vector2 sightRangeLeft = new Vector2();
+        //public Vector2 sightRangeRight = new Vector2();
+        public Vector2 npcLeft45 = new Vector2();
+        public Vector2 npcRight45 = new Vector2();
+        //public Vector2 distanceLeft = new Vector2();
+        //public Vector2 distanceRight = new Vector2();
+
 
         //Collision Sensors
         const int proximityMargin = 5;
@@ -56,6 +67,52 @@ namespace island
         }
 
         //wall sensor
+        public void WeaponSensor(Player owner, List<NPC> npcs)
+        {
+            List<NPC> npcInFront = new List<NPC>();
+            float[] npcSense = new float[3];
+
+            //If face down
+            foreach (NPC npc in npcs)
+            {
+                setNPCDefaults(owner, npc);
+                Vector2 distance = new Vector2();
+
+                //straight down
+                if (Intersects(main, sightRangeCenter, npcLeft, npcRight, out distance))
+                {
+                    owner.npcSensors[1] = Vector2.Distance(main, distance);
+                }
+                else
+                {
+                    owner.npcSensors[0] = 0;
+                }
+
+                //left 45 degrees
+                if (Intersects(npcLeft45, sightRangeLeft, npcLeft, npcRight, out distance))
+                {
+                    owner.npcSensors[0] = Vector2.Distance(main, distanceLeft);
+                }
+                else
+                {
+                    owner.npcSensors[0] = 0;
+                }
+
+
+                //right 45 degrees
+                if (Intersects(npcRight45, sightRangeRight, npcLeft, npcRight, out distance))
+                {
+                    owner.npcSensors[2] = Vector2.Distance(main, distanceRight);
+                }
+                else
+                {
+                    owner.npcSensors[2] = 0;
+                }
+
+                owner.npcList = npcsInFront;
+
+            }
+        }
 
         public void WallScan(Player owner, List<Wall> walls)
         {
@@ -189,6 +246,72 @@ namespace island
         {
 
             return -1;
+        }
+        public void setNPCDefaults(Player owner, NPC npc)
+        {
+            if (owner.faceDirection <= 235 && owner.faceDirection >= 135)
+            {
+                main = new Vector2(owner.rectangle.Center.X, owner.rectangle.Bottom); // reference point 1
+                npcLeft = new Vector2(npc.rectangle.Left, npc.rectangle.Top);
+                npcRight = new Vector2(npc.rectangle.Right, npc.rectangle.Top);
+                npcCenter = new Vector2(main.X, npc.rectangle.Top);
+                dTmp = Vector2.Distance(main, npcCenter);
+                npcLeft45 = new Vector2((float)(main.X - dTmp * Math.Tan(45)), main.Y);
+                npcRight45 = new Vector2((float)(main.X + dTmp * Math.Tan(45)), main.Y);
+                sightRangeCenter = new Vector2(main.X, (main.Y + sightRange));
+                sightRangeLeft = new Vector2(npcLeft45.X, sightRangeCenter.Y);
+                sightRangeRight = new Vector2(npcRight45.X, sightRangeCenter.Y);
+                distanceLeft = new Vector2(npcLeft45.X, npc.rectangle.Top);
+                distanceRight = new Vector2(npcRight45.X, npc.rectangle.Top);
+            }
+            else if (owner.faceDirection <= 270 && owner.faceDirection <= 45)
+            {
+                main = new Vector2(owner.rectangle.Center.X, owner.rectangle.Top); // reference point 1
+                npcLeft = new Vector2(npc.rectangle.Left, npc.rectangle.Bottom);
+                npcRight = new Vector2(npc.rectangle.Right, npc.rectangle.Bottom);
+                npcCenter = new Vector2(main.X, npc.rectangle.Bottom);
+                dTmp = Vector2.Distance(main, npcCenter);
+                npcLeft45 = new Vector2((float)(main.X - dTmp * Math.Tan(45)), main.Y);
+                npcRight45 = new Vector2((float)(main.X + dTmp * Math.Tan(45)), main.Y);
+                sightRangeCenter = new Vector2(main.X, (main.Y - sightRange));
+                sightRangeLeft = new Vector2(npcLeft45.X, sightRangeCenter.Y);
+                sightRangeRight = new Vector2(npcRight45.X, sightRangeCenter.Y);
+                distanceLeft = new Vector2(npcLeft45.X, npc.rectangle.Bottom);
+                distanceRight = new Vector2(npcRight45.X, npc.rectangle.Bottom);
+            }
+            else if (owner.faceDirection <= 315 && owner.faceDirection >= 225)
+            {
+                main = new Vector2(owner.rectangle.Left, owner.rectangle.Center.Y); // reference point 1
+                npcLeft = new Vector2(npc.rectangle.Right, npc.rectangle.Top);
+                npcRight = new Vector2(npc.rectangle.Right, npc.rectangle.Bottom);
+                sightRangeCenter = new Vector2(main.X - sightRange, main.Y);
+                npcCenter = new Vector2(npc.rectangle.Right, main.Y);
+                dTmp = Vector2.Distance(main, npcCenter);
+                npcLeft45 = new Vector2(main.X, (float)(main.Y - dTmp * Math.Tan(45)));
+                npcRight45 = new Vector2(main.X, (float)(main.Y + dTmp * Math.Tan(45)));
+                sightRangeCenter = new Vector2(main.X - sightRange, main.Y);
+                sightRangeLeft = new Vector2(sightRangeCenter.X, npcLeft45.Y);
+                sightRangeRight = new Vector2(sightRangeCenter.X, npcRight45.Y);
+                distanceLeft = new Vector2(npc.rectangle.Right, npcLeft45.Y);
+                distanceRight = new Vector2(npc.rectangle.Right, npcRight45.Y);
+            }
+            else if (owner.faceDirection >= 45 && owner.faceDirection <= 135)
+            {
+                main = new Vector2(owner.rectangle.Right, owner.rectangle.Center.Y); // reference point 1
+                npcLeft = new Vector2(npc.rectangle.Left, npc.rectangle.Top);
+                npcRight = new Vector2(npc.rectangle.Left, npc.rectangle.Bottom);
+                sightRangeCenter = new Vector2(main.X + sightRange, main.Y);
+                npcCenter = new Vector2(npc.rectangle.Left, main.Y);
+                dTmp = Vector2.Distance(main, npcCenter);
+                npcLeft45 = new Vector2(main.X, (float)(main.Y - dTmp * Math.Tan(45)));
+                npcRight45 = new Vector2(main.X, (float)(main.Y + dTmp * Math.Tan(45)));
+                sightRangeCenter = new Vector2(main.X + sightRange, main.Y);
+                sightRangeLeft = new Vector2(sightRangeCenter.X, npcLeft45.Y);
+                sightRangeRight = new Vector2(sightRangeCenter.X, npcRight45.Y);
+                distanceLeft = new Vector2(npc.rectangle.Left, npcLeft45.Y);
+                distanceRight = new Vector2(npc.rectangle.Left, npcRight45.Y);
+
+            }
         }
 
         public void setWallDefaults(Player owner, Wall wall)
