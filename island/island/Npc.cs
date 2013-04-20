@@ -100,6 +100,21 @@ namespace island
         }
 
 
+        public NPC(Texture2D newTexture, Vector2 newPosition, String newName, Node spawnNode)
+        {
+            texture = newTexture;
+            position = newPosition;
+            name = newName;
+            sensor = new Sensor(100, 3);
+            rectangle = new Rectangle((int)position.X, (int)position.Y, texture.Width, texture.Height);
+            location = spawnNode;
+            health = 100;
+            maxHealth = 100;
+            strength = 10;
+            defense = 5;
+            isAlive = true;
+        }
+
         public NPC(Texture2D newTexture, Vector2 newPosition, String newName, Node spawnNode, Vector2 newAttackRange)
         {
             texture = newTexture;
