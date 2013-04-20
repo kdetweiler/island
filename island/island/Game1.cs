@@ -196,7 +196,7 @@ namespace island
                     spriteBatch.DrawString(font, "Within Range!", new Vector2(550, 0), Color.Black);
             }
 
-            //spriteBatch.DrawString(font, player.toString(), new Vector2(50, 0), Color.Black);
+            spriteBatch.DrawString(font, player.toString(), new Vector2(50, 0), Color.Black);
 
             pathEndPoint.Draw(gameTime, spriteBatch);
             //draw walls

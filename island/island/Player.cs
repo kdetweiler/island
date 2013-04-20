@@ -26,12 +26,14 @@ namespace island
 
         public List<NPC> proxList = new List<NPC>();
         public List<Wall> wallList = new List<Wall>();
+        public List<NPC> npcList = new List<NPC>();
         public int[] quadrants = new int[4];
         public float[] wallSensors = new float[3];
+        public float[] npcSensors = new float[3];
 
         public Vector2 velocity;
         public Rectangle rectangle;
-        
+
         public int faceDirection = 180;
 
         public Sensor sensor;
@@ -40,23 +42,23 @@ namespace island
         public Weapon leftHand;
 
         float lastTime = 0.0f;
-                
+
         public Player()
         {
 
         }
 
-        
+
         public Player(Vector2 newPosition, String newName)
         {
             //texture = newTexture;
             position = newPosition;
-            sensor=new Sensor(100,3);
+            sensor = new Sensor(100, 3);
             //rectangle = new Rectangle((int)position.X, (int)position.Y, texture.Width, texture.Height);
             rectangle = new Rectangle((int)position.X, (int)position.Y, 34, 57);
             name = newName;
-            rightHand = new Weapon("Sword", new Sensor(20,5), new int[3] {2,3,4});
-            leftHand = new Weapon("Shield", new Sensor(0,3), new int[0] {});
+            rightHand = new Weapon("Sword", new Sensor(20, 5), new int[3] { 2, 3, 4 });
+            leftHand = new Weapon("Shield", new Sensor(0, 3), new int[0] { });
         }
 
         public void Load(ContentManager Content)
@@ -71,7 +73,7 @@ namespace island
             idleVerticalDownAnimation = new Animation(Content.Load<Texture2D>("idleVerticalDown"), 34, .3f, false);
             idleVerticalUpAnimation = new Animation(Content.Load<Texture2D>("idleVerticalUp"), 34, .3f, false);
 
-           // animationPlayer.PlayAnimation(idleVerticalDownAnimation);
+            // animationPlayer.PlayAnimation(idleVerticalDownAnimation);
         }
 
         public override void Update(GameTime gameTime)
@@ -141,9 +143,9 @@ namespace island
                 animationPlayer.PlayAnimation(walkHorizontalRightAnimation);
                 faceDirection = 90;
             }
-            else if (velocity.X == 0 && faceDirection==270)//stand still facing left
+            else if (velocity.X == 0 && faceDirection == 270)//stand still facing left
                 animationPlayer.PlayAnimation(idleHorizontalLeftAnimation);
-            else if (velocity.X == 0 && faceDirection==90)//stand still facing right
+            else if (velocity.X == 0 && faceDirection == 90)//stand still facing right
                 animationPlayer.PlayAnimation(idleHorizontalRightAnimation);
 
             //check sprite velocity and run vertical walk animations
@@ -158,35 +160,35 @@ namespace island
                 animationPlayer.PlayAnimation(walkVerticalUpAnimation);
                 faceDirection = 0;
             }
-            else if (velocity.Y == 0 && velocity.X == 0 && faceDirection==180)//stand still facing down
+            else if (velocity.Y == 0 && velocity.X == 0 && faceDirection == 180)//stand still facing down
             {
                 animationPlayer.PlayAnimation(idleVerticalDownAnimation);
             }
-            else if (velocity.Y == 0 && velocity.X == 0 && faceDirection==0)//stand still facing up
+            else if (velocity.Y == 0 && velocity.X == 0 && faceDirection == 0)//stand still facing up
             {
                 animationPlayer.PlayAnimation(idleVerticalUpAnimation);
             }
-            
+
         }
 
         public void rotateCounterClockWise()
         {
-            if (faceDirection==0)
+            if (faceDirection == 0)
             {
                 animationPlayer.PlayAnimation(idleHorizontalLeftAnimation);
                 faceDirection = 270;
             }
-            else if (faceDirection==270)
+            else if (faceDirection == 270)
             {
                 animationPlayer.PlayAnimation(idleVerticalDownAnimation);
                 faceDirection = 180;
             }
-            else if (faceDirection==180)
+            else if (faceDirection == 180)
             {
                 animationPlayer.PlayAnimation(idleHorizontalRightAnimation);
                 faceDirection = 90;
             }
-            else if (faceDirection==90)
+            else if (faceDirection == 90)
             {
                 animationPlayer.PlayAnimation(idleVerticalUpAnimation);
                 faceDirection = 0;
@@ -195,22 +197,22 @@ namespace island
 
         public void rotateClockWise()
         {
-            if (faceDirection==0)
+            if (faceDirection == 0)
             {
                 animationPlayer.PlayAnimation(idleHorizontalRightAnimation);
                 faceDirection = 90;
             }
-            else if (faceDirection==270)
+            else if (faceDirection == 270)
             {
                 animationPlayer.PlayAnimation(idleVerticalUpAnimation);
                 faceDirection = 0;
             }
-            else if (faceDirection==180)
+            else if (faceDirection == 180)
             {
                 animationPlayer.PlayAnimation(idleHorizontalLeftAnimation);
                 faceDirection = 270;
             }
-            else if (faceDirection==90)
+            else if (faceDirection == 90)
             {
                 animationPlayer.PlayAnimation(idleVerticalDownAnimation);
                 faceDirection = 180;
@@ -225,7 +227,7 @@ namespace island
         public void DrawAnimation(GameTime gameTime, SpriteBatch spriteBatch)
         {
             SpriteEffects flip = SpriteEffects.None;
-                      
+
             animationPlayer.Draw(gameTime, spriteBatch, position, flip);
         }
 
@@ -239,6 +241,7 @@ namespace island
         {
             String togo = "Player Center: " + this.rectangle.Center + " Direction: " + this.faceDirection
                 + "\nProx List: ";
+            /*
             foreach (NPC npc in proxList)
             {
                 togo += "(" + npc.name + ": " + npc.rectangle.Center.X + ", " + npc.rectangle.Center.Y + ") " + this.sensor.npcAngle;
@@ -248,7 +251,7 @@ namespace island
             {
                 togo += "\nQuadrant " + (i + 1) + ": " + this.quadrants[i];
             }
-
+            
             foreach (Wall wall in wallList)
             {
                 togo += "\n" + wall.name + ": " + this.sensor.wallAngle;
@@ -257,15 +260,18 @@ namespace island
             for (int i = 0; i < 3; i++)
             {
                 togo += "\nWall " + (i + 1) + ": (" + this.wallSensors[i] + ") " + this.sensor.wallAngle;
+            }*/
+            foreach (NPC npc in npcList)
+                togo += "\n" + npc.name + ": " + this.sensor.npcAngle;
+
+            for (int i = 0; i < 3; i++)
+            {
+                togo += "\nNPC " + (i + 1) + ": (" + this.npcSensors[i] + ") " + this.sensor.npcAngle;
             }
-            
+
             return togo;
         }
 
-        public virtual override int deduceAttackPower() 
-        {
-            return strength + 2;
-        }
 
         public int attack(List<NPC> entities)
         {

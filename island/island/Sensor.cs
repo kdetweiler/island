@@ -37,7 +37,7 @@ namespace island
         public Vector2 npcCenter = new Vector2();
         public Vector2 npcLeft = new Vector2();
         public Vector2 npcRight = new Vector2();
-       // public Vector2 sightRangeCenter = new Vector2();
+        // public Vector2 sightRangeCenter = new Vector2();
         //public Vector2 sightRangeLeft = new Vector2();
         //public Vector2 sightRangeRight = new Vector2();
         public Vector2 npcLeft45 = new Vector2();
@@ -109,7 +109,8 @@ namespace island
                     owner.npcSensors[2] = 0;
                 }
 
-                owner.npcList = npcsInFront;
+
+                owner.npcList = npcInFront;
 
             }
         }
@@ -226,21 +227,6 @@ namespace island
             owner.quadrants = quadrant;
         }
 
-        //Wall Sensors
-        public void WallsScan(Player owner, List<Wall> wallList)
-        {
-            int ray = owner.faceDirection;
-
-            //if player is facing up
-            if (ray == 0)
-            {
-                for (int k = 0; k < owner.sensor.getSightRange(); k++)
-                {
-
-                }
-            }
-
-        }
 
         public float detectWalls()
         {
