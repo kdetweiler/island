@@ -140,9 +140,10 @@ namespace island
         
         public override void Update(GameTime gameTime)
         {
-            position += velocity;
-            this.rectangle.X = (int)this.position.X;
-            this.rectangle.Y = (int)this.position.Y;
+           // position += velocity;
+
+            //this.rectangle.X = (int)this.position.X;
+            //this.rectangle.Y = (int)this.position.Y;
             if (shortDest.point.X == this.rectangle.X && shortDest.point.Y == this.rectangle.Y) {
                 //A* shit goes here
                 location = shortDest;
@@ -195,6 +196,24 @@ namespace island
             // Find direction from current position to goal
             Vector2 direction = Vector2.Normalize(goal - position);
 
+            //animation stuff
+            if (direction.X > 0)
+            {
+                animationPlayer.PlayAnimation(walkHorizontalRightAnimation);
+            }
+            else if (direction.X < 0)
+            {
+                animationPlayer.PlayAnimation(walkHorizontalLeftAnimation);
+            }
+            else if (direction.Y > 0)
+            {
+                animationPlayer.PlayAnimation(walkVerticalDownAnimation);
+            }
+            else if (direction.Y < 0)
+            {
+                animationPlayer.PlayAnimation(walkVerticalUpAnimation);
+            }
+
             // Move in that direction
             position += direction * speed * elapsed;
 
@@ -202,10 +221,13 @@ namespace island
             if (Math.Abs(Vector2.Dot(direction, Vector2.Normalize(goal - position)) + 1) < 0.1f)
                 this.position = goal;
 
+            
+
             // Return whether we've reached the goal or not
             //this.position = goal;
             this.position = goal;
             return position == goal;
+            
         }
 
         
