@@ -44,7 +44,7 @@ namespace island
         Point endPoint = new Point(6, 7);
 
         GameObject pathEndPoint;
-        public CombatController combat;
+        CombatController combat;
         
 
         public Vector2 textBox = new Vector2(600, 0);
@@ -313,16 +313,16 @@ namespace island
              
             // start rendering sprites
             spriteBatch.Begin();
-            foreach (Vector2 point in path)
-            {
-                //System.Diagnostics.Debug.WriteLine(point);
-                test = "Path: (" + point.X + ", " + point.Y + ")";
-                spriteBatch.DrawString(font, test, textBox, Color.Black);
-                textBox.Y += 20;
-            }
+            //foreach (Vector2 point in path)
+            //{
+            //    //System.Diagnostics.Debug.WriteLine(point);
+            //    test = "Path: (" + point.X + ", " + point.Y + ")";
+            //    spriteBatch.DrawString(font, test, textBox, Color.Black);
+            //    textBox.Y += 20;
+            //}
             textBox.Y = 0;
 
-            spriteBatch.DrawString(font, player.toString(), new Vector2(50, 0), Color.Black);
+            //spriteBatch.DrawString(font, player.toString(), new Vector2(50, 0), Color.Black);
 
             pathEndPoint.Draw(gameTime, spriteBatch);
             //draw walls
