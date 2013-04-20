@@ -54,12 +54,17 @@ namespace island
         //The owner of this WallSensor
         public static int sightRange; //how far this particular owner can see
 
+        public Sensor() 
+        {
+        }
+
         public Sensor(int range, int pi_division)
         {
             sightRange = range;
             WallScanner = new float[pi_division];
             length = pi_division;
         }
+
 
         public int getSightRange()
         {
