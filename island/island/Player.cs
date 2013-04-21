@@ -42,7 +42,6 @@ namespace island
         public Weapon leftHand;
 
         float lastTime = 0.0f;
-        float lastAttackTime = 0.0f;
 
         public Player()
         {
@@ -56,7 +55,7 @@ namespace island
             position = newPosition;
             sensor = new Sensor(100, 3);
             //rectangle = new Rectangle((int)position.X, (int)position.Y, texture.Width, texture.Height);
-            rectangle = new Rectangle((int)position.X, (int)position.Y, texture.Width, texture.Height);
+            rectangle = new Rectangle((int)position.X, (int)position.Y, 34, 57);
             name = newName;
             rightHand = new Weapon("Sword", 20, new int[3] { 2, 3, 4 });
             leftHand = new Weapon("Shield", 0, new int[0] { });
@@ -145,15 +144,6 @@ namespace island
                 {
                     rotateClockWise();
                     lastTime = 0;
-                }
-            }
-
-            if (keyboard.IsKeyDown(Keys.Space)) 
-            {
-                lastAttackTime += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
-                if (lastAttackTime > 125.0f) 
-                {
-                    this.uponAttack(ListHolder.Instance.NPCList);
                 }
             }
 
