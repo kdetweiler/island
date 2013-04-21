@@ -62,6 +62,8 @@ namespace island
         private GamePadState gamepadstatus;
         private KeyboardState keyboard;
         private Rectangle TitleSafe;
+
+        String health;
         
         private List<NPC> npcs = new List<NPC>();
         private List<GameObject> gameObjects = new List<GameObject>();
@@ -205,17 +207,18 @@ namespace island
             //run player update
             player.Update(gameTime);
             LoadLevel();
+            health="Health: "+player.health;
 
             foreach (NPC c in npcs)
             {
                 c.WithinRange(player.position);
             }
 
-            //if (player.wallCollision(player, walls))
-            //{
-            //    player.isPassable = false;
-            //}
-            //else player.isPassable = true;
+            if (player.wallCollision(player, walls))
+            {
+                player.isPassable = false;
+            }
+            else player.isPassable = true;
 
             
             //npcMover.Update(gameTime, path);
