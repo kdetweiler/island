@@ -127,7 +127,7 @@ namespace island
             MakeNPCList(levelOneLayout);
             pathfinding = new Pathfinding(level1);
             //path = pathfinding.FindPath(startPoint, endPoint);
-            newPath = pathfinding.FindPath(TSP, TEP);
+            //newPath = pathfinding.FindPath(TSP, TEP);
 
             player = new Player(new Vector2(400, 300), "Player1");
             Vector2 start = new Vector2(startPoint.X*50, startPoint.Y*50);
