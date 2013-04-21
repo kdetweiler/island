@@ -175,10 +175,6 @@ namespace island
             npcMover.Load(Content);
             ListHolder.Instance.NPCList[0].Load(Content);
 
-            walls.Add(new Wall(Content.Load<Texture2D>("horizontalBox"), new Vector2(250, 400)));
-            walls.Add(new Wall(Content.Load<Texture2D>("endPoint"), new Vector2(100, 250)));
-            walls.Add(new Wall(Content.Load<Texture2D>("endPoint"), new Vector2(300, 500)));
-
             TitleSafe = GetTitleSafeArea(.8f);
         }
 
@@ -212,18 +208,6 @@ namespace island
             Point npcEnd = new Point(player.rectangle.X / 50, player.rectangle.Y / 50);
             newPath = pathfinding.FindPath(TSP, npcEnd);
             //ListHolder.Instance.NPCList[0].Update(gameTime, newPath);
-
-            foreach (NPC c in npcs)
-            {
-                c.WithinRange(player.position);
-                c.Update(gameTime, newPath);
-            }
-
-            if (player.wallCollision(player, walls))
-            {
-                player.isPassable = false;
-            }
-            else player.isPassable = true;
 
             
             //npcMover.Update(gameTime, path);
@@ -264,13 +248,6 @@ namespace island
             spriteBatch.Begin();
             textBox.Y = 0;
 
-            foreach (NPC c in npcs)
-            {
-                if (c.withinRange == true)
-                    spriteBatch.DrawString(font, "Within Range!", new Vector2(550, 0), Color.Black);
-            }
-            if (hit)
-                spriteBatch.DrawString(font, "HIT!", new Vector2(600, 100), Color.Black);
             spriteBatch.DrawString(font, "Health: "+player.health, new Vector2(550, 0), Color.Black);
             spriteBatch.DrawString(font, player.toString(), new Vector2(50, 0), Color.Black);
 

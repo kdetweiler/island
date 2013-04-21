@@ -93,37 +93,22 @@ namespace island
             KeyboardState keyboard = Keyboard.GetState();
 
             //change the vertical velocity of the player by pressing keys W or S, or Up or Down
-            if (((keyboard.IsKeyDown(Keys.Up) || keyboard.IsKeyDown(Keys.W)) && keyboard.IsKeyUp(Keys.LeftShift)) && (isPassable || faceDirection == 180))
-            {
-                if (faceDirection == 180)
-                    position.Y -= 1;
+            if ((keyboard.IsKeyDown(Keys.Up) || keyboard.IsKeyDown(Keys.W)) && keyboard.IsKeyUp(Keys.LeftShift))
                 velocity.Y = -1f;
-            }
-            else if ((keyboard.IsKeyDown(Keys.Down) || (keyboard.IsKeyDown(Keys.S))) && (isPassable || faceDirection == 0))
-            {
-                if (faceDirection == 0)
-                    position.Y += 1;
+            else if (keyboard.IsKeyDown(Keys.Down) || (keyboard.IsKeyDown(Keys.S)))
                 velocity.Y = +1f;
-            }
             else
                 velocity.Y = 0f;
 
 
             //change the horizontal velocity of the player by pressing A or D, or left or right
-            if ((keyboard.IsKeyDown(Keys.Left) || (keyboard.IsKeyDown(Keys.A))) && (isPassable || faceDirection == 90))
-            {
-                if (faceDirection == 90)
-                    position.X -= 1;
+            if (keyboard.IsKeyDown(Keys.Left) || (keyboard.IsKeyDown(Keys.A)))
                 velocity.X = -1f;
-            }
-            else if ((keyboard.IsKeyDown(Keys.Right) || (keyboard.IsKeyDown(Keys.D))) && (isPassable || faceDirection == 270))
-            {
-                if (faceDirection == 270)
-                    position.X += 1;
+            else if (keyboard.IsKeyDown(Keys.Right) || (keyboard.IsKeyDown(Keys.D)))
                 velocity.X = 1f;
-            }
             else
                 velocity.X = 0f;
+
 
 
             //rotate the sprite counter clockwise using the Q button
