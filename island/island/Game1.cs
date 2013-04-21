@@ -211,11 +211,11 @@ namespace island
                 c.WithinRange(player.position);
             }
 
-            //if (player.wallCollision(player, walls))
-            //{
-            //    player.isPassable = false;
-            //}
-            //else player.isPassable = true;
+            if (player.wallCollision(player, walls))
+            {
+                player.isPassable = false;
+            }
+            else player.isPassable = true;
 
             
             //npcMover.Update(gameTime, path);
