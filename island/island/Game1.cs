@@ -34,7 +34,7 @@ namespace island
             { 1, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 0, 0, 2}, 
             { 1, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1}, 
             { 1, 1, 1, 1, 0, 1, 0, 1, 0, 0, 1, 0, 0, 0, 1, 1}, 
-            { 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1}, 
+            { 1, 4, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1}, 
             { 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 0, 1, 1}, 
             { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}, 
         };
@@ -69,6 +69,7 @@ namespace island
         private List<Wall> walls = new List<Wall>();
         private List<Entity> entitys = new List<Entity>();
         public List<Vector2> path = new List<Vector2>();
+        public List<Vector2> newPath = new List<Vector2>();
 
 
         NPC npcMover = new NPC();
@@ -78,7 +79,6 @@ namespace island
         Point startPoint = new Point(1,1);
         Point endPoint = new Point(6, 7);
 
-        GameObject pathEndPoint;
         CombatController combat;
         
 
@@ -115,6 +115,14 @@ namespace island
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
+            
+            ListHolder.Instance.NPCList = new List<NPC>();
+            ListHolder.Instance.WallList = new List<Wall>();
+            ListHolder.Instance.setGame(this);
+            ListHolder.Instance.setPlayer(player);
+
+            //initialize map npc spawns
+            MakeNPCList(levelOneLayout);
             pathfinding = new Pathfinding(level1);
             path = pathfinding.FindPath(startPoint, endPoint);
 
@@ -123,10 +131,6 @@ namespace island
             Vector2 end = new Vector2(endPoint.X * 50, endPoint.Y * 50);
             npcMover = new NPC(start, "NPC");
 
-            ListHolder.Instance.NPCList = new List<NPC>();
-            ListHolder.Instance.WallList = new List<Wall>();
-            ListHolder.Instance.setGame(this);
-            ListHolder.Instance.setPlayer(player);
 
            // pathEndPoint = new GameObject(Content.Load<Texture2D>("endPoint"),end);
 
@@ -163,6 +167,7 @@ namespace island
             //npcs.Add(new NPC(Content.Load<Texture2D>("npc2"), new Vector2(200, 150), "NPC2", new Node(), new Vector2(50, 50)));
 
             npcMover.Load(Content);
+            ListHolder.Instance.NPCList[0].Load(Content);
 
             walls.Add(new Wall(Content.Load<Texture2D>("horizontalBox"), new Vector2(250, 400)));
             walls.Add(new Wall(Content.Load<Texture2D>("endPoint"), new Vector2(100, 250)));
@@ -208,9 +213,13 @@ namespace island
             }
             else player.isPassable = true;
 
-            //Point playerPoint = new Point(6, 7);
-            //path = pathfinding.FindPath(startPoint, endPoint);
-            npcMover.Update(gameTime, path);
+            
+            //npcMover.Update(gameTime, path);
+            Point npcStart = new Point(10, 1);
+            Point npcEnd = new Point(player.rectangle.X / 50, player.rectangle.Y / 50);
+            newPath = pathfinding.FindPath(npcStart, npcEnd);
+            ListHolder.Instance.NPCList[0].Update(gameTime, newPath);
+
             //player.sensor.Proximity(player, 100, npcs);
             //player.sensor.WallScan(player, walls);
             //hit = player.sensor.WeaponSensor(player, npcs[1], player.rightHand.range);
@@ -241,13 +250,6 @@ namespace island
              
             // start rendering sprites
             spriteBatch.Begin();
-            //foreach (Vector2 point in path)
-            //{
-            //    //System.Diagnostics.Debug.WriteLine(point);
-            //    test = "Path: (" + point.X + ", " + point.Y + ")";
-            //    spriteBatch.DrawString(font, test, textBox, Color.Black);
-            //    textBox.Y += 20;
-            //}
             textBox.Y = 0;
 
             foreach (NPC c in npcs)
@@ -260,8 +262,6 @@ namespace island
 
             spriteBatch.DrawString(font, player.toString(), new Vector2(50, 0), Color.Black);
 
-            //pathEndPoint.Draw(gameTime, spriteBatch);
-            //doorRight.Draw(gameTime, spriteBatch);
             //draw walls
             foreach (Wall wall in walls)
                 wall.Draw(gameTime, spriteBatch);
@@ -269,10 +269,7 @@ namespace island
             //draw players
             player.DrawAnimation(gameTime, spriteBatch);
             npcMover.DrawAnimation(gameTime, spriteBatch);
-
-            //draw all npc's on screen
-            //foreach (NPC npc in npcs)
-                //npc.Draw(spriteBatch);
+            ListHolder.Instance.NPCList[0].DrawAnimation(gameTime, spriteBatch);
                         
             //Draw the game components (Sprites included)
             base.Draw(gameTime);
@@ -306,13 +303,16 @@ namespace island
             }
         }
 
-        /*
-        protected void MakeListNPC(int[,] layout)
+        
+        public void MakeNPCList(int[,] layout)
         {
-            for(int i = 0; i < 16; i++)
-                for(int j = 0; j < 12; j++)
-                    if(layout[j, i] == 4)
-                        npcs.Add(new NPC(Content.Load<Texture2D>("npc1"), new Vector2(j*50, i*50));
-        }*/
+            for(int i = 0; i < 12; i++)
+                for (int j = 0; j < 16; j++)
+                {
+                    if (layout[i, j] == 4)
+                        ListHolder.Instance.addNPC(new NPC(new Vector2(j * 50, i * 50), "NPC1", new Node()));
+                }
+
+        }
     }
 }

@@ -115,6 +115,7 @@
     <Compile Include="Equipment.cs" />
     <Compile Include="GameObject.cs" />
     <Compile Include="JasonQ.cs" />
+    <Compile Include="ListHolder.cs" />
     <Compile Include="Node.cs" />
     <Compile Include="NodeGraph.cs">
       <SubType>Code</SubType>
