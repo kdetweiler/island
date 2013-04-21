@@ -209,9 +209,14 @@ namespace island
             LoadLevel();
             health="Health: "+player.health;
 
+            Point npcEnd = new Point(player.rectangle.X / 50, player.rectangle.Y / 50);
+            newPath = pathfinding.FindPath(TSP, npcEnd);
+            //ListHolder.Instance.NPCList[0].Update(gameTime, newPath);
+
             foreach (NPC c in npcs)
             {
                 c.WithinRange(player.position);
+                c.Update(gameTime, newPath);
             }
 
             if (player.wallCollision(player, walls))
@@ -223,9 +228,9 @@ namespace island
             
             //npcMover.Update(gameTime, path);
             //Point npcStart = new Point(10, 1);
-            Point npcEnd = new Point(player.rectangle.X / 50, player.rectangle.Y / 50);
-            newPath = pathfinding.FindPath(TSP, npcEnd);
-            ListHolder.Instance.NPCList[0].Update(gameTime, newPath);
+            //Point npcEnd = new Point(player.rectangle.X / 50, player.rectangle.Y / 50);
+            //newPath = pathfinding.FindPath(TSP, npcEnd);
+            //ListHolder.Instance.NPCList[0].Update(gameTime, newPath);
 
             //player.sensor.Proximity(player, 100, npcs);
             //player.sensor.WallScan(player, walls);
@@ -266,7 +271,7 @@ namespace island
             }
             if (hit)
                 spriteBatch.DrawString(font, "HIT!", new Vector2(600, 100), Color.Black);
-
+            spriteBatch.DrawString(font, "Health: "+player.health, new Vector2(550, 0), Color.Black);
             spriteBatch.DrawString(font, player.toString(), new Vector2(50, 0), Color.Black);
 
             //draw walls

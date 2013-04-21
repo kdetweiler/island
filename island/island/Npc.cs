@@ -160,10 +160,6 @@ namespace island
         
         public override void Update(GameTime gameTime)
         {
-           // position += velocity;
-
-            //this.rectangle.X = (int)this.position.X;
-            //this.rectangle.Y = (int)this.position.Y;
             if (shortDest.point.X == this.rectangle.X && shortDest.point.Y == this.rectangle.Y) {
                 //A* shit goes here
                 location = shortDest;
@@ -179,7 +175,7 @@ namespace island
             {
                 if (!isHostile)
                 {
-                    stand();
+                    stand(gameTime,path);
                 }
                 else
                 {
@@ -187,11 +183,16 @@ namespace island
                     lastAttackTime += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
                     if (withinRange)
                     {
-
-                        //if(its been two seconds since last attack)
-                        //attack
+                        if (lastAttackTime > 125.0f) 
+                        {
+                            Console.Write("Attacking");
+                            attack();
+                        }
                     }
-                    else { seek(); }
+                    else 
+                    { 
+                        seek(gameTime,path); 
+                    }
                 }
             }
             else 
@@ -201,16 +202,32 @@ namespace island
         }
 
         //not hostile actions
-        public void patrol() { }
-
-        public void stand() 
+        public void stand(GameTime gameTime, List<Vector2> path) 
         {
-            velocity = Vector2.Zero;
+            //doing nothing
+            if (withinRange) 
+            { 
+                isHostile=true;
+                takeAction(gameTime, path);
+            }
         }
 
         //hostile actions
 
-        public void seek() { }
+        public void seek(GameTime gameTime, List<Vector2> path) 
+        {
+            lastTime += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+            if (path.Count > 0)
+            {
+                if (lastTime > 1)
+                {
+                    if (path.Count > 0 && MoveTowardsPoint(path[0], lastTime))
+                        path.RemoveAt(0);
+
+                    lastTime = 0;
+                }
+            }
+        }
 
         public void attack() 
         { 
@@ -228,17 +245,17 @@ namespace island
         public void Update(GameTime gameTime, List<Vector2> path)
         {
             this.takeAction(gameTime,path);
-            lastTime += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
-            if (path.Count > 0)
-            {
-                if (lastTime > 1)
-                {
-                    if (path.Count > 0 && MoveTowardsPoint(path[0], lastTime))
-                        path.RemoveAt(0);
+            //lastTime += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+            //if (path.Count > 0)
+            //{
+            //    if (lastTime > 1)
+            //    {
+            //        if (path.Count > 0 && MoveTowardsPoint(path[0], lastTime))
+            //            path.RemoveAt(0);
 
-                    lastTime = 0;
-                }
-            }
+            //        lastTime = 0;
+            //    }
+            //}
             if (health < 1) pleaseDie();
         }
 
