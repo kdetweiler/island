@@ -25,15 +25,5 @@ namespace island
             exists = true;
             isPassable = false;
         }
-
-        
-        public bool wallCollision(Vector2 pos, Vector2 wallPos, int range)
-        {
-            if (Math.Abs(wallPos.X - pos.X) <= range && Math.Abs(wallPos.Y - pos.Y) <= range)
-            {
-                return true;
-            }
-            else return false;
-        }
     }
 }

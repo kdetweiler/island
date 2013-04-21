@@ -160,7 +160,9 @@ namespace island
 
             //npcMover.Load(Content);
 
-            //walls.Add(new Wall(Content.Load<Texture2D>("horizontalBox"), new Vector2(250, 400)));
+            walls.Add(new Wall(Content.Load<Texture2D>("horizontalBox"), new Vector2(250, 400)));
+            walls.Add(new Wall(Content.Load<Texture2D>("endPoint"), new Vector2(100, 250)));
+            walls.Add(new Wall(Content.Load<Texture2D>("endPoint"), new Vector2(300, 500)));
 
             TitleSafe = GetTitleSafeArea(.8f);
         }
@@ -195,7 +197,13 @@ namespace island
             {
                 c.WithinRange(player.position);
             }
-            
+
+            if (player.wallCollision(player, walls))
+            {
+                player.isPassable = false;
+            }
+            else player.isPassable = true;
+
             //npcMover.Update(gameTime, path);
             //player.sensor.Proximity(player, 100, npcs);
             //player.sensor.WallScan(player, walls);
