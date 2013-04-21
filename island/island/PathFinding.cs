@@ -66,7 +66,8 @@ namespace island
                 for (int y = 0; y < Height; y++)
                 {
                     int index = layout[y, x];
-                    if(index == 4)
+
+                    if (index == 4)
                         spriteBatch.Draw(textures[0], new Vector2(x, y) * tileSize, Color.White);
 
                     spriteBatch.Draw(textures[index], new Vector2(x, y) * tileSize, Color.White);

@@ -62,13 +62,16 @@ namespace island
         private GamePadState gamepadstatus;
         private KeyboardState keyboard;
         private Rectangle TitleSafe;
+        
         private List<NPC> npcs = new List<NPC>();
         private List<GameObject> gameObjects = new List<GameObject>();
         private List<Character> characters = new List<Character>();
         private List<Wall> walls = new List<Wall>();
         private List<Entity> entitys = new List<Entity>();
         public List<Vector2> path = new List<Vector2>();
-        NPC npcMover = new NPC();
+
+
+        //NPC npcMover = new NPC();
         private bool hit = false;
         private int currentLevel = 1;
 
@@ -113,19 +116,15 @@ namespace island
         {
             // TODO: Add your initialization logic here
             pathfinding = new Pathfinding(level1);
-            path = pathfinding.FindPath(startPoint, endPoint);
-
-            map = new NodeGraph(funNodes);
+            //path = pathfinding.FindPath(startPoint, endPoint);
 
             player = new Player(new Vector2(400, 300), "Player1");
-            Vector2 start = new Vector2(startPoint.X*50, startPoint.Y*50);
-            Vector2 end = new Vector2(endPoint.X * 50, endPoint.Y * 50);
-
-            map = new NodeGraph(funNodes);
-            npcMover = new NPC(start, "NPC");
+            //Vector2 start = new Vector2(startPoint.X*50, startPoint.Y*50);
+            //Vector2 end = new Vector2(endPoint.X * 50, endPoint.Y * 50);
+            //npcMover = new NPC(start, "NPC");
             combat = new CombatController(player);
 
-            pathEndPoint = new GameObject(Content.Load<Texture2D>("endPoint"),end);
+            //pathEndPoint = new GameObject(Content.Load<Texture2D>("endPoint"),end);
 
 
             base.Initialize();
@@ -159,7 +158,7 @@ namespace island
             //npcs.Add(new NPC(Content.Load<Texture2D>("npc1"), new Vector2(100, 150), "NPC1", new Node(), new Vector2(50, 50)));
             //npcs.Add(new NPC(Content.Load<Texture2D>("npc2"), new Vector2(200, 150), "NPC2", new Node(), new Vector2(50, 50)));
 
-            npcMover.Load(Content);
+            //npcMover.Load(Content);
 
             //walls.Add(new Wall(Content.Load<Texture2D>("horizontalBox"), new Vector2(250, 400)));
 
@@ -197,7 +196,7 @@ namespace island
                 c.WithinRange(player.position);
             }
             
-            npcMover.Update(gameTime, path);
+            //npcMover.Update(gameTime, path);
             //player.sensor.Proximity(player, 100, npcs);
             //player.sensor.WallScan(player, walls);
             //hit = player.sensor.WeaponSensor(player, npcs[1], player.rightHand.range);
@@ -247,7 +246,7 @@ namespace island
 
             spriteBatch.DrawString(font, player.toString(), new Vector2(50, 0), Color.Black);
 
-            pathEndPoint.Draw(gameTime, spriteBatch);
+            //pathEndPoint.Draw(gameTime, spriteBatch);
             //doorRight.Draw(gameTime, spriteBatch);
             //draw walls
             foreach (Wall wall in walls)
@@ -255,7 +254,7 @@ namespace island
             
             //draw players
             player.DrawAnimation(gameTime, spriteBatch);
-            npcMover.DrawAnimation(gameTime, spriteBatch);
+            //npcMover.DrawAnimation(gameTime, spriteBatch);
 
             //draw all npc's on screen
             //foreach (NPC npc in npcs)
@@ -292,5 +291,14 @@ namespace island
                 player.position.Y = 300;
             }
         }
+
+        /*
+        protected void MakeListNPC(int[,] layout)
+        {
+            for(int i = 0; i < 16; i++)
+                for(int j = 0; j < 12; j++)
+                    if(layout[j, i] == 4)
+                        npcs.Add(new NPC(Content.Load<Texture2D>("npc1"), new Vector2(j*50, i*50));
+        }*/
     }
 }
