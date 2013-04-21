@@ -27,14 +27,14 @@ namespace island
         {
             { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}, 
             { 1, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-            { 1, 1, 0, 0, 4, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1}, 
+            { 1, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1}, 
             { 1, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0, 0, 1}, 
             { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1},
             { 1, 0, 1, 0, 0, 1, 1, 1, 0, 0, 0, 0, 1, 0, 0, 1}, 
             { 1, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 0, 0, 2}, 
             { 1, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1}, 
-            { 1, 1, 1, 1, 0, 1, 0, 1, 0, 0, 1, 0, 4, 0, 1, 1}, 
-            { 1, 0, 4, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1}, 
+            { 1, 1, 1, 1, 0, 1, 0, 1, 0, 0, 1, 0, 0, 0, 1, 1}, 
+            { 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1}, 
             { 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 0, 1, 1}, 
             { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}, 
         };
@@ -71,7 +71,7 @@ namespace island
         public List<Vector2> path = new List<Vector2>();
 
 
-        //NPC npcMover = new NPC();
+        NPC npcMover = new NPC();
         private bool hit = false;
         private int currentLevel = 1;
 
@@ -116,15 +116,15 @@ namespace island
         {
             // TODO: Add your initialization logic here
             pathfinding = new Pathfinding(level1);
-            //path = pathfinding.FindPath(startPoint, endPoint);
+            path = pathfinding.FindPath(startPoint, endPoint);
 
             player = new Player(new Vector2(400, 300), "Player1");
-            //Vector2 start = new Vector2(startPoint.X*50, startPoint.Y*50);
-            //Vector2 end = new Vector2(endPoint.X * 50, endPoint.Y * 50);
-            //npcMover = new NPC(start, "NPC");
+            Vector2 start = new Vector2(startPoint.X*50, startPoint.Y*50);
+            Vector2 end = new Vector2(endPoint.X * 50, endPoint.Y * 50);
+            npcMover = new NPC(start, "NPC");
             
 
-            //pathEndPoint = new GameObject(Content.Load<Texture2D>("endPoint"),end);
+           // pathEndPoint = new GameObject(Content.Load<Texture2D>("endPoint"),end);
 
 
             base.Initialize();
@@ -158,7 +158,7 @@ namespace island
             //npcs.Add(new NPC(Content.Load<Texture2D>("npc1"), new Vector2(100, 150), "NPC1", new Node(), new Vector2(50, 50)));
             //npcs.Add(new NPC(Content.Load<Texture2D>("npc2"), new Vector2(200, 150), "NPC2", new Node(), new Vector2(50, 50)));
 
-            //npcMover.Load(Content);
+            npcMover.Load(Content);
 
             walls.Add(new Wall(Content.Load<Texture2D>("horizontalBox"), new Vector2(250, 400)));
             walls.Add(new Wall(Content.Load<Texture2D>("endPoint"), new Vector2(100, 250)));
@@ -204,7 +204,9 @@ namespace island
             }
             else player.isPassable = true;
 
-            //npcMover.Update(gameTime, path);
+            //Point playerPoint = new Point(6, 7);
+            //path = pathfinding.FindPath(startPoint, endPoint);
+            npcMover.Update(gameTime, path);
             //player.sensor.Proximity(player, 100, npcs);
             //player.sensor.WallScan(player, walls);
             //hit = player.sensor.WeaponSensor(player, npcs[1], player.rightHand.range);
@@ -262,7 +264,7 @@ namespace island
             
             //draw players
             player.DrawAnimation(gameTime, spriteBatch);
-            //npcMover.DrawAnimation(gameTime, spriteBatch);
+            npcMover.DrawAnimation(gameTime, spriteBatch);
 
             //draw all npc's on screen
             //foreach (NPC npc in npcs)
