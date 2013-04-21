@@ -14,7 +14,7 @@ namespace island
 {
     class Wall : GameObject
     {
-        public Wall(Vector2 newPosition, Texture2D newTexture)
+        public Wall(Texture2D newTexture, Vector2 newPosition)
         {
             texture = newTexture;
             position = newPosition;
@@ -24,8 +24,16 @@ namespace island
 
             exists = true;
             isPassable = false;
+        }
 
-            position = newPosition;
+        
+        public bool wallCollision(Vector2 pos, Vector2 wallPos, int range)
+        {
+            if (Math.Abs(wallPos.X - pos.X) <= range && Math.Abs(wallPos.Y - pos.Y) <= range)
+            {
+                return true;
+            }
+            else return false;
         }
     }
 }
