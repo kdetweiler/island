@@ -181,15 +181,17 @@ namespace island
                 }
                 else
                 {
-                    
+                    seek();
+                    if (withinRange) 
+                    {
+                        attack();
+                    }
                 }
             }
         }
 
         //not hostile actions
         public void patrol() { }
-
-
 
         public void stand() 
         {
@@ -199,6 +201,11 @@ namespace island
         //hostile actions
 
         public void seek() { }
+
+        public void attack() 
+        { 
+            //tell Game1 CombatController to do stuff
+        }
 
         public List<Node> nodeMove(NodeGraph nodegraph, Node desiredEnd) 
         {

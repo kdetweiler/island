@@ -46,7 +46,10 @@ namespace island
         public void attack(NPC checker, Player entity) 
         {
             //check to see if NPC attacks Player
-            Rectangle playerPosition = entity.rectangle;
+            if (checker.withinRange) 
+            {
+                confirmedHit(checker, entity);
+            }
         }
 
         public int damageFormula(Character attacker, Character target) 
