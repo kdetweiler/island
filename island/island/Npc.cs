@@ -171,6 +171,35 @@ namespace island
 
         }
 
+        public void takeAction() 
+        {
+            if (isAlive)
+            {
+                if (!isHostile)
+                {
+                    stand();
+                }
+                else
+                {
+                    
+                }
+            }
+        }
+
+        //not hostile actions
+        public void patrol() { }
+
+
+
+        public void stand() 
+        {
+            velocity = Vector2.Zero;
+        }
+
+        //hostile actions
+
+        public void seek() { }
+
         public List<Node> nodeMove(NodeGraph nodegraph, Node desiredEnd) 
         {
             List<Node> answer=nodegraph.AStar(location, desiredEnd);

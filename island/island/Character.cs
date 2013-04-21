@@ -22,7 +22,7 @@ namespace island
 
         public List<Skill> SkillList=new List<Skill>();
 
-        public Boolean isAlive;
+        public static Boolean isAlive;
         public Boolean isHostile;
 
 
@@ -36,13 +36,19 @@ namespace island
         {
             health -= damage;
             if (isHostile == false) isHostile = true;
-            if (health < 1) isAlive = false;
+            if (health < 1) die();
         }
 
         public void healDamage(int healing)
         {
             health += healing;
             if (health > maxHealth) health = maxHealth;
+        }
+
+        public static void die() 
+        {
+            isAlive = false;
+            //do a death animation
         }
 
         public Boolean doesHit(Character target) 
