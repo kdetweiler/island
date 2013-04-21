@@ -122,7 +122,11 @@ namespace island
             Vector2 start = new Vector2(startPoint.X*50, startPoint.Y*50);
             Vector2 end = new Vector2(endPoint.X * 50, endPoint.Y * 50);
             npcMover = new NPC(start, "NPC");
-            
+
+            ListHolder.Instance.NPCList = new List<NPC>();
+            ListHolder.Instance.WallList = new List<Wall>();
+            ListHolder.Instance.setGame(this);
+            ListHolder.Instance.setPlayer(player);
 
            // pathEndPoint = new GameObject(Content.Load<Texture2D>("endPoint"),end);
 
