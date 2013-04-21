@@ -39,6 +39,7 @@ namespace island
         public static List<Node> nodepath;
 
         public int faceDirection;
+        float lastAttackTime = 0.0f;
 
         public Sensor sensor;
 
@@ -181,6 +182,8 @@ namespace island
                 }
                 else
                 {
+
+                    //lastAttackTime += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
                     if (withinRange)
                     {
                         //if(its been two seconds since last attack)
@@ -232,7 +235,6 @@ namespace island
 
                     lastTime = 0;
                 }
-
             }
         }
 

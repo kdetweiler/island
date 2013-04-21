@@ -126,6 +126,7 @@ namespace island
             //initialize map npc spawns
             MakeNPCList(levelOneLayout);
             pathfinding = new Pathfinding(level1);
+            ListHolder.Instance.setPathFinder(pathfinding);
             //path = pathfinding.FindPath(startPoint, endPoint);
             //newPath = pathfinding.FindPath(TSP, TEP);
 
@@ -210,11 +211,11 @@ namespace island
                 c.WithinRange(player.position);
             }
 
-            if (player.wallCollision(player, walls))
-            {
-                player.isPassable = false;
-            }
-            else player.isPassable = true;
+            //if (player.wallCollision(player, walls))
+            //{
+            //    player.isPassable = false;
+            //}
+            //else player.isPassable = true;
 
             
             //npcMover.Update(gameTime, path);

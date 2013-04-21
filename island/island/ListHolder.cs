@@ -36,6 +36,8 @@ namespace island
         public List<NPC> NPCList;
         public List<Wall> WallList;
 
+        public Pathfinding PathFinder;
+
         public void setGame(Game1 NewGame) 
         {
             game = NewGame;
@@ -54,6 +56,11 @@ namespace island
         public void setWallList(List<Wall> NewWallList) 
         {
             WallList = NewWallList;
+        }
+
+        public void setPathFinder(Pathfinding NewPathFinding) 
+        {
+            PathFinder = NewPathFinding;
         }
 
         public Player getPlayer() { return player; }
