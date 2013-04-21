@@ -17,6 +17,8 @@ namespace island
         public String name;
         public int range;
 
+        public int delay = 100;
+
         public int[] sweetSpots;
         
 
@@ -29,11 +31,7 @@ namespace island
 
         public Boolean inSweetSpot(NPC target) 
         {
-            Vector2 spot=target.position;
-            for (int k = 0; k < sweetSpots.Length; k++) 
-            { 
-                
-            }
+            
             return false;
         }
     }

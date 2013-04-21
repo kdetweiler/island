@@ -273,15 +273,19 @@ namespace island
         }
 
 
-        public int attack(List<NPC> entities)
+        public List<int> attack(List<NPC> entities)
         {
+            List<int> targets=new List<int>();
             Rectangle enemyPosition;
             for (int k = 0; k < entities.Count; k++)
             {
                 //check to see if entities[k] is hittable; if so return it
-                enemyPosition = entities[k].rectangle;
+                if(sensor.WeaponSensor(this,entities[k],rightHand.range)) 
+                {
+                    targets.Add(k);
+                }
             }
-            return -1;
+            return targets;
         }
     }
 }

@@ -24,9 +24,7 @@ namespace island
     
         public void confirmedHit(Character attacker, Character defender) 
         {
-            int dealt = attacker.strength - defender.strength;
-            if (dealt < 1) dealt = 1;
-            defender.takeDamage(dealt);
+            defender.takeDamage(damageFormula(attacker,defender);
         }
 
         public static void hit(Character attacker, Character defender) 
@@ -35,13 +33,13 @@ namespace island
         }
 
         //this method will not look like this at all. just an idea infrastructure
-        public void attack(Player checker, List<Character> entities) 
+        public void attack(Player checker, List<NPC> entities) 
         { 
-            int index=-1;
-            //have Character have a method that checks if it attacked anything and return an index indicating which entity. -1 if it misses
-            if (index != -1) 
-            {
-                entities[index].takeDamage(checker.strength-entities[index].strength);
+            List<int> hitEnemies = checker.attack(entities);
+            for (int k = 0; k < hitEnemies.Count; k++) 
+            { 
+                int index=hitEnemies[k];
+                entities[index].takeDamage(damageFormula(checker, entities[index]));
             }
         }
 
@@ -49,6 +47,13 @@ namespace island
         {
             //check to see if NPC attacks Player
             Rectangle playerPosition = entity.rectangle;
+        }
+
+        public int damageFormula(Character attacker, Character target) 
+        {
+            int damage=attacker.strength - target.strength;
+            if (damage < 1) damage = 1;
+            return damage;
         }
     }
 }
