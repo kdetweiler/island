@@ -45,7 +45,7 @@ namespace island
             if (health > maxHealth) health = maxHealth;
         }
 
-        public static void die() 
+        public override static void die() 
         {
             isAlive = false;
             //do a death animation

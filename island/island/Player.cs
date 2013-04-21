@@ -42,6 +42,7 @@ namespace island
         public Weapon leftHand;
 
         float lastTime = 0.0f;
+        float lastAttackTime = 0.0f;
 
         public Player()
         {
@@ -144,6 +145,15 @@ namespace island
                 {
                     rotateClockWise();
                     lastTime = 0;
+                }
+            }
+
+            if (keyboard.IsKeyDown(Keys.Space)) 
+            {
+                lastAttackTime += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+                if (lastAttackTime > 125.0f) 
+                {
+                    this.uponAttack(ListHolder.Instance.NPCList);
                 }
             }
 

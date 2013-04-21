@@ -210,6 +210,7 @@ namespace island
         public void attack() 
         { 
             //tell Game1 CombatController to do stuff
+            CombatController.Instance.confirmedHit(this, ListHolder.Instance.getPlayer());
         }
 
         public List<Node> nodeMove(NodeGraph nodegraph, Node desiredEnd) 
@@ -245,6 +246,13 @@ namespace island
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(texture, rectangle, Color.White);
+        }
+
+        public void die() 
+        {
+            isAlive = false;
+            //change animation
+
         }
 
         private bool MoveTowardsPoint(Vector2 goal, float elapsed)
