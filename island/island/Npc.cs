@@ -70,6 +70,7 @@ namespace island
             strength = 10;
             defense = 5;
             isAlive = true;
+            isHostile = false;
         }
 
         public NPC(Texture2D newTexture, Vector2 newPosition, String newName)
@@ -84,6 +85,7 @@ namespace island
             strength = 10;
             defense = 5;
             isAlive = true;
+            isHostile = false;
         }
 
         public NPC(Vector2 newPosition, String newName, Node spawnNode) 
@@ -99,6 +101,7 @@ namespace island
             strength = 10;
             defense = 5;
             isAlive = true;
+            isHostile = false;
         }
 
 
@@ -115,6 +118,7 @@ namespace island
             strength = 10;
             defense = 5;
             isAlive = true;
+            isHostile = false;
         }
 
         public NPC(Texture2D newTexture, Vector2 newPosition, String newName, Node spawnNode, Vector2 newAttackRange)
@@ -130,6 +134,7 @@ namespace island
             strength = 10;
             defense = 5;
             isAlive = true;
+            isHostile = false;
 
             attackRange = newAttackRange;
             withinRange = false;
@@ -175,7 +180,7 @@ namespace island
             {
                 if (!isHostile)
                 {
-                    stand(gameTime,path);
+                    stand(gameTime, path);
                 }
                 else
                 {
