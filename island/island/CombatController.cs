@@ -64,12 +64,10 @@ namespace island
 
         //this method will not look like this at all. just an idea infrastructure
         public void attack(Player checker, List<NPC> entities) 
-        { 
-            List<int> hitEnemies = checker.attack(entities);
-            for (int k = 0; k < hitEnemies.Count; k++) 
-            { 
-                int index=hitEnemies[k];
-                entities[index].takeDamage(damageFormula(checker, entities[index]));
+        {
+            for (int k = 0; k < entities.Count; k++)
+            {
+                entities[k].takeDamage(damageFormula(checker, entities[k]));
             }
         }
 

@@ -294,8 +294,15 @@ namespace island
             return togo;
         }
 
+        public void uponAttack(List<NPC> entities) 
+        {
+            List<int> targets = attackList(entities);
+            CombatController.Instance.attack(this, entities);
+        }
 
-        public List<int> attack(List<NPC> entities)
+
+
+        public List<int> attackList(List<NPC> entities)
         {
             List<int> targets=new List<int>();
             for (int k = 0; k < entities.Count; k++)
