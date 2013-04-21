@@ -181,12 +181,17 @@ namespace island
                 }
                 else
                 {
-                    seek();
-                    if (withinRange) 
+                    if (withinRange)
                     {
-                        attack();
+                        //if(its been two seconds since last attack)
+                        //attack
                     }
+                    else { seek(); }
                 }
+            }
+            else 
+            { 
+                //if dead want something to happen
             }
         }
 
