@@ -23,6 +23,37 @@ namespace island
     /// </summary>
     public class Game1 : Microsoft.Xna.Framework.Game
     {
+        static int[,] levelOneLayout = new int[,]
+        {
+            { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}, 
+            { 1, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+            { 1, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1}, 
+            { 1, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0, 0, 1}, 
+            { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1},
+            { 1, 0, 1, 0, 0, 1, 1, 1, 0, 0, 0, 0, 1, 0, 0, 1}, 
+            { 1, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 0, 0, 2}, 
+            { 1, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1}, 
+            { 1, 1, 1, 1, 0, 1, 0, 1, 0, 0, 1, 0, 0, 0, 1, 1}, 
+            { 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1}, 
+            { 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 0, 1, 1}, 
+            { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}, 
+        };
+
+        static public int[,] levelTwoLayout = new int[,]
+        {
+            { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}, 
+            { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+            { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1}, 
+            { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1}, 
+            { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+            { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1}, 
+            { 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1}, 
+            { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1}, 
+            { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1}, 
+            { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1}, 
+            { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1}, 
+            { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}, 
+        };
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         SpriteFont font;
@@ -39,18 +70,20 @@ namespace island
         public List<Vector2> path = new List<Vector2>();
         NPC npcMover = new NPC();
         private bool hit = false;
+        private int currentLevel = 1;
 
-        Point startPoint = new Point(0,0);
+        Point startPoint = new Point(1, 1);
         Point endPoint = new Point(6, 7);
 
         GameObject pathEndPoint;
         CombatController combat;
-        
+
 
         public Vector2 textBox = new Vector2(600, 0);
 
         public string test;
-        Map myMap = new Map();
+        Map level1 = new Map(levelOneLayout);
+        Map level2 = new Map(levelTwoLayout);
 
         Pathfinding pathfinding;
 
@@ -60,14 +93,14 @@ namespace island
 
 
         private static Node[] funNodes = new Node[35];
-        
+
 
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
             graphics.PreferredBackBufferHeight = 600;
             graphics.PreferredBackBufferWidth = 800;
-            Content.RootDirectory = "Content";            
+            Content.RootDirectory = "Content";
         }
 
         /// <summary>
@@ -79,20 +112,21 @@ namespace island
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-            pathfinding = new Pathfinding(myMap);
+            pathfinding = new Pathfinding(level1);
             path = pathfinding.FindPath(startPoint, endPoint);
 
             map = new NodeGraph(funNodes);
 
             player = new Player(new Vector2(400, 300), "Player1");
-            Vector2 start = new Vector2(startPoint.X*50, startPoint.Y*50);
+            Vector2 start = new Vector2(startPoint.X * 50, startPoint.Y * 50);
             Vector2 end = new Vector2(endPoint.X * 50, endPoint.Y * 50);
 
             map = new NodeGraph(funNodes);
             npcMover = new NPC(start, "NPC");
             combat = new CombatController(player);
 
-            pathEndPoint = new GameObject(Content.Load<Texture2D>("endPoint"),end);
+            pathEndPoint = new GameObject(Content.Load<Texture2D>("endPoint"), end);
+
 
             base.Initialize();
         }
@@ -109,12 +143,15 @@ namespace island
 
             font = Content.Load<SpriteFont>("myFont");
             //officeBackground = Content.Load<Texture2D>("tempStartArea");
-            List<Texture2D> textures = new List<Texture2D>()
+            List<Texture2D> mapTextures = new List<Texture2D>()
             {
                 Content.Load<Texture2D>("grass"),
                 Content.Load<Texture2D>("tree"),
+                Content.Load<Texture2D>("doorRight"),
+                Content.Load<Texture2D>("doorLeft"),
             };
-            myMap.SetTextures(textures);
+            level1.SetTextures(mapTextures);
+            level2.SetTextures(mapTextures);
 
             player.Load(Content);
 
@@ -142,7 +179,7 @@ namespace island
         {
             gamepadstatus = GamePad.GetState(PlayerIndex.One);
             keyboard = Keyboard.GetState();
-            
+
             // Allows the game to exit
             if ((GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed) || (keyboard.IsKeyDown(Keys.Escape)))
             {
@@ -152,18 +189,30 @@ namespace island
             //player.sensor.proximitySensor(player.rectangle, 100, npcs);
             //run player update
             player.Update(gameTime);
+            if (currentLevel == 1 && player.rectangle.Center.X >= 780 && player.rectangle.Center.Y >= 249 && player.position.Y <= 301)
+            {
+                currentLevel = 2;
+                player.position.X = 30;
+                player.position.Y = 300;
+            }
+            else if (currentLevel == 2 && player.rectangle.Center.X <= 20 && player.position.Y >= 249 && player.position.Y <= 301)
+            {
+                currentLevel = 1;
+                player.position.X = 730;
+                player.position.Y = 300;
+            }
 
             foreach (NPC c in npcs)
             {
                 c.WithinRange(player.position);
             }
-            
+
             npcMover.Update(gameTime, path);
             //player.sensor.Proximity(player, 100, npcs);
             //player.sensor.WallScan(player, walls);
             hit = player.sensor.WeaponSensor(player, npcs[1], player.rightHand.range);
             //hit = false;
-            
+
             // TODO: Add your update logic here
             base.Update(gameTime);
         }
@@ -179,9 +228,14 @@ namespace island
             //Draw background
             spriteBatch.Begin();
             //spriteBatch.Draw(officeBackground, GraphicsDevice.Viewport.Bounds, Color.White);            
-            myMap.Draw(spriteBatch);
+
+            if (currentLevel == 1)
+                level1.Draw(spriteBatch);
+            else if (currentLevel == 2)
+                level2.Draw(spriteBatch);
+
             spriteBatch.End();
-             
+
             // start rendering sprites
             spriteBatch.Begin();
             //foreach (Vector2 point in path)
@@ -204,10 +258,11 @@ namespace island
             spriteBatch.DrawString(font, player.toString(), new Vector2(50, 0), Color.Black);
 
             pathEndPoint.Draw(gameTime, spriteBatch);
+            //doorRight.Draw(gameTime, spriteBatch);
             //draw walls
             foreach (Wall wall in walls)
                 wall.Draw(gameTime, spriteBatch);
-            
+
             //draw players
             player.DrawAnimation(gameTime, spriteBatch);
             npcMover.DrawAnimation(gameTime, spriteBatch);
@@ -215,7 +270,7 @@ namespace island
             //draw all npc's on screen
             foreach (NPC npc in npcs)
                 npc.Draw(spriteBatch);
-                        
+
             //Draw the game components (Sprites included)
             base.Draw(gameTime);
             // end rendering sprites;
@@ -228,7 +283,7 @@ namespace island
                 graphics.GraphicsDevice.Viewport.Y,
                 graphics.GraphicsDevice.Viewport.Width,
                 graphics.GraphicsDevice.Viewport.Height);
-          
+
             return retval;
         }
     }
