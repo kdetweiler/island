@@ -122,7 +122,7 @@ namespace island
             //Vector2 start = new Vector2(startPoint.X*50, startPoint.Y*50);
             //Vector2 end = new Vector2(endPoint.X * 50, endPoint.Y * 50);
             //npcMover = new NPC(start, "NPC");
-            combat = new CombatController(player);
+            
 
             //pathEndPoint = new GameObject(Content.Load<Texture2D>("endPoint"),end);
 
