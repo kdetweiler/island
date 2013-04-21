@@ -78,6 +78,8 @@ namespace island
 
         Point startPoint = new Point(1,1);
         Point endPoint = new Point(6, 7);
+        Point TSP = new Point(1, 9);
+        //Point TEP = new Point(3, 9);
 
         CombatController combat;
         
@@ -124,7 +126,8 @@ namespace island
             //initialize map npc spawns
             MakeNPCList(levelOneLayout);
             pathfinding = new Pathfinding(level1);
-            path = pathfinding.FindPath(startPoint, endPoint);
+            //path = pathfinding.FindPath(startPoint, endPoint);
+            newPath = pathfinding.FindPath(TSP, TEP);
 
             player = new Player(new Vector2(400, 300), "Player1");
             Vector2 start = new Vector2(startPoint.X*50, startPoint.Y*50);
@@ -215,9 +218,9 @@ namespace island
 
             
             //npcMover.Update(gameTime, path);
-            Point npcStart = new Point(10, 1);
+            //Point npcStart = new Point(10, 1);
             Point npcEnd = new Point(player.rectangle.X / 50, player.rectangle.Y / 50);
-            newPath = pathfinding.FindPath(npcStart, npcEnd);
+            newPath = pathfinding.FindPath(TSP, npcEnd);
             ListHolder.Instance.NPCList[0].Update(gameTime, newPath);
 
             //player.sensor.Proximity(player, 100, npcs);

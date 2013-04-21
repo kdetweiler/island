@@ -128,7 +128,7 @@ namespace island
                     node.Position = new Point(x, y);
 
                     //check if tile is walkable or not
-                    node.Walkable = map.GetIndex(x, y) == 0;
+                    node.Walkable = map.GetIndex(x, y) == 0 || map.GetIndex(x,y) == 4;
 
                     //if walkable then store the node
                     if (node.Walkable == true)
