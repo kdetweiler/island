@@ -15,13 +15,43 @@ namespace island
     class CombatController
     {
 
+        private static CombatController instance;
+
+        private CombatController() { }
+
+        public static CombatController Instance
+        {
+            get
+            {
+                if (instance == null)
+                {
+                    instance = new CombatController();
+                }
+                return instance;
+            }
+        }
+
         public Player user;
 
-        public CombatController(Player mainCharacter) 
+        //don't call this anymore!
+        //public CombatController(Player mainCharacter) 
+        //{
+        //    user = mainCharacter;
+        //}
+
+
+        //Call this instead to set the main character
+        public void setMainCharacter(Player mainCharacter)
         {
             user = mainCharacter;
         }
-    
+
+        //Way you access CombatController 
+        //CombatController combat = CombatController.Instance;
+        ////Then you could call the setMainCharacter function defined above
+        //combat.setMainCharacter(player);
+
+
         public void confirmedHit(Character attacker, Character defender) 
         {
             defender.takeDamage(damageFormula(attacker,defender));
