@@ -63,7 +63,7 @@ namespace island
             position = newPosition;
             sensor=new Sensor(100,3);
             //rectangle = new Rectangle((int)position.X, (int)position.Y, texture.Width, texture.Height);
-            rectangle = new Rectangle((int)position.X, (int)position.Y, 34, 57);
+            rectangle = new Rectangle((int)position.X, (int)position.Y, 50, 50);
             name = newName;
             health = 100;
             maxHealth = 100;
@@ -92,7 +92,7 @@ namespace island
             name = newName;
             sensor = new Sensor(100, 3);
             //rectangle = new Rectangle((int)position.X, (int)position.Y, texture.Width, texture.Height);
-            rectangle = new Rectangle((int)position.X, (int)position.Y, 34, 57);
+            rectangle = new Rectangle((int)position.X, (int)position.Y, 50, 50);
             location = spawnNode;
             health = 100;
             maxHealth = 100;
@@ -137,15 +137,15 @@ namespace island
 
         public void Load(ContentManager Content)
         {
-            walkHorizontalRightAnimation = new Animation(Content.Load<Texture2D>("walkHorizontalRight"), 32, 0.1f, true);
-            walkHorizontalLeftAnimation = new Animation(Content.Load<Texture2D>("walkHorizontalLeft"), 32, 0.1f, true);
-            walkVerticalDownAnimation = new Animation(Content.Load<Texture2D>("walkVerticalDown"), 34, 0.1f, true);
-            walkVerticalUpAnimation = new Animation(Content.Load<Texture2D>("walkVerticalUp"), 34, 0.1f, true);
+            walkHorizontalRightAnimation = new Animation(Content.Load<Texture2D>("walkHorizontalRight"), 50, 0.1f, true);
+            walkHorizontalLeftAnimation = new Animation(Content.Load<Texture2D>("walkHorizontalLeft"), 50, 0.1f, true);
+            walkVerticalDownAnimation = new Animation(Content.Load<Texture2D>("walkVerticalDown"), 50, 0.1f, true);
+            walkVerticalUpAnimation = new Animation(Content.Load<Texture2D>("walkVerticalUp"), 50, 0.1f, true);
 
-            idleHorizontalRightAnimation = new Animation(Content.Load<Texture2D>("idleHorizontalRight"), 31, 0.3f, false);
-            idleHorizontalLeftAnimation = new Animation(Content.Load<Texture2D>("idleHorizontalLeft"), 31, 0.3f, false);
-            idleVerticalDownAnimation = new Animation(Content.Load<Texture2D>("idleVerticalDown"), 34, .3f, false);
-            idleVerticalUpAnimation = new Animation(Content.Load<Texture2D>("idleVerticalUp"), 34, .3f, false);
+            idleHorizontalRightAnimation = new Animation(Content.Load<Texture2D>("idleHorizontalRight"), 50, 0.3f, false);
+            idleHorizontalLeftAnimation = new Animation(Content.Load<Texture2D>("idleHorizontalLeft"), 50, 0.3f, false);
+            idleVerticalDownAnimation = new Animation(Content.Load<Texture2D>("idleVerticalDown"), 50, .3f, false);
+            idleVerticalUpAnimation = new Animation(Content.Load<Texture2D>("idleVerticalUp"), 50, .3f, false);
 
             animationPlayer.PlayAnimation(idleVerticalDownAnimation);
         }

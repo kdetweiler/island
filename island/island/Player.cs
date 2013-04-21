@@ -72,8 +72,8 @@ namespace island
 
             idleHorizontalRightAnimation = new Animation(Content.Load<Texture2D>("idleHorizontalRight"), 50, 0.3f, false);
             idleHorizontalLeftAnimation = new Animation(Content.Load<Texture2D>("idleHorizontalLeft"), 50, 0.3f, false);
-            idleVerticalDownAnimation = new Animation(Content.Load<Texture2D>("idleVerticalDown"), 34, .3f, false);
-            idleVerticalUpAnimation = new Animation(Content.Load<Texture2D>("idleVerticalUp"), 34, .3f, false);
+            idleVerticalDownAnimation = new Animation(Content.Load<Texture2D>("idleVerticalDown"), 50, .3f, false);
+            idleVerticalUpAnimation = new Animation(Content.Load<Texture2D>("idleVerticalUp"), 50, .3f, false);
 
             // animationPlayer.PlayAnimation(idleVerticalDownAnimation);
         }
