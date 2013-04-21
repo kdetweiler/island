@@ -39,11 +39,12 @@ namespace island
         public static List<Node> nodepath;
 
         public int faceDirection;
-        float lastAttackTime = 0.0f;
+        
 
         public Sensor sensor;
 
         float lastTime = 0.0f;
+        float lastAttackTime = 0.0f;
         float speed;
 
         public Boolean withinRange;
@@ -172,7 +173,7 @@ namespace island
 
         }
 
-        public void takeAction() 
+        public void takeAction(GameTime gameTime, List<Vector2> path) 
         {
             if (isAlive)
             {
@@ -183,9 +184,10 @@ namespace island
                 else
                 {
 
-                    //lastAttackTime += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+                    lastAttackTime += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
                     if (withinRange)
                     {
+
                         //if(its been two seconds since last attack)
                         //attack
                     }
@@ -225,6 +227,7 @@ namespace island
 
         public void Update(GameTime gameTime, List<Vector2> path)
         {
+            this.takeAction(gameTime,path);
             lastTime += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
             if (path.Count > 0)
             {
@@ -236,6 +239,7 @@ namespace island
                     lastTime = 0;
                 }
             }
+            if (health < 1) pleaseDie();
         }
 
         public void DrawAnimation(GameTime gameTime, SpriteBatch spriteBatch)
@@ -250,7 +254,7 @@ namespace island
             spriteBatch.Draw(texture, rectangle, Color.White);
         }
 
-        public void die() 
+        public void pleaseDie() 
         {
             isAlive = false;
             //change animation
