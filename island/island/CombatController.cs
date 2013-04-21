@@ -24,7 +24,7 @@ namespace island
     
         public void confirmedHit(Character attacker, Character defender) 
         {
-            defender.takeDamage(damageFormula(attacker,defender);
+            defender.takeDamage(damageFormula(attacker,defender));
         }
 
         public static void hit(Character attacker, Character defender) 
