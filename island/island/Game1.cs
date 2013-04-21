@@ -27,14 +27,14 @@ namespace island
         {
             { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}, 
             { 1, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-            { 1, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1}, 
+            { 1, 1, 0, 0, 4, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1}, 
             { 1, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0, 0, 1}, 
             { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1},
             { 1, 0, 1, 0, 0, 1, 1, 1, 0, 0, 0, 0, 1, 0, 0, 1}, 
             { 1, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 0, 0, 2}, 
             { 1, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1}, 
-            { 1, 1, 1, 1, 0, 1, 0, 1, 0, 0, 1, 0, 0, 0, 1, 1}, 
-            { 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1}, 
+            { 1, 1, 1, 1, 0, 1, 0, 1, 0, 0, 1, 0, 4, 0, 1, 1}, 
+            { 1, 0, 4, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1}, 
             { 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 0, 1, 1}, 
             { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}, 
         };
@@ -43,14 +43,14 @@ namespace island
         {
             { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}, 
             { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-            { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1}, 
+            { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 1}, 
             { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1}, 
             { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
             { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1}, 
-            { 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1}, 
+            { 3, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1}, 
             { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1}, 
             { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1}, 
-            { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1}, 
+            { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 1}, 
             { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1}, 
             { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}, 
         };
@@ -72,12 +72,12 @@ namespace island
         private bool hit = false;
         private int currentLevel = 1;
 
-        Point startPoint = new Point(1, 1);
+        Point startPoint = new Point(1,1);
         Point endPoint = new Point(6, 7);
 
         GameObject pathEndPoint;
         CombatController combat;
-
+        
 
         public Vector2 textBox = new Vector2(600, 0);
 
@@ -93,14 +93,14 @@ namespace island
 
 
         private static Node[] funNodes = new Node[35];
-
+        
 
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
             graphics.PreferredBackBufferHeight = 600;
             graphics.PreferredBackBufferWidth = 800;
-            Content.RootDirectory = "Content";
+            Content.RootDirectory = "Content";            
         }
 
         /// <summary>
@@ -118,14 +118,14 @@ namespace island
             map = new NodeGraph(funNodes);
 
             player = new Player(new Vector2(400, 300), "Player1");
-            Vector2 start = new Vector2(startPoint.X * 50, startPoint.Y * 50);
+            Vector2 start = new Vector2(startPoint.X*50, startPoint.Y*50);
             Vector2 end = new Vector2(endPoint.X * 50, endPoint.Y * 50);
 
             map = new NodeGraph(funNodes);
             npcMover = new NPC(start, "NPC");
             combat = new CombatController(player);
 
-            pathEndPoint = new GameObject(Content.Load<Texture2D>("endPoint"), end);
+            pathEndPoint = new GameObject(Content.Load<Texture2D>("endPoint"),end);
 
 
             base.Initialize();
@@ -149,14 +149,15 @@ namespace island
                 Content.Load<Texture2D>("tree"),
                 Content.Load<Texture2D>("doorRight"),
                 Content.Load<Texture2D>("doorLeft"),
+                Content.Load<Texture2D>("npc1"),
             };
             level1.SetTextures(mapTextures);
             level2.SetTextures(mapTextures);
 
             player.Load(Content);
 
-            npcs.Add(new NPC(Content.Load<Texture2D>("npc1"), new Vector2(100, 150), "NPC1", new Node(), new Vector2(50, 50)));
-            npcs.Add(new NPC(Content.Load<Texture2D>("npc2"), new Vector2(200, 150), "NPC2", new Node(), new Vector2(50, 50)));
+            //npcs.Add(new NPC(Content.Load<Texture2D>("npc1"), new Vector2(100, 150), "NPC1", new Node(), new Vector2(50, 50)));
+            //npcs.Add(new NPC(Content.Load<Texture2D>("npc2"), new Vector2(200, 150), "NPC2", new Node(), new Vector2(50, 50)));
 
             npcMover.Load(Content);
 
@@ -179,7 +180,7 @@ namespace island
         {
             gamepadstatus = GamePad.GetState(PlayerIndex.One);
             keyboard = Keyboard.GetState();
-
+            
             // Allows the game to exit
             if ((GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed) || (keyboard.IsKeyDown(Keys.Escape)))
             {
@@ -189,30 +190,19 @@ namespace island
             //player.sensor.proximitySensor(player.rectangle, 100, npcs);
             //run player update
             player.Update(gameTime);
-            if (currentLevel == 1 && player.rectangle.Center.X >= 780 && player.rectangle.Center.Y >= 249 && player.position.Y <= 301)
-            {
-                currentLevel = 2;
-                player.position.X = 30;
-                player.position.Y = 300;
-            }
-            else if (currentLevel == 2 && player.rectangle.Center.X <= 20 && player.position.Y >= 249 && player.position.Y <= 301)
-            {
-                currentLevel = 1;
-                player.position.X = 730;
-                player.position.Y = 300;
-            }
+            LoadLevel();
 
             foreach (NPC c in npcs)
             {
                 c.WithinRange(player.position);
             }
-
+            
             npcMover.Update(gameTime, path);
             //player.sensor.Proximity(player, 100, npcs);
             //player.sensor.WallScan(player, walls);
-            hit = player.sensor.WeaponSensor(player, npcs[1], player.rightHand.range);
+            //hit = player.sensor.WeaponSensor(player, npcs[1], player.rightHand.range);
             //hit = false;
-
+            
             // TODO: Add your update logic here
             base.Update(gameTime);
         }
@@ -235,7 +225,7 @@ namespace island
                 level2.Draw(spriteBatch);
 
             spriteBatch.End();
-
+             
             // start rendering sprites
             spriteBatch.Begin();
             //foreach (Vector2 point in path)
@@ -262,15 +252,15 @@ namespace island
             //draw walls
             foreach (Wall wall in walls)
                 wall.Draw(gameTime, spriteBatch);
-
+            
             //draw players
             player.DrawAnimation(gameTime, spriteBatch);
             npcMover.DrawAnimation(gameTime, spriteBatch);
 
             //draw all npc's on screen
-            foreach (NPC npc in npcs)
-                npc.Draw(spriteBatch);
-
+            //foreach (NPC npc in npcs)
+                //npc.Draw(spriteBatch);
+                        
             //Draw the game components (Sprites included)
             base.Draw(gameTime);
             // end rendering sprites;
@@ -283,8 +273,24 @@ namespace island
                 graphics.GraphicsDevice.Viewport.Y,
                 graphics.GraphicsDevice.Viewport.Width,
                 graphics.GraphicsDevice.Viewport.Height);
-
+          
             return retval;
+        }
+
+        protected void LoadLevel()
+        {
+            if (currentLevel == 1 && player.rectangle.Center.X >= 780 && player.rectangle.Center.Y >= 249 && player.position.Y <= 301)
+            {
+                currentLevel = 2;
+                player.position.X = 30;
+                player.position.Y = 300;
+            }
+            else if (currentLevel == 2 && player.rectangle.Center.X <= 20 && player.position.Y >= 249 && player.position.Y <= 301)
+            {
+                currentLevel = 1;
+                player.position.X = 730;
+                player.position.Y = 300;
+            }
         }
     }
 }
