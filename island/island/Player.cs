@@ -56,7 +56,7 @@ namespace island
             position = newPosition;
             sensor = new Sensor(100, 3);
             //rectangle = new Rectangle((int)position.X, (int)position.Y, texture.Width, texture.Height);
-            rectangle = new Rectangle((int)position.X, (int)position.Y, 34, 57);
+            rectangle = new Rectangle((int)position.X, (int)position.Y, texture.Width, texture.Height);
             name = newName;
             rightHand = new Weapon("Sword", 20, new int[3] { 2, 3, 4 });
             leftHand = new Weapon("Shield", 0, new int[0] { });
