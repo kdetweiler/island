@@ -61,6 +61,11 @@ namespace island
         public List<NPC> getNPCList() { return NPCList; }
         public List<Wall> getWallList() { return WallList; }
 
+        public void addNPC(NPC NPCToAdd) 
+        {
+            NPCList.Add(NPCToAdd);
+        }
+
 
     }
 }
