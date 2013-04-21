@@ -94,13 +94,13 @@ namespace island
             if (((keyboard.IsKeyDown(Keys.Up) || keyboard.IsKeyDown(Keys.W)) && keyboard.IsKeyUp(Keys.LeftShift)) && (isPassable || faceDirection == 180))
             {
                 if (faceDirection == 180)
-                    position.Y -= 5;
+                    position.Y -= 1;
                 velocity.Y = -1f;
             }
             else if ((keyboard.IsKeyDown(Keys.Down) || (keyboard.IsKeyDown(Keys.S))) && (isPassable || faceDirection == 0))
             {
                 if (faceDirection == 0)
-                    position.Y += 5;
+                    position.Y += 1;
                 velocity.Y = +1f;
             }
             else
@@ -111,13 +111,13 @@ namespace island
             if ((keyboard.IsKeyDown(Keys.Left) || (keyboard.IsKeyDown(Keys.A))) && (isPassable || faceDirection == 90))
             {
                 if (faceDirection == 90)
-                    position.X -= 5;
+                    position.X -= 1;
                 velocity.X = -1f;
             }
             else if ((keyboard.IsKeyDown(Keys.Right) || (keyboard.IsKeyDown(Keys.D))) && (isPassable || faceDirection == 270))
             {
                 if (faceDirection == 270)
-                    position.X += 5;
+                    position.X += 1;
                 velocity.X = 1f;
             }
             else
