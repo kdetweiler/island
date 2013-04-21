@@ -31,21 +31,6 @@ namespace island
             }
         }
 
-        public Player user;
-
-        //don't call this anymore!
-        //public CombatController(Player mainCharacter) 
-        //{
-        //    user = mainCharacter;
-        //}
-
-
-        //Call this instead to set the main character
-        public void setMainCharacter(Player mainCharacter)
-        {
-            user = mainCharacter;
-        }
-
         //Way you access CombatController 
         //CombatController combat = CombatController.Instance;
         ////Then you could call the setMainCharacter function defined above
