@@ -119,11 +119,11 @@ namespace island
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-            
+            player = new Player(new Vector2(400, 300), "Player1");
             ListHolder.Instance.NPCList = new List<NPC>();
             ListHolder.Instance.WallList = new List<Wall>();
             ListHolder.Instance.setGame(this);
-            ListHolder.Instance.setPlayer(player);
+            ListHolder.Instance.player = player;
 
             //initialize map npc spawns
             MakeNPCList(levelOneLayout);
@@ -132,7 +132,7 @@ namespace island
             //path = pathfinding.FindPath(startPoint, endPoint);
             //newPath = pathfinding.FindPath(TSP, TEP);
 
-            player = new Player(new Vector2(400, 300), "Player1");
+            
             Vector2 start = new Vector2(startPoint.X*50, startPoint.Y*50);
             Vector2 end = new Vector2(endPoint.X * 50, endPoint.Y * 50);
             npcMover = new NPC(start, "NPC");
@@ -192,7 +192,6 @@ namespace island
         {
             gamepadstatus = GamePad.GetState(PlayerIndex.One);
             keyboard = Keyboard.GetState();
-            
             // Allows the game to exit
             if ((GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed) || (keyboard.IsKeyDown(Keys.Escape)))
             {
@@ -209,6 +208,10 @@ namespace island
             newPath = pathfinding.FindPath(TSP, npcEnd);
             //ListHolder.Instance.NPCList[0].Update(gameTime, newPath);
 
+            for (int k = 0; k < ListHolder.Instance.NPCList.Count; k++) 
+            {
+                ListHolder.Instance.NPCList[k].Update(gameTime,newPath);
+            }
             
             //npcMover.Update(gameTime, path);
             //Point npcStart = new Point(10, 1);
@@ -247,7 +250,6 @@ namespace island
             // start rendering sprites
             spriteBatch.Begin();
             textBox.Y = 0;
-
             spriteBatch.DrawString(font, "Health: "+player.health, new Vector2(550, 0), Color.Black);
             spriteBatch.DrawString(font, player.toString(), new Vector2(50, 0), Color.Black);
 

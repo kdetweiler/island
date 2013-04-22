@@ -67,7 +67,7 @@ namespace island
 
         public int damageFormula(Character attacker, Character target) 
         {
-            int damage=attacker.strength - target.strength;
+            int damage=attacker.strength - target.defense;
             if (damage < 1) damage = 1;
             return damage;
         }

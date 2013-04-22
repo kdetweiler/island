@@ -14,11 +14,11 @@ namespace island
     class Character : Entity
     {
 
-        public int health;
-        public int maxHealth;
+        public int health=100;
+        public int maxHealth=100;
 
-        public int strength;
-        public int defense;
+        public int strength=10;
+        public int defense=5;
 
         public List<Skill> SkillList=new List<Skill>();
 
@@ -35,8 +35,6 @@ namespace island
         public void takeDamage(int damage)
         {
             health -= damage;
-            if (isHostile == false) isHostile = true;
-            if (health < 1) die();
         }
 
         public void healDamage(int healing)

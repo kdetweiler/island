@@ -178,20 +178,22 @@ namespace island
         {
             if (isAlive)
             {
+                lastAttackTime += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
                 if (!isHostile)
                 {
-                    stand(gameTime, path);
+                    //stand(gameTime, path);
+                    isHostile = true;
                 }
                 else
                 {
 
-                    lastAttackTime += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
-                    if (withinRange)
+                    
+                    if (isHostile)
                     {
-                        if (lastAttackTime > 125.0f) 
+                        if (lastAttackTime >= 500000000.0f) 
                         {
-                            Console.Write("Attacking");
                             attack();
+                            lastAttackTime = 0;
                         }
                     }
                     else 
@@ -210,6 +212,7 @@ namespace island
         public void stand(GameTime gameTime, List<Vector2> path) 
         {
             //doing nothing
+
             if (withinRange) 
             { 
                 isHostile=true;
@@ -237,7 +240,8 @@ namespace island
         public void attack() 
         { 
             //tell Game1 CombatController to do stuff
-            CombatController.Instance.confirmedHit(this, ListHolder.Instance.getPlayer());
+            //CombatController.Instance.confirmedHit(this, ListHolder.Instance.getPlayer());
+            ListHolder.Instance.player.takeDamage(5);
         }
 
         public List<Node> nodeMove(NodeGraph nodegraph, Node desiredEnd) 
@@ -250,17 +254,6 @@ namespace island
         public void Update(GameTime gameTime, List<Vector2> path)
         {
             this.takeAction(gameTime,path);
-            //lastTime += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
-            //if (path.Count > 0)
-            //{
-            //    if (lastTime > 1)
-            //    {
-            //        if (path.Count > 0 && MoveTowardsPoint(path[0], lastTime))
-            //            path.RemoveAt(0);
-
-            //        lastTime = 0;
-            //    }
-            //}
             if (health < 1) pleaseDie();
         }
 
