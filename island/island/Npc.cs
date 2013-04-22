@@ -61,7 +61,7 @@ namespace island
         {
             //texture = newTexture;
             position = newPosition;
-            sensor=new Sensor(100,3);
+            sensor=new Sensor(300,3);
             //rectangle = new Rectangle((int)position.X, (int)position.Y, texture.Width, texture.Height);
             rectangle = new Rectangle((int)position.X, (int)position.Y, 50, 50);
             name = newName;
@@ -78,7 +78,7 @@ namespace island
             texture = newTexture;
             position = newPosition;
             name = newName;
-            sensor = new Sensor(100, 3);
+            sensor = new Sensor(300, 3);
             rectangle = new Rectangle((int)position.X, (int)position.Y, texture.Width, texture.Height);
             health = 100;
             maxHealth = 100;
@@ -92,7 +92,7 @@ namespace island
         {
             position = newPosition;
             name = newName;
-            sensor = new Sensor(100, 3);
+            sensor = new Sensor(300, 3);
             //rectangle = new Rectangle((int)position.X, (int)position.Y, texture.Width, texture.Height);
             rectangle = new Rectangle((int)position.X, (int)position.Y, 50, 50);
             location = spawnNode;
@@ -110,7 +110,7 @@ namespace island
             texture = newTexture;
             position = newPosition;
             name = newName;
-            sensor = new Sensor(100, 3);
+            sensor = new Sensor(300, 3);
             rectangle = new Rectangle((int)position.X, (int)position.Y, texture.Width, texture.Height);
             location = spawnNode;
             health = 100;
@@ -126,7 +126,7 @@ namespace island
             texture = newTexture;
             position = newPosition;
             name = newName;
-            sensor = new Sensor(100, 3);
+            sensor = new Sensor(300, 3);
             rectangle = new Rectangle((int)position.X, (int)position.Y, texture.Width, texture.Height);
             location = spawnNode;
             health = 100;
@@ -186,11 +186,9 @@ namespace island
                 }
                 else
                 {
-
-                    
                     if (isHostile)
                     {
-                        if (lastAttackTime >= 500000000.0f) 
+                        if (lastAttackTime >= 500000.0f) 
                         {
                             attack();
                             lastAttackTime = 0;
