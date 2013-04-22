@@ -13,7 +13,7 @@ using Microsoft.Xna.Framework.Media;
  * entitys = npcs.Cast<Entity>().Concat(walls.Cast<Entity>()).ToList(); // how to concat two children lists into one parent list
  * pointless change
  * 
- * 
+ * derp
  * 
  * */
 namespace island
