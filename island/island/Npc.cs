@@ -24,6 +24,7 @@ namespace island
         Animation idleHorizontalLeftAnimation;
         Animation idleVerticalDownAnimation;
         Animation idleVerticalUpAnimation;
+        Animation deathAnimation;
 
         public List<Character> proxList = new List<Character>();
         public List<Wall> wallList = new List<Wall>();
@@ -151,6 +152,7 @@ namespace island
             idleHorizontalLeftAnimation = new Animation(Content.Load<Texture2D>("idleHorizontalLeft"), 50, 0.3f, false);
             idleVerticalDownAnimation = new Animation(Content.Load<Texture2D>("idleVerticalDown"), 50, .3f, false);
             idleVerticalUpAnimation = new Animation(Content.Load<Texture2D>("idleVerticalUp"), 50, .3f, false);
+            deathAnimation = new Animation(Content.Load<Texture2D>("death"), 50, .3f, false);
 
             animationPlayer.PlayAnimation(idleVerticalDownAnimation);
         }
@@ -171,7 +173,7 @@ namespace island
                 //calculate using finalDest and the new location A* path
                 
             }
-
+            
         }
 
         public void takeAction(GameTime gameTime, List<Vector2> path) 
@@ -271,7 +273,7 @@ namespace island
         {
             isAlive = false;
             //change animation
-
+            animationPlayer.PlayAnimation(deathAnimation);
         }
 
         private bool MoveTowardsPoint(Vector2 goal, float elapsed)
@@ -281,6 +283,7 @@ namespace island
 
             // Find direction from current position to goal
             Vector2 direction = Vector2.Normalize(goal - position);
+
 
             //animation stuff
             if (direction.X > 0)
