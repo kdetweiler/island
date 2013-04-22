@@ -24,6 +24,11 @@ namespace island
         Animation idleVerticalDownAnimation;
         Animation idleVerticalUpAnimation;
 
+        Animation combatDown;
+        Animation combatUp;
+        Animation combatLeft;
+        Animation combatRight;
+
         public List<NPC> proxList = new List<NPC>();
         public List<Wall> wallList = new List<Wall>();
         public List<NPC> npcList = new List<NPC>();
@@ -42,7 +47,10 @@ namespace island
         public Weapon leftHand;
 
         float lastTime = 0.0f;
+        float animationTime = 0.0f;
         float lastAttackTime = 0.0f;
+
+        bool attackCoolDown = false;
 
         public Player()
         {
@@ -75,11 +83,22 @@ namespace island
             idleVerticalDownAnimation = new Animation(Content.Load<Texture2D>("idleVerticalDown"), 50, .3f, false);
             idleVerticalUpAnimation = new Animation(Content.Load<Texture2D>("idleVerticalUp"), 50, .3f, false);
 
+            combatUp = new Animation(Content.Load<Texture2D>("CombatUp"), 50, .1f, false);
+            combatDown = new Animation(Content.Load<Texture2D>("CombatDown"), 50, .1f, false);
+            combatLeft = new Animation(Content.Load<Texture2D>("CombatLeft"), 50, .1f, false);
+            combatRight = new Animation(Content.Load<Texture2D>("CombatRight"), 50, .1f, false);
+
             // animationPlayer.PlayAnimation(idleVerticalDownAnimation);
         }
 
         public override void Update(GameTime gameTime)
         {
+            animationTime += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+            if (animationTime >= 1000.0f)
+            {
+                attackCoolDown = false;
+                animationTime = 0.0f;
+            }
             position += velocity;
             this.rectangle.X = (int)this.position.X;
             this.rectangle.Y = (int)this.position.Y;
@@ -134,54 +153,68 @@ namespace island
                 }
             }
 
-            if (keyboard.IsKeyDown(Keys.Space)) 
+
+            if (attackCoolDown == false)
             {
-                lastAttackTime += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
-                if (lastAttackTime > 125.0f) 
+                //check sprite velocity and run horizontal walk animations
+                //direction flags are tripped to remember which way sprite is facing
+                if (velocity.X < 0 && velocity.Y == 0)//walk left
                 {
-                    uponAttack(ListHolder.Instance.NPCList);
-                    lastAttackTime = 0;
+                    animationPlayer.PlayAnimation(walkHorizontalLeftAnimation);
+                    faceDirection = 270;
+                }
+                else if (velocity.X > 0 && velocity.Y == 0)//walk right
+                {
+                    animationPlayer.PlayAnimation(walkHorizontalRightAnimation);
+                    faceDirection = 90;
+                }
+                else if (velocity.X == 0 && faceDirection == 270)//stand still facing left
+                    animationPlayer.PlayAnimation(idleHorizontalLeftAnimation);
+                else if (velocity.X == 0 && faceDirection == 90)//stand still facing right
+                    animationPlayer.PlayAnimation(idleHorizontalRightAnimation);
+
+                //check sprite velocity and run vertical walk animations
+                //direction flags are tripped to remember which way sprite is facing
+                if (velocity.Y > 0 && velocity.X == 0)//walk down
+                {
+                    animationPlayer.PlayAnimation(walkVerticalDownAnimation);
+                    faceDirection = 180;
+                }
+                else if (velocity.Y < 0 && velocity.X == 0)//walk up
+                {
+                    animationPlayer.PlayAnimation(walkVerticalUpAnimation);
+                    faceDirection = 0;
+                }
+                else if (velocity.Y == 0 && velocity.X == 0 && faceDirection == 180)//stand still facing down
+                {
+                    animationPlayer.PlayAnimation(idleVerticalDownAnimation);
+                }
+                else if (velocity.Y == 0 && velocity.X == 0 && faceDirection == 0)//stand still facing up
+                {
+                    animationPlayer.PlayAnimation(idleVerticalUpAnimation);
                 }
             }
 
-            //check sprite velocity and run horizontal walk animations
-            //direction flags are tripped to remember which way sprite is facing
-            if (velocity.X < 0 && velocity.Y == 0)//walk left
+            if (keyboard.IsKeyDown(Keys.Space))
             {
-                animationPlayer.PlayAnimation(walkHorizontalLeftAnimation);
-                faceDirection = 270;
-            }
-            else if (velocity.X > 0 && velocity.Y == 0)//walk right
-            {
-                animationPlayer.PlayAnimation(walkHorizontalRightAnimation);
-                faceDirection = 90;
-            }
-            else if (velocity.X == 0 && faceDirection == 270)//stand still facing left
-                animationPlayer.PlayAnimation(idleHorizontalLeftAnimation);
-            else if (velocity.X == 0 && faceDirection == 90)//stand still facing right
-                animationPlayer.PlayAnimation(idleHorizontalRightAnimation);
+                lastAttackTime += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+                if (lastAttackTime > 125.0f)
+                {
+                    //check direction
+                    if (faceDirection == 0)
+                        animationPlayer.PlayAnimation(combatUp);
+                    else if (faceDirection == 90)
+                        animationPlayer.PlayAnimation(combatRight);
+                    else if (faceDirection == 180)
+                        animationPlayer.PlayAnimation(combatDown);
+                    else if (faceDirection == 270)
+                        animationPlayer.PlayAnimation(combatLeft);
+                    uponAttack(ListHolder.Instance.NPCList);
 
-            //check sprite velocity and run vertical walk animations
-            //direction flags are tripped to remember which way sprite is facing
-            if (velocity.Y > 0 && velocity.X == 0)//walk down
-            {
-                animationPlayer.PlayAnimation(walkVerticalDownAnimation);
-                faceDirection = 180;
+                    lastAttackTime = 0;
+                    attackCoolDown = true;
+                }
             }
-            else if (velocity.Y < 0 && velocity.X == 0)//walk up
-            {
-                animationPlayer.PlayAnimation(walkVerticalUpAnimation);
-                faceDirection = 0;
-            }
-            else if (velocity.Y == 0 && velocity.X == 0 && faceDirection == 180)//stand still facing down
-            {
-                animationPlayer.PlayAnimation(idleVerticalDownAnimation);
-            }
-            else if (velocity.Y == 0 && velocity.X == 0 && faceDirection == 0)//stand still facing up
-            {
-                animationPlayer.PlayAnimation(idleVerticalUpAnimation);
-            }
-
         }
 
         public Point getClosestNode(int level) 
